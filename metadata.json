@@ -1,0 +1,16 @@
+{
+  "author": "dimarra",
+  "dependencies": [],
+  "license": "Apache 2.0",
+  "name": "dimarra-caapm",
+  "operatingsystem_support": [{
+    "operatingsystem":"RedHat",
+    "operatingsystemrelease":[ "5.0", "6.0" ]
+    }],
+  "project_page": "https://github.com/Ecetera/puppet-caapm",
+  "requirements":  [{"name": "pe", "version_requirement": ">= 3.7.0"}],
+  "source": "https://github.com/Ecetera/puppet-caapm",
+  "summary": "Collection of Puppet modules for managing CA APM",
+  "tags": ["Windows", "APM", "MOM", "Collector"],
+  "version": "0.1.0"
+}
