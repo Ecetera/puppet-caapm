@@ -10,6 +10,14 @@
 #
 # Sample Usage:
 #
-class caapm {
+class caapm (
+  $ca_eula    = $caapm::params::ca_eula,
+  $osgi_eula  = $caapm::osgi::eula,
+  $user       = $caapm::params::user,
+  $group      = $caapm::params::group,
+  
+
+  
+) inherits caapm::params {
 
 }
