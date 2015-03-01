@@ -1,11 +1,11 @@
-# Class: tomcat::params
+# Class: caapm::params
 #
-# This class manages Tomcat parameters.
+# This class manages CA APM parameters.
 #
 # Parameters:
-# - $catalina_home is the root of the Tomcat installation.
-# - The $user Tomcat runs as.
-# - The $group Tomcat runs as.
+# - $em_home the installation directory for Introscope on your Enterprise Manager.
+# - The $user CA APM runs as.
+# - The $group CA APM is a member of.
 class caapm::params {
   $user          = 'caapm'
   $group         = 'apm'

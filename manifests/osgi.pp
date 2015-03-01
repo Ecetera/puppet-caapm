@@ -1,3 +1,11 @@
+# Class: caapm::osgi
+#
+# This class manages the external components package archive and its accompanying End User License Agreement file, eula.txt. 
+#
+# Parameters:
+# - $version the osgi version to download and install.
+# - $souce_path the source location to obtain the files from.
+#
 class caapm::osgi  {
   
   $version  = '9.1.4.0'
