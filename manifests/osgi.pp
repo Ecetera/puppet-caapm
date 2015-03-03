@@ -10,11 +10,11 @@ class caapm::osgi inherits caapm::params {
   
   include staging
   
-/*  
   $version  = '9.1.4.0'
+/*  
   $version  = '9.6.1.0'
- */
   $version  = '9.7.0.0'
+ */
 
 
   $eula  = 'accept'
