@@ -19,5 +19,7 @@ class caapm (
 
   
 ) inherits caapm::params {
+    $apm_version      = '9.7.0.0'
+  
 
 }

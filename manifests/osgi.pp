@@ -6,37 +6,42 @@
 # - $version the osgi version to download and install.
 # - $souce_path the source location to obtain the files from.
 #
-class caapm::osgi  {
+class caapm::osgi inherits caapm::params {
   
+  include staging
+  
+/*  
   $version  = '9.1.4.0'
-  $eula  = 'accept'
+  $version  = '9.6.1.0'
+ */
+  $version  = '9.7.0.0'
 
-  
-  $source_path = $::osgisource ? {
-     'opensrcd' => 'http://opensrcd.ca.com/ips/osgi/introscope_${version}',
-     default => 'puppet:///modules/${module_name}/${version}',
+
+  $eula  = 'accept'
+  $eula_file = 'eula.txt'
+  $osgisource = 'puppetmaster'
+
+  $pkg_name = $::operatingsystem ? {
+    'windows' => "osgiPackages.v${version}.windows.zip",
+    default  => "osgiPackages.v${version}.unix.zip",
+  }
+  $pkg_source = $osgisource ? {
+     'opensrcd' => "http://opensrcd.ca.com/ips/osgi/introscope_${version}",
+      default => "puppet:///modules/${module_name}/${version}",
   } 
   
-  $osgiPackageName = $::operatingsystem ? {
-    'windows' => 'osgiPackages.v${version}.windows.zip',
-    default  => 'osgiPackages.v${version}.unix.zip',
-  }
-  
-  file {'eula.txt':
-    ensure => file,
-    path => '${caapm::params::tempdir}',
+  $eula_src = "${pkg_source}/${eula_file}"
+  $osgi_src = "$pkg_source/$pkg_name"
     
-/*    path => '${apm::params::staging}/eula.txt', */
-/*    source => 'puppet:///modules/${module_name}/${version}/eula.txt', */
-    source => '${source_path}/eula.txt',
-    require => File['${caapm::params::tempdir}'],
+  staging::file { $eula_file:
+    source => $eula_src,
+    subdir => $staging_subdir,
   }
-  
-  file {'${osgiPackageName}':
-    ensure => file,
-/*    path => '${stage_dir}/${osgiPackageName}', */
-    source => '${source_path}/${osgiPackageName}',
-    require => File['${caapm::params::tempdir}'],
+ 
+  staging::file { $pkg_name:
+    source => $osgi_src,
+    subdir => $staging_subdir,
+    require => Staging::File[$eula_file],
   }
   
 }
