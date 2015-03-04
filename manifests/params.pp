@@ -14,6 +14,7 @@ class caapm::params (
 
   # Settings common to everything
   $staging_subdir = 'caapm'
+  $accept_eula = 'accept'
 
   # Settings common to a kernel
   case $::kernel {
@@ -34,6 +35,11 @@ class caapm::params (
       $server_src_subdir    = 'splunk/solaris'
       $server_service       = [ 'splunk', 'splunkd', 'splunkweb' ]
       $server_confdir       = '/opt/splunk/etc/system/local'
+	  $workstation_features = ['Workstation']
+	  $mom_features = ['Enterprise Manager, WebView, ProbeBuilder']
+	  $lbm_features = ['Enterprise Manager, ProbeBuilder']
+	  $db_features = ['Database']
+	  $emv_features = ['Enterprise Manager, ProbeBuilder']
     }
     'Windows': {
       $path_delimiter       = '\\'
@@ -61,6 +67,11 @@ class caapm::params (
     mode   => '${caapm::params::mode}',
   }
         
+  $osgi_version = ${caapm::version} ? {
+    '9.7.0.0' => "9.7.0.27",
+    default  => "${caapm::version}",
+  }
+		
   
   
  */

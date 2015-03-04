@@ -6,12 +6,16 @@
 # - $version the osgi version to download and install.
 # - $souce_path the source location to obtain the files from.
 #
-class caapm::osgi inherits caapm::params {
+class caapm::osgi (
+  $version = $caapm::params::osgi_version,
+
+
+)inherits caapm::params {
   
   include staging
   
-  $version  = '9.1.4.0'
 /*  
+  $version  = '9.1.4.0'
   $version  = '9.6.1.0'
   $version  = '9.7.0.0'
  */
@@ -25,6 +29,7 @@ class caapm::osgi inherits caapm::params {
     'windows' => "osgiPackages.v${version}.windows.zip",
     default  => "osgiPackages.v${version}.unix.zip",
   }
+
   $pkg_source = $osgisource ? {
      'opensrcd' => "http://opensrcd.ca.com/ips/osgi/introscope_${version}",
       default => "puppet:///modules/${module_name}/${version}",

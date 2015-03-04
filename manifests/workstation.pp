@@ -6,17 +6,21 @@
 # - $version the workstation version to download and install.
 # - $souce_path the source location to obtain the files from.
 #
-class caapm::workstation inherits caapm::params {
+class caapm::workstation (
+
+) inherits caapm::params {
   
   include staging
   include caapm::osgi
   
-  $version  = '9.1.4.0'
 /*  
+  $version  = '9.1.4.0'
   $version  = '9.6.1.0'
   $version  = '9.7.0.0'
  */
 
+  $features = ['Workstation']
+  $externalComponentPackage = $caapm::osgi::pkg_name
 
   $eula  = 'accept'
   $eula_file = 'ca-eula.txt'
