@@ -10,38 +10,57 @@ class caapm::workstation (
 
 ) inherits caapm::params {
   
-  include staging
   include caapm::osgi
   
-/*  
   $version  = '9.1.4.0'
+/*  
   $version  = '9.6.1.0'
   $version  = '9.7.0.0'
  */
 
   $features = ['Workstation']
-  $externalComponentPackage = $caapm::osgi::pkg_name
 
   $eula  = 'accept'
-  $eula_file = 'ca-eula.txt'
-  $resp_file = 'SampleResponseFile.Workstation.txt' 
 
-  $pkg_name = $::operatingsystem ? {
+  /*
+Assume the following for consistency
+  _src is what you download from puppet itself
+  bin_src is the fqn for puppet:// with pkg_bin  
+  pkg_bin is the installer.exe
+  pkg_name for windows is the display name
+  svc_name is name in services.msc
+  
+What do you set the above for this use case: workstation?
+  pkg_bin = IntroscopeWorkstation${version}windows.exe
+  bin_src = puppet://modules/caapm/$version/$pkg_bin
+  pkg_name = "CA APM Workstation 9.1.4.0" 
+  svc_name = IscopeEM
+   */
+  $pkg_name = "CA APM Introscope Workstation ${version}" 
+  $eula_file = 'ca-eula.txt'
+  $resp_file = 'SampleResponseFile.Workstation.txt'
+  
+/*  $puppet_src = "$caapm::params::puppet_src/$version" */ 
+  
+  $puppet_src = "puppet:///modules/${module_name}/${version}"
+
+  $eula_src = "${puppet_src}/${eula_file}"
+  $resp_src = "${puppet_src}/${resp_file}"
+
+    
+  $pkg_bin = $::operatingsystem ? {
     'windows' => "IntroscopeWorkstation${version}windows.exe",
     default  => "IntroscopeWorkstation${version}unix.bin",
   }
-  $pkg_source = "puppet:///modules/${module_name}/${version}"
-  
-  $eula_src = "${pkg_source}/${eula_file}"
-  $pkg_src  = "${pkg_source}/${pkg_name}"
-  $resp_src = "${pkg_source}/${resp_file}"
-     
+
+  $pkg_src  = "${puppet_src}/${pkg_bin}"
+    
   staging::file { $eula_file:
     source => $eula_src,
     subdir => $staging_subdir,
   }
  
-  staging::file { $pkg_name:
+  staging::file { $pkg_bin:
     source => $pkg_src,
     subdir => $staging_subdir,
     require => Staging::File[$eula_file],
@@ -50,7 +69,14 @@ class caapm::workstation (
   staging::file { $resp_file:
     source => $resp_src,
     subdir => $staging_subdir,
-    require => Staging::File[$pkg_name],
+/*    require => Staging::File[$pkg_name], */
+  }
+    
+  package { $pkg_name :
+    ensure => "$version",
+    source => "$::staging_windir\\$staging_subdir\\$pkg_bin",
+    install_options => ["-f ", " $::staging_windir\\$staging_subdir/$resp_file"],
+    require => Staging::File[$resp_file],
   }
   
 }

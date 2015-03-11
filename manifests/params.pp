@@ -8,12 +8,16 @@
 # - The $group CA APM is a member of.
 class caapm::params (
 ) {
+
+  include staging
   
+ 
   # Based on the small number of inputs above, we can construct sane defaults
   # for pretty much everything else.
 
   # Settings common to everything
-  $staging_subdir = 'caapm'
+ $staging_subdir = 'caapm' 
+/*  $staging_subdir = "caapm/$version" */
   $accept_eula = 'accept'
 
   # Settings common to a kernel
@@ -52,12 +56,30 @@ class caapm::params (
       $src_permissions = ignore
     }
   }
-  
-  
+
+  if $operatingsystem == 'windows' {
+    warning( 'This NTP module does not yet work on our Mac laptops.' )
+    # Create staging directory
+    $profile_dir = Facter.value(:USERPROFILE)
+    $staging_dir = "$::userprofile\\Temp\\$::modulename"
+    
+    staging::params { $staging_dir :
+      path => '$staging_dir',
+      ensure => "directory", 
+    }
+  }
+file{ ["C:\folder1\", "C:\folder1\folder2", "C:\folder1\folder2\folder3" ]:
+    ensure => "directory", 
+}
+  }
+    
   $user          = 'caapm'
   $group         = 'apm'
   
   $ca_eula    = 'accept'
+  $em_role = 'emc'
+  $apm_version = '9.1.4.0'
+  $osgi_version = '9.1.4.0'
 
 /*  
   file {'${caapm::params::tempdir}':
