@@ -11,6 +11,7 @@ class caapm::params (
 
   include staging
   
+  $version = '9.1.4.0'
  
   # Based on the small number of inputs above, we can construct sane defaults
   # for pretty much everything else.
@@ -49,7 +50,7 @@ class caapm::params (
     'Windows': {
       $path_delimiter       = '\\'
       $em_home = 'D:/Apps/CA/APM/Introscope${osgiVersion}'
-      $user_install_dir = 'D:\\\\Apps\\\\CA\\\\APM\\\\Introscope${version}\\\\'
+      $install_dir = "D:\\\\Apps\\\\CA\\\\APM\\\\Introscope${version}\\\\"
       $em_service = [ 'Introscope Enterprise Manager ${version}'] 
       $wv_service = [ 'Introscope WebView ${version}']
       $em_confdir = '${em_home}/config'
@@ -59,36 +60,12 @@ class caapm::params (
     }
   }
 
-  /*
-  if $operatingsystem == 'windows' {
-    Staging { "Windows":
-       path => "D:\\Users\\dimarra\\Temp"
-    }
-  }
-  
-    warning( 'This NTP module does not yet work on our Mac laptops.' )
-    # Create staging directory
-    $profile_dir = Facter.value(:USERPROFILE)
-    $staging_dir = "$::userprofile\\Temp\\$::modulename"
-    
-    staging::params { $staging_dir :
-      path => '$staging_dir',
-      ensure => "directory", 
-    }
-  }
-file{ ["C:\folder1\", "C:\folder1\folder2", "C:\folder1\folder2\folder3" ]:
-    ensure => "directory", 
-}
-  }
- */
     
   $user          = 'caapm'
   $group         = 'apm'
   
   $ca_eula    = 'accept'
   $em_role = 'emc'
-  $apm_version = '9.1.4.0'
-  $osgi_version = '9.1.4.0'
 
 /*  
   file {'${caapm::params::tempdir}':
