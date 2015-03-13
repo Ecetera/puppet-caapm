@@ -29,6 +29,8 @@ class caapm::osgi (
     'windows' => "osgiPackages.v${version}.windows.zip",
     default  => "osgiPackages.v${version}.unix.zip",
   }
+  
+  $osgi_pkg_name = $pkg_name
 
   $pkg_source = $osgisource ? {
      'opensrcd' => "http://opensrcd.ca.com/ips/osgi/introscope_${version}",

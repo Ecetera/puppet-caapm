@@ -16,8 +16,9 @@ class caapm::params (
   # for pretty much everything else.
 
   # Settings common to everything
- $staging_subdir = 'caapm' 
-/*  $staging_subdir = "caapm/$version" */
+ /* $staging_subdir = 'caapm' 
+ $staging_subdir = "${module_name}\\${caapm::version}" */
+ $staging_subdir = "${module_name}"
   $accept_eula = 'accept'
 
   # Settings common to a kernel
@@ -52,12 +53,19 @@ class caapm::params (
       $em_service = [ 'Introscope Enterprise Manager ${version}'] 
       $wv_service = [ 'Introscope WebView ${version}']
       $em_confdir = '${em_home}/config'
+      $src_perms = ignore
       $pkg_provider = undef
       $src_permissions = ignore
     }
   }
 
+  /*
   if $operatingsystem == 'windows' {
+    Staging { "Windows":
+       path => "D:\\Users\\dimarra\\Temp"
+    }
+  }
+  
     warning( 'This NTP module does not yet work on our Mac laptops.' )
     # Create staging directory
     $profile_dir = Facter.value(:USERPROFILE)
@@ -72,6 +80,7 @@ file{ ["C:\folder1\", "C:\folder1\folder2", "C:\folder1\folder2\folder3" ]:
     ensure => "directory", 
 }
   }
+ */
     
   $user          = 'caapm'
   $group         = 'apm'

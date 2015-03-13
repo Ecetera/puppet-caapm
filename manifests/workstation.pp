@@ -37,8 +37,10 @@ What do you set the above for this use case: workstation?
   svc_name = IscopeEM
    */
   $pkg_name = "CA APM Introscope Workstation ${version}" 
-  $eula_file = 'ca-eula.txt'
-  $resp_file = 'SampleResponseFile.Workstation.txt'
+  $ca_eula_file = 'ca-eula.txt'
+  $eula_file = $ca_eula_file
+#  $resp_file = 'SampleResponseFile.Workstation.txt'
+  $resp_file = 'Workstation.ResponseFile.txt'
   
 /*  $puppet_src = "$caapm::params::puppet_src/$version" */ 
   
@@ -69,14 +71,23 @@ What do you set the above for this use case: workstation?
   staging::file { $resp_file:
     source => $resp_src,
     subdir => $staging_subdir,
+    
 /*    require => Staging::File[$pkg_name], */
   }
     
+  notify {"package name is $pkg_name":}
+    
+  notify {"source is $::staging_windir\\$staging_subdir\\$pkg_bin":}
+
+  notify {"install options is -f $::staging_windir\\$staging_subdir\\$resp_file":}
+  
   package { $pkg_name :
     ensure => "$version",
     source => "$::staging_windir\\$staging_subdir\\$pkg_bin",
-    install_options => ["-f ", " $::staging_windir\\$staging_subdir/$resp_file"],
-    require => Staging::File[$resp_file],
+/*    install_options => ['-f ', ' $::staging_windir\\$staging_subdir\\$resp_file'], 
+    install_options => [" -f ", " $resp_file"], */
+    install_options => [" -f $::staging_windir\\$staging_subdir\\$resp_file"  ],
+    require => Staging::File[$resp_file], 
   }
   
 }
