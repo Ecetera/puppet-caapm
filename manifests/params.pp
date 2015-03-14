@@ -10,6 +10,7 @@ class caapm::params (
 ) {
 
   include staging
+  include stdlib
   
   $version = '9.1.4.0'
  

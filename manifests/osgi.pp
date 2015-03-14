@@ -7,26 +7,19 @@
 # - $souce_path the source location to obtain the files from.
 #
 class caapm::osgi (
+  $version  = '9.1.4.0',
 
-
+  $osgisource = 'puppetmaster'
 )inherits caapm::params {
   
   include staging
-
-  $version  = '9.1.4.0'
   
-/*  
-  $version  = '9.6.1.0'
-  $version  = '9.7.0.0'
- */
-
-  $eula  = 'accept'
   $eula_file = 'eula.txt'
-  $osgisource = 'puppetmaster'
-
+  
+  # determine osgi package
   $pkg_name = $::operatingsystem ? {
     'windows' => "osgiPackages.v${version}.windows.zip",
-    default  => "osgiPackages.v${version}.unix.zip",
+    default  => "osgiPackages.v${version}.unix.tar",
   }
   
   $osgi_pkg_name = $pkg_name
@@ -36,16 +29,17 @@ class caapm::osgi (
       default => "puppet:///modules/${module_name}/${version}",
   } 
   
-  $eula_src = "${pkg_source}/${eula_file}"
   $osgi_src = "$pkg_source/$pkg_name"
-    
+  
+  # download the eula.txt  
   staging::file { $eula_file:
-    source => $eula_src,
+    source => "${pkg_source}/${eula_file}",
     subdir => $staging_subdir,
   }
  
+  # download the osgi package
   staging::file { $pkg_name:
-    source => $osgi_src,
+    source => "$pkg_source/$pkg_name",
     subdir => $staging_subdir,
     require => Staging::File[$eula_file],
   }

@@ -4,8 +4,10 @@
 #
 # Parameters:
 # - $version the workstation version to download and install.
-# - $souce_path the source location to obtain the files from.
-#
+# - $install_dir the location to install the package.
+# - $user the default user to display on the workstation login dialogue
+# - $host the default host to display on the workstation login dialogue
+# - $port the default port to display on the workstation login dialogue
 class caapm::workstation (
   $version = $caapm::params::version,
   $install_dir = $caapm::params::install_dir,  
@@ -17,16 +19,6 @@ class caapm::workstation (
   
   require caapm::osgi
   
-/*  
-  $version  = '9.1.4.0'
-  $version  = '9.6.1.0'
-  $version  = '9.7.0.0'
-  $eula  = 'accept'
-  $features = ['Workstation']
- */
-
-
-
 /*
 Assume the following for consistency
   _src is what you download from puppet itself
@@ -44,34 +36,40 @@ What do you set the above for this use case: workstation?
 
   $pkg_name = "CA APM Introscope Workstation ${version}" 
   $eula_file = 'ca-eula.txt'
-#  $eula_file = $ca_eula_file
   $resp_file = 'Workstation.ResponseFile.txt'
     
   $puppet_src = "puppet:///modules/${module_name}/${version}"
 
-  $eula_src = "${puppet_src}/${eula_file}"
   $resp_src = "${puppet_src}/${resp_file}"
 
-    
+  # determine the executable package  
   $pkg_bin = $::operatingsystem ? {
     'windows' => "IntroscopeWorkstation${version}windows.exe",
     default  => "IntroscopeWorkstation${version}unix.bin",
   }
-
-  $pkg_src  = "${puppet_src}/${pkg_bin}"
-    
+  
+  # download the eula.txt  
   staging::file { $eula_file:
-    source => $eula_src,
+    source => "${puppet_src}/${eula_file}",
     subdir => $staging_subdir,
+  }  
+/*
+  -> file_line { 'Accept the eula.txt':
+    path => "$::staging_windir/$staging_subdir/$eula_file",  
+    line => 'CA-EULA=accept',
+    match   => "^CA-EULA=.*$",
   }
- 
+*/
+   
+  # download the Workstation installer  
   staging::file { $pkg_bin:
-    source => $pkg_src,
+    source => "${puppet_src}/${pkg_bin}",
     subdir => $staging_subdir,
     require => Staging::File[$eula_file],
     
   }
   
+  # generate the response file
   file { $resp_file:
     path => "$::staging_windir/$staging_subdir/$resp_file",
     ensure => present,
@@ -79,12 +77,12 @@ What do you set the above for this use case: workstation?
     source_permissions => ignore,
   }
     
-
+  # install the Workstation package
   package { $pkg_name :
     ensure => "$version",
     source => "$::staging_windir\\$staging_subdir\\$pkg_bin",
     install_options => [" -f $::staging_windir\\$staging_subdir\\$resp_file"  ],
-    require => File[$resp_file], 
+    require => [File[$resp_file], Staging::File[$pkg_bin]]
   }
   
 }
