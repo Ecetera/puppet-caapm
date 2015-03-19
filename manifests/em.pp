@@ -9,7 +9,7 @@
 class caapm::em (
   $version = $caapm::params::version,
   $install_dir = $caapm::params::version,  
-  $features = 'Enterprise Manager,WebView,ProbeBuilder',
+  $features = 'Enterprise Manager,WebView',
   
   # Enterprise Manager Upgrade toggle
   $upgradeEM = false,
@@ -28,9 +28,9 @@ class caapm::em (
   $cluster_role = '',         # Specify clustering role for this EM. Valid values are "Collector", "Manager" or "CDV"
   
   # Enterprise Manager Transaction Storage Settings
-  $txnTraceDataShelfLife = $caapm::params::txn_trace_days_to_keep,
-  $txn_trace_dir = $caapm::params::txn_trace_dir,
-  $txnTraceDiskSpaceCap = $caapm::params::txn_trace_storage_cap,
+  $txnTraceDataShelfLife = $caapm::params::txntrace_days_to_keep,
+  $txnTraceDir = $caapm::params::txntrace_dir,
+  $txnTraceDiskSpaceCap = $caapm::params::txntrace_storage_cap,
   
   # Enterprise Manager SmartStor Settings
   $smartstor_dir = $caapm::params::smartstor_dir,
@@ -71,7 +71,10 @@ class caapm::em (
   $db_name = $caapm::params::db_name,
   $db_user_name = $caapm::params::db_user_name,
   $db_user_passwd = $caapm::params::db_user_passwd,
-  
+
+  $pg_admin_user = $caapm::params::pg_admin_user,
+  $pg_admin_passwd = $caapm::params::pg_admin_passwd,
+  $pg_install_timeout = $caapm::params::pg_install_timeout,
   
   # Enterprise Manager As Windows Service Settings
   $config_as_service = true,
@@ -104,8 +107,7 @@ class caapm::em (
 #  $pbLaxNlJavaOptionAdditional='-Xms32m -Xmx64m'  
 
 
-)
-inherits caapm::params {
+) inherits caapm::params {
   
   include staging
   require caapm::osgi
@@ -168,18 +170,30 @@ inherits caapm::params {
     require => [File[$resp_file], Staging::File[$pkg_bin]]
   }
   
-  file { $lic_file:
-    source => "${puppet_src}/license/${lic_file}",
-    notify  => Service[$service_name],  
-    path => "${install_dir}license/${lic_file}",
-    require => Package[$pkg_name],
-  }  
+  # if features has Enterprise Manager
+  if $features =~ /Enterprise Manager\./ {
+    file { $lic_file:
+      source => "${puppet_src}/license/${lic_file}",
+      notify  => Service[$service_name],  
+      path => "${install_dir}license/${lic_file}",
+      require => Package[$pkg_name],
+    }  
    
-  # ensure the service is running
-  service { $service_name:
-    ensure  => "running",
-    enable  => true,
-    require => Package[$pkg_name],
+    # ensure the service is running
+    service { $service_name:
+      ensure  => $config_as_service,
+      enable  => true,
+      require => Package[$pkg_name],
+    }
+  }
+  
+  # if features has WebView
+  if $features =~ /WebView\./ {
+    service { $wv_service_name:
+      ensure  => $config_wv_as_service,
+      enable  => true,
+      require => Package[$pkg_name],
+    }  
   }
   
 }

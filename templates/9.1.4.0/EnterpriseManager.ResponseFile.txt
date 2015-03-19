@@ -170,8 +170,8 @@ upgradedInstallDir=<%= scope.lookupvar("caapm::em::$install_dir") %>
 # or if the specified file is not valid, the Introscope Enterprise 
 # Manager will be installed, but will not run.
 # On Windows, backslashes must be escaped.
-#wilyLicenseFile=<%= scope.lookupvar("caapm::em::lic_file") %>
-wilyLicenseFile=<%= scope.lookupvar("::staging_windir") %>\<%= scope.lookupvar("caapm::params::staging_subdir") %>\<%= scope.lookupvar("caapm::em::lic_file") %>
+wilyLicenseFile=<%= scope.lookupvar("caapm::em::lic_file") %>
+
 
 
 # Port used by Enterprise Manager to listen for incoming connections.
@@ -252,7 +252,7 @@ emTxTraceDataShelfLife=<%= scope.lookupvar("caapm::em::txnTraceDataShelfLife") %
 # On Windows, backslashes must be escaped. 
 # Example [Windows]: traces\\mytraces
 # Example [Unix]:    traces/mytraces
-emTxTraceDir=<%= scope.lookupvar("caapm::em::txn_trace_dir") %>
+emTxTraceDir=<%= scope.lookupvar("caapm::em::txnTraceDir") %>
 
 # If disk space is a concern, you can optionally specify a disk space cap 
 # for trace data. 

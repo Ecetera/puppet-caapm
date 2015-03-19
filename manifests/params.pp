@@ -19,9 +19,9 @@ class caapm::params (
   $webview_port = '8080'  # Port used by Enterprise Manager to serve WebView.
   $admin_passwd = ''      # Password for Enterprise Manager Admin account leave this entry blank to use default
   $guest_passwd = ''      # Password for Enterprise Manager Guest account leave this entry blank to use default
-  $txn_trace_days_to_keep = 14
-  $txn_trace_dir = 'traces'
-  $txn_trace_storage_cap = ''
+  $txntrace_days_to_keep = 14  
+  $txntrace_dir = 'traces'
+  $txntrace_storage_cap = ''
   $smartstor_dir = 'data'
   $threaddump_dir = 'threaddumps'
   $em_host = "${fqdn}"
