@@ -13,11 +13,14 @@ class caapm::workstation (
   $install_dir = $caapm::params::install_dir,  
   $user = 'guest',
   $host = 'momhost',
-  $port = '5001'
+  $port = $caapm::params::default_port,
 
 ) inherits caapm::params {
   
   require caapm::osgi
+  
+#  $user_install_dir = to_windows_escaped("${install_dir}")
+  $user_install_dir = "${install_dir}"
   
 /*
 Assume the following for consistency

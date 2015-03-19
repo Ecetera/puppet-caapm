@@ -68,7 +68,7 @@ ca-eulaFile=<%= scope.lookupvar("caapm::workstation::eula_file") %>
 #    /root/Introscope9.1.4.0/
 #        (Under the logged-in-end-user's home directory. Exact directory may vary 
 #        depending on user account.)
-USER_INSTALL_DIR=<%= scope.lookupvar("caapm::params::install_dir") %>
+USER_INSTALL_DIR=<%= scope.lookupvar("caapm::params::user_install_dir") %>
 
 # Introscope features to install. Must be a comma-delimited list.
 # Example: Workstation
