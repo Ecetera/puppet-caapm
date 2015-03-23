@@ -113,8 +113,12 @@ class caapm::em (
   require caapm::osgi
 
 #  $user_install_dir = to_windows_escaped("${install_dir}")
-  $user_install_dir = "${install_dir}"
-  
+#  $user_install_dir = "${install_dir}"
+  $user_install_dir = $::operatingsystem ? {
+    'windows' => to_windows_escaped("${install_dir}"),
+    default  => "${install_dir}",
+  }
+/*  
   case $database {
     'postgres': {
         $pg_dir = $caapm::params::pg_dir
@@ -124,7 +128,7 @@ class caapm::em (
     'oracle' : {}
     default: {}   
   }
-  
+ */  
   $pkg_name = "CA APM Introscope ${version}" 
   $eula_file = 'ca-eula.txt'
   $resp_file = 'EnterpriseManager.ResponseFile.txt'
@@ -137,7 +141,7 @@ class caapm::em (
   # determine the executable package  
   $pkg_bin = $::operatingsystem ? {
     'windows' => "introscope${version}${operatingsystem}AMD64.exe",
-    default  => "introscope${version}unix.bin",
+    default  => "introscope${version}linuxAMD64.bin",
   }
   
   # download the eula.txt  
@@ -159,24 +163,43 @@ class caapm::em (
     path => "$::staging_windir/$staging_subdir/$resp_file",
     ensure => present,
     content => template("$module_name/$version/$resp_file"),
-    source_permissions => ignore,
+#    source_permissions => ignore,
+    owner =>  $caapm::params::owner,
+    group =>  $caapm::params::group,
+    mode  =>  $caapm::params::mode,    
   }
+  
+  $install_options = $::operatingsystem ? {
+    'windows' => "$::staging_windir\\$staging_subdir\\$resp_file",
+    default   => "$::staging_windir/$staging_subdir/$resp_file",
+  }
+  
 
   # install the Enterprise Manager package
   package { $pkg_name :
-    ensure => "$version",
-    source => "$::staging_windir\\$staging_subdir\\$pkg_bin",
-    install_options => [" -f $::staging_windir\\$staging_subdir\\$resp_file" ],
-    require => [File[$resp_file], Staging::File[$pkg_bin]]
+    ensure          => "$version",
+    source          => "$::staging_windir/$staging_subdir/$pkg_bin",
+#    install_options => [" -f $::staging_windir\\$staging_subdir\\$resp_file" ],
+    install_options => [" -f $install_options" ],
+    require         => [File[$resp_file], Staging::File[$pkg_bin]]
   }
   
   # if features has Enterprise Manager
-  if $features =~ /Enterprise Manager\./ {
+notify { $features: 
+  message => $features,
+}
+
+  if 'Enterprise Manager' in $features {
     file { $lic_file:
-      source => "${puppet_src}/license/${lic_file}",
+      source  => "${puppet_src}/license/${lic_file}",
       notify  => Service[$service_name],  
-      path => "${install_dir}license/${lic_file}",
+      path    => "${install_dir}license/${lic_file}",
       require => Package[$pkg_name],
+#    source_permissions => ignore,
+      owner   =>  $caapm::params::owner,
+      group   =>  $caapm::params::group,
+      mode    =>  $caapm::params::mode,    
+      
     }  
    
     # ensure the service is running
@@ -188,7 +211,7 @@ class caapm::em (
   }
   
   # if features has WebView
-  if $features =~ /WebView\./ {
+if 'WebView' in $features {
     service { $wv_service_name:
       ensure  => $config_wv_as_service,
       enable  => true,

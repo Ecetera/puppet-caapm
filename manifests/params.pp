@@ -19,14 +19,14 @@ class caapm::params (
   $webview_port = '8080'  # Port used by Enterprise Manager to serve WebView.
   $admin_passwd = ''      # Password for Enterprise Manager Admin account leave this entry blank to use default
   $guest_passwd = ''      # Password for Enterprise Manager Guest account leave this entry blank to use default
-  $txntrace_days_to_keep = 14  
+  $txntrace_days_to_keep = 14
   $txntrace_dir = 'traces'
   $txntrace_storage_cap = ''
   $smartstor_dir = 'data'
   $threaddump_dir = 'threaddumps'
-  $em_host = "${fqdn}"
+  $em_host = "${::fqdn}"
   $apm_db = 'postgres'
-  $db_host = "localhost"
+  $db_host = 'localhost'
   $db_port = 5432
   $db_name = 'cemdb'
   $db_user_name = 'admin'
@@ -38,17 +38,24 @@ class caapm::params (
 
   $staging_subdir = "${module_name}"
   $accept_eula = 'accept'
+  
+  $ca_eula    = 'accept'
+  $em_role = 'emc'
+
 
   # Settings common to a kernel
   case $::kernel {
-    default: { fail("CA APM component does not support kernel ${kernel}") }
+    default: { fail("CA APM component does not support kernel ${::kernel}") }
     'Linux': {
       $path_delimiter       = '/'
-      $em_home = '/app/caapm/Introscope${osgiVersion}'
-      $user_install_dir = '${em_home}'
-      $em_service = [ 'Introscope Enterprise Manager ${version}'] 
-      $wv_service = [ 'Introscope WebView ${version}']
-      $em_confdir = '${em_home}/config'
+      $em_home = "/app/caapm/Introscope${version}"
+      $user_install_dir = "${em_home}"
+      $em_service = [ "Introscope Enterprise Manager ${version}"] 
+      $wv_service = [ "Introscope WebView ${version}"]
+      $em_confdir = "${em_home}/config"
+      $owner  = 'caapm'
+      $group  =  'apm'
+      $mode   = '0644'    
     }
     'SunOS': {
       $path_delimiter       = '/'
@@ -58,32 +65,27 @@ class caapm::params (
       $server_src_subdir    = 'splunk/solaris'
       $server_service       = [ 'splunk', 'splunkd', 'splunkweb' ]
       $server_confdir       = '/opt/splunk/etc/system/local'
-	  $workstation_features = ['Workstation']
-	  $mom_features = ['Enterprise Manager, WebView, ProbeBuilder']
-	  $lbm_features = ['Enterprise Manager, ProbeBuilder']
-	  $db_features = ['Database']
-	  $emv_features = ['Enterprise Manager, ProbeBuilder']
+      $workstation_features = ['Workstation']
+      $mom_features = ['Enterprise Manager, WebView, ProbeBuilder']
+      $lbm_features = ['Enterprise Manager']
+      $db_features = ['Database']
+      $emc_features = ['Enterprise Manager']
     }
     'Windows': {
       $path_delimiter       = '\\'
-      $em_home = 'D:/Apps/CA/APM/Introscope${osgiVersion}'
-      $install_dir = "D:/Apps/CA/APM/Introscope${version}/"  
-      $em_service = [ 'Introscope Enterprise Manager ${version}'] 
-      $wv_service = [ 'Introscope WebView ${version}']
-      $em_confdir = '${em_home}/config'
+      $em_home = "D:/Apps/CA/APM/Introscope${version}"
+      $install_dir = "D:/Apps/CA/APM/Introscope${version}/"
+      $em_confdir = "${em_home}/config"
       $src_perms = ignore
       $pkg_provider = undef
       $src_permissions = ignore
+      $owner  = 'Administrator'
+      $group  =  'Users'
+      $mode   = '0644'    
     }
   }
 
     
-  $user          = 'caapm'
-  $group         = 'apm'
-  
-  $ca_eula    = 'accept'
-  $em_role = 'emc'
-
 /*  
   file {'${caapm::params::tempdir}':
     ensure => 'directory',

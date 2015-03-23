@@ -28,6 +28,7 @@ class caapm::database (
    
   # Enterprise Manager As Windows Service Settings
   $config_as_service = false,
+  $config_wv_as_service = false,
   $service_name = 'pgsql-8.4',
   $service_display_name = 'pgsql-8.4',
 

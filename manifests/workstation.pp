@@ -20,7 +20,12 @@ class caapm::workstation (
   require caapm::osgi
   
 #  $user_install_dir = to_windows_escaped("${install_dir}")
-  $user_install_dir = "${install_dir}"
+#  $user_install_dir = "${install_dir}"
+   $user_install_dir = $::operatingsystem ? {
+    'windows' => to_windows_escaped("${install_dir}"),
+    default  => "${install_dir}",
+  }
+
   
 /*
 Assume the following for consistency
@@ -44,7 +49,7 @@ What do you set the above for this use case: workstation?
   $puppet_src = "puppet:///modules/${module_name}/${version}"
 
   $resp_src = "${puppet_src}/${resp_file}"
-
+  
   # determine the executable package  
   $pkg_bin = $::operatingsystem ? {
     'windows' => "IntroscopeWorkstation${version}windows.exe",
@@ -77,7 +82,10 @@ What do you set the above for this use case: workstation?
     path => "$::staging_windir/$staging_subdir/$resp_file",
     ensure => present,
     content => template("$module_name/$version/$resp_file"),
-    source_permissions => ignore,
+#    source_permissions => ignore,
+    owner =>  $caapm::params::owner,
+    group =>  $caapm::params::group,
+    mode  =>  $caapm::params::mode,    
   }
     
   # install the Workstation package
