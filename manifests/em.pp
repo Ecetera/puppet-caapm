@@ -8,8 +8,12 @@
 #
 class caapm::em (
   $version = $caapm::params::version,
-  $install_dir = $caapm::params::version,  
+  $install_dir = $caapm::params::install_dir,  
   $features = 'Enterprise Manager,WebView',
+  
+  $owner  = $caapm::params::owner,
+  $group  = $caapm::params::group,
+  $mode   = $caapm::params::mode,
   
   # Enterprise Manager Upgrade toggle
   $upgradeEM = false,
@@ -25,7 +29,7 @@ class caapm::em (
   
   # Enterprise Manager Clustering Settings
   $clusterEM = false,        # Set to true if this Enterprise Manager will participate in a cluster.
-  $cluster_role = '',         # Specify clustering role for this EM. Valid values are "Collector", "Manager" or "CDV"
+  $cluster_role = '',        # Specify clustering role for this EM. Valid values are "Collector", "Manager" or "CDV"
   
   # Enterprise Manager Transaction Storage Settings
   $txnTraceDataShelfLife = $caapm::params::txntrace_days_to_keep,
@@ -110,10 +114,11 @@ class caapm::em (
 ) inherits caapm::params {
   
   include staging
+  include upstart
   require caapm::osgi
+  
+  $staging_path = $staging::params::path 
 
-#  $user_install_dir = to_windows_escaped("${install_dir}")
-#  $user_install_dir = "${install_dir}"
   $user_install_dir = $::operatingsystem ? {
     'windows' => to_windows_escaped("${install_dir}"),
     default  => "${install_dir}",
@@ -160,63 +165,125 @@ class caapm::em (
   
   # generate the response file
   file { $resp_file:
-    path => "$::staging_windir/$staging_subdir/$resp_file",
+    path => "$staging_path/$staging_subdir/$resp_file",
     ensure => present,
     content => template("$module_name/$version/$resp_file"),
 #    source_permissions => ignore,
-    owner =>  $caapm::params::owner,
-    group =>  $caapm::params::group,
-    mode  =>  $caapm::params::mode,    
+    owner =>  $owner,
+    group =>  $group,
+    mode  =>  $mode,    
   }
   
   $install_options = $::operatingsystem ? {
-    'windows' => "$::staging_windir\\$staging_subdir\\$resp_file",
-    default   => "$::staging_windir/$staging_subdir/$resp_file",
+    'windows' => "$staging_path\\$staging_subdir\\$resp_file",
+    default   => "$staging_path/$staging_subdir/$resp_file",
   }
   
-
-  # install the Enterprise Manager package
-  package { $pkg_name :
-    ensure          => "$version",
-    source          => "$::staging_windir/$staging_subdir/$pkg_bin",
-#    install_options => [" -f $::staging_windir\\$staging_subdir\\$resp_file" ],
-    install_options => [" -f $install_options" ],
-    require         => [File[$resp_file], Staging::File[$pkg_bin]]
-  }
-  
-  # if features has Enterprise Manager
-notify { $features: 
-  message => $features,
-}
-
-  if 'Enterprise Manager' in $features {
-    file { $lic_file:
-      source  => "${puppet_src}/license/${lic_file}",
-      notify  => Service[$service_name],  
-      path    => "${install_dir}license/${lic_file}",
-      require => Package[$pkg_name],
-#    source_permissions => ignore,
-      owner   =>  $caapm::params::owner,
-      group   =>  $caapm::params::group,
-      mode    =>  $caapm::params::mode,    
+  case $operatingsystem {
+    CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
+      exec { $pkg_name :
+        command     => "$staging_path/$staging_subdir/$pkg_bin -f $install_options;true",
+        creates     =>  "${user_install_dir}launcher.jar",
+        require     => [File[$resp_file], Staging::File[$pkg_bin]],
+        logoutput   => false,
+        timeout     => 0,
+        before      => File[$lic_file],
+        notify      => [Service[$service_name],Service[$wv_service_name]],
+      }
       
-    }  
-   
-    # ensure the service is running
-    service { $service_name:
-      ensure  => $config_as_service,
-      enable  => true,
-      require => Package[$pkg_name],
+  # generate the SystemV init script
+  file { $service_name:
+    path       => "/etc/init.d/$service_name",
+    ensure     => present,
+    content    => template("$module_name/$version/init/IScopeEM"),
+    owner      =>  $owner,
+    group      =>  $group,
+    mode       =>  '0777',    
+    notify     => Service[$service_name],
+  }
+
+  # generate the SystemV init script
+  file { $wv_service_name:
+    path    => "/etc/init.d/$wv_service_name",
+    ensure  => present,
+    content => template("$module_name/$version/init/IScopeWV"),
+    owner   =>  $owner,
+    group   =>  $group,
+    mode    =>  '0777',    
+    require => File["WVCtrl.sh"]
+  }
+
+  # generate the SystemV init script
+  file { "WVCtrl.sh":
+    path      => "${user_install_dir}/bin/WVCtrl.sh",
+    ensure    => present,
+    source    => "${puppet_src}/bin/WVCtrl.sh",
+    owner     =>  $owner,
+    group     =>  $group,
+    mode      =>  '0777',
+    require   => Exec[$pkg_name] ,    
+  }
+
+
+/*
+      upstart::job { $service_name:
+        description    => "Starts and stops the CA APM Introscope Enterprise Manager",
+        version        => '${version}',
+        respawn        => true,
+        respawn_limit  => '5 10',
+        instance       => "$service_name",
+        user           => "${owner}",
+        group          => "${group}",
+        chdir          => "${user_install_dir}/bin",
+        environment    => { "WILYHOME" => "${user_install_dir}"},
+        exec           => "./EMCtrl.sh",
+        require        => Exec[$pkg_name],
+      }
+      file { "launcher.jar":
+        path    => "${user_install_dir}launcher.jar",
+        ensure  => present,
+        noop    => true,
+        replace => false,
+        backup  => false,
+      }  */
+    }
+
+    windows: {
+      # install the Enterprise Manager package
+      package { $pkg_name :
+        ensure          => "$version",
+        source          => "$staging_path/$staging_subdir/$pkg_bin",
+        install_options => [" -f $install_options" ],
+        require         => [File[$resp_file], Staging::File[$pkg_bin]],
+        notify          => [Service[$service_name],  Service[$wv_service_name]],
+        allow_virtual   => true,
+      }
+
     }
   }
-  
-  # if features has WebView
-if 'WebView' in $features {
-    service { $wv_service_name:
-      ensure  => $config_wv_as_service,
-      enable  => true,
-      require => Package[$pkg_name],
-    }  
-  }
-  
+      if 'Enterprise Manager' in $features {
+        file { $lic_file:
+          ensure  => 'present',
+          source  => "${puppet_src}/license/${lic_file}",
+#          notify  => Service[$service_name],  
+          path    => "${install_dir}license/${lic_file}",
+          owner   =>  $owner,
+          group   =>  $group,
+          mode    =>  $mode,    
+        }
+        # ensure the service is running
+        service { $service_name:
+          ensure  => $config_as_service,
+          enable  => true,
+          require => File[$lic_file],
+        }
+      }  
+   
+      if 'WebView' in $features { 
+        service { $wv_service_name:
+          ensure  => $config_wv_as_service,
+          enable  => true,
+        }  
+      }
+    
 }

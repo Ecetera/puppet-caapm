@@ -48,11 +48,12 @@ class caapm::params (
     default: { fail("CA APM component does not support kernel ${::kernel}") }
     'Linux': {
       $path_delimiter       = '/'
-      $em_home = "/app/caapm/Introscope${version}"
-      $user_install_dir = "${em_home}"
-      $em_service = [ "Introscope Enterprise Manager ${version}"] 
-      $wv_service = [ "Introscope WebView ${version}"]
+      $em_home = "/opt/caapm/Introscope${version}/"
+      $install_dir = "${em_home}"
       $em_confdir = "${em_home}/config"
+      $src_perms = ignore
+      $pkg_provider = undef
+      $src_permissions = ignore
       $owner  = 'caapm'
       $group  =  'apm'
       $mode   = '0644'    
@@ -73,7 +74,7 @@ class caapm::params (
     }
     'Windows': {
       $path_delimiter       = '\\'
-      $em_home = "D:/Apps/CA/APM/Introscope${version}"
+      $em_home = "D:/Apps/CA/APM/Introscope${version}/"
       $install_dir = "D:/Apps/CA/APM/Introscope${version}/"
       $em_confdir = "${em_home}/config"
       $src_perms = ignore

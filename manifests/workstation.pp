@@ -18,6 +18,8 @@ class caapm::workstation (
 ) inherits caapm::params {
   
   require caapm::osgi
+
+  $staging_path = $staging::params::path 
   
 #  $user_install_dir = to_windows_escaped("${install_dir}")
 #  $user_install_dir = "${install_dir}"
@@ -63,7 +65,7 @@ What do you set the above for this use case: workstation?
   }  
 /*
   -> file_line { 'Accept the eula.txt':
-    path => "$::staging_windir/$staging_subdir/$eula_file",  
+    path => "$staging_path/$staging_subdir/$eula_file",  
     line => 'CA-EULA=accept',
     match   => "^CA-EULA=.*$",
   }
@@ -79,7 +81,7 @@ What do you set the above for this use case: workstation?
   
   # generate the response file
   file { $resp_file:
-    path => "$::staging_windir/$staging_subdir/$resp_file",
+    path => "$staging_path/$staging_subdir/$resp_file",
     ensure => present,
     content => template("$module_name/$version/$resp_file"),
 #    source_permissions => ignore,
@@ -87,12 +89,19 @@ What do you set the above for this use case: workstation?
     group =>  $caapm::params::group,
     mode  =>  $caapm::params::mode,    
   }
+  
+  $install_options = $::operatingsystem ? {
+    'windows' => "$staging_path\\$staging_subdir\\$resp_file",
+    default   => "$staging_path/$staging_subdir/$resp_file",
+  }
+  
+  
     
   # install the Workstation package
   package { $pkg_name :
     ensure => "$version",
-    source => "$::staging_windir\\$staging_subdir\\$pkg_bin",
-    install_options => [" -f $::staging_windir\\$staging_subdir\\$resp_file"  ],
+    source => "$staging_path\\$staging_subdir\\$pkg_bin",
+    install_options => [" -f $install_options"  ],
     require => [File[$resp_file], Staging::File[$pkg_bin]]
   }
   

@@ -29,10 +29,13 @@ class caapm::database (
   # Enterprise Manager As Windows Service Settings
   $config_as_service = false,
   $config_wv_as_service = false,
-  $service_name = 'pgsql-8.4',
-  $service_display_name = 'pgsql-8.4',
 
 ) inherits caapm::params {
+  
+  $service_name  = $::operatingsystem ? {
+    'windows' => 'pgsql-8.4',
+     default  => 'postgresql-8.4',
+  }
   
   class {'caapm::em': 
     features => $features,
@@ -50,8 +53,8 @@ class caapm::database (
     pg_install_timeout => $pg_install_timeout,
     notify  => Service[$service_name],
   }
-
-  # ensure the service is running
+  
+    # ensure the service is running
   service { $service_name:
     ensure  => "running",
     enable  => true,
