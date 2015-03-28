@@ -54,8 +54,8 @@ class caapm::params (
       $src_perms = ignore
       $pkg_provider = undef
       $src_permissions = ignore
-      $owner  = 'caapm'
-      $group  =  'apm'
+      $owner  = 'root'
+      $group  =  'root'
       $mode   = '0644'    
     }
     'SunOS': {

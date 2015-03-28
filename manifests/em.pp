@@ -70,18 +70,20 @@ class caapm::em (
   
   # APM Database Settings
   $database = $caapm::params::apm_db,
+  
   $db_host = $caapm::params::db_host,
   $db_port = $caapm::params::db_port,
   $db_name = $caapm::params::db_name,
   $db_user_name = $caapm::params::db_user_name,
   $db_user_passwd = $caapm::params::db_user_passwd,
 
+  $postgres_dir = $caapm::params::pg_dir,
   $pg_admin_user = $caapm::params::pg_admin_user,
   $pg_admin_passwd = $caapm::params::pg_admin_passwd,
   $pg_install_timeout = $caapm::params::pg_install_timeout,
   
   # Enterprise Manager As Windows Service Settings
-  $config_as_service = true,
+  $config_as_service = false,
   $service_name = 'IScopeEM',
   $service_display_name = 'Introscope Enterprise Manager',
 
@@ -226,7 +228,6 @@ class caapm::em (
         mode      =>  '0777',
         require   => Exec[$pkg_name] ,    
       }
-
     }
 
     windows: {
@@ -243,10 +244,11 @@ class caapm::em (
   }
   
   
+       $em_as_service = ('Enterprise Manager' in $features) or $config_as_service
+       $wv_as_service = ('WebView' in $features) or $config_wv_as_service
   
   
-  
-      if 'Enterprise Manager' in $features {
+
         file { $lic_file:
           ensure  => 'present',
           source  => "${puppet_src}/license/${lic_file}",
@@ -255,19 +257,19 @@ class caapm::em (
           group   =>  $group,
           mode    =>  $mode,    
         }
+
         # ensure the service is running
         service { $service_name:
-          ensure  => $config_as_service,
+          ensure  => $em_as_service,
           enable  => true,
           require => File[$lic_file],
         }
-      }  
+#      }  
    
-      if 'WebView' in $features { 
         service { $wv_service_name:
-          ensure  => $config_wv_as_service,
+          ensure  => $wv_as_service,
           enable  => true,
         }  
-      }
+#      }
     
 }

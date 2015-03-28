@@ -455,7 +455,7 @@ dbPassword=<%= scope.lookupvar("caapm::em::db_user_passwd") %>
 # If you are running CA APM, it is recommended that you put 
 # the APM database on its own disk or partition.
 <% if @operatingsystem == 'windows' %>
-databaseDir=<%= scope.lookupvar("caapm::em::pg_dir") %>
+databaseDir=<%= scope.lookupvar("caapm::em::postgres_dir") %>
 dbAdminUser=<%= scope.lookupvar("caapm::em::pg_admin_user") %>
 dbAdminPassword=<%= scope.lookupvar("caapm::em::pg_admin_passwd") %>
 <% else %> 

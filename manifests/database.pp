@@ -9,11 +9,7 @@
 class caapm::database (
   $version = $caapm::params::version,
   $install_dir = $caapm::params::install_dir,  
-  $features = 'Database',
-  
-  # Enterprise Manager Upgrade toggle
-  $upgradeEM = false,
-    
+      
   # APM Database Settings
   $database = $caapm::params::apm_db,
   $db_host = $caapm::params::db_host,
@@ -21,7 +17,8 @@ class caapm::database (
   $db_name = $caapm::params::db_name,
   $db_user_name = $caapm::params::db_user_name,
   $db_user_passwd = $caapm::params::db_user_passwd,
-  
+
+  $postgres_dir = $caapm::params::pg_dir,
   $pg_admin_user = $caapm::params::pg_admin_user,
   $pg_admin_passwd = $caapm::params::pg_admin_passwd,
   $pg_install_timeout = $caapm::params::pg_install_timeout,
@@ -38,7 +35,7 @@ class caapm::database (
   }
   
   class {'caapm::em': 
-    features => $features,
+    features => 'Database',
     install_dir => $install_dir,
     
     # APM Database Settings
@@ -48,6 +45,7 @@ class caapm::database (
     db_name => $db_name,
     db_user_name => $db_user_name,
     db_user_passwd => $db_user_passwd,
+    postgres_dir => $postgres_dir,
     pg_admin_user => $pg_admin_user,
     pg_admin_passwd => $pg_admin_passwd,
     pg_install_timeout => $pg_install_timeout,
