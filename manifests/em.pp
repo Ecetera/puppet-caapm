@@ -114,7 +114,6 @@ class caapm::em (
 ) inherits caapm::params {
   
   include staging
-  include upstart
   require caapm::osgi
   
   $staging_path = $staging::params::path 
@@ -134,6 +133,7 @@ class caapm::em (
     default: {}   
   }
  */  
+
   $pkg_name = "CA APM Introscope ${version}" 
   $eula_file = 'ca-eula.txt'
   $resp_file = 'EnterpriseManager.ResponseFile.txt'
@@ -179,6 +179,9 @@ class caapm::em (
     default   => "$staging_path/$staging_subdir/$resp_file",
   }
   
+  
+  
+
   case $operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       exec { $pkg_name :
@@ -191,61 +194,39 @@ class caapm::em (
         notify      => [Service[$service_name],Service[$wv_service_name]],
       }
       
-  # generate the SystemV init script
-  file { $service_name:
-    path       => "/etc/init.d/$service_name",
-    ensure     => present,
-    content    => template("$module_name/$version/init/IScopeEM"),
-    owner      =>  $owner,
-    group      =>  $group,
-    mode       =>  '0777',    
-    notify     => Service[$service_name],
-  }
-
-  # generate the SystemV init script
-  file { $wv_service_name:
-    path    => "/etc/init.d/$wv_service_name",
-    ensure  => present,
-    content => template("$module_name/$version/init/IScopeWV"),
-    owner   =>  $owner,
-    group   =>  $group,
-    mode    =>  '0777',    
-    require => File["WVCtrl.sh"]
-  }
-
-  # generate the SystemV init script
-  file { "WVCtrl.sh":
-    path      => "${user_install_dir}/bin/WVCtrl.sh",
-    ensure    => present,
-    source    => "${puppet_src}/bin/WVCtrl.sh",
-    owner     =>  $owner,
-    group     =>  $group,
-    mode      =>  '0777',
-    require   => Exec[$pkg_name] ,    
-  }
-
-
-/*
-      upstart::job { $service_name:
-        description    => "Starts and stops the CA APM Introscope Enterprise Manager",
-        version        => '${version}',
-        respawn        => true,
-        respawn_limit  => '5 10',
-        instance       => "$service_name",
-        user           => "${owner}",
-        group          => "${group}",
-        chdir          => "${user_install_dir}/bin",
-        environment    => { "WILYHOME" => "${user_install_dir}"},
-        exec           => "./EMCtrl.sh",
-        require        => Exec[$pkg_name],
+      # generate the SystemV init script
+      file { $service_name:
+        path       => "/etc/init.d/$service_name",
+        ensure     => present,
+        content    => template("$module_name/$version/init.d/introscope"),
+        owner      =>  $owner,
+        group      =>  $group,
+        mode       =>  '0777',    
+        notify     => Service[$service_name],
       }
-      file { "launcher.jar":
-        path    => "${user_install_dir}launcher.jar",
+
+      # generate the SystemV init script
+      file { $wv_service_name:
+        path    => "/etc/init.d/$wv_service_name",
         ensure  => present,
-        noop    => true,
-        replace => false,
-        backup  => false,
-      }  */
+        content => template("$module_name/$version/init.d/webview"),
+        owner   =>  $owner,
+        group   =>  $group,
+        mode    =>  '0777',    
+        require => File["WVCtrl.sh"]
+      }
+
+      # generate the SystemV init script
+      file { "WVCtrl.sh":
+        path      => "${user_install_dir}/bin/WVCtrl.sh",
+        ensure    => present,
+        source    => "${puppet_src}/bin/WVCtrl.sh",
+        owner     =>  $owner,
+        group     =>  $group,
+        mode      =>  '0777',
+        require   => Exec[$pkg_name] ,    
+      }
+
     }
 
     windows: {
@@ -258,14 +239,17 @@ class caapm::em (
         notify          => [Service[$service_name],  Service[$wv_service_name]],
         allow_virtual   => true,
       }
-
     }
   }
+  
+  
+  
+  
+  
       if 'Enterprise Manager' in $features {
         file { $lic_file:
           ensure  => 'present',
           source  => "${puppet_src}/license/${lic_file}",
-#          notify  => Service[$service_name],  
           path    => "${install_dir}license/${lic_file}",
           owner   =>  $owner,
           group   =>  $group,
