@@ -1,8 +1,10 @@
 class caapm::profile::database { 
   class { "caapm::database":
-    version => '9.1.4.0',
-    install_dir => 'C:/Ecetera/Introscope9.1.4.0/',
+    version => '9.6.0.0',
+    install_dir => 'C:/Ecetera/Introscope/',
     database => 'postgres',
-    postgres_dir => 'C:/Ecetera/PostgreSQL-8.4/',
+    postgres_dir => 'C:/Ecetera/PostgreSQL/',
+    config_as_service => false,
+    config_wv_as_service => false,
   } 
 }

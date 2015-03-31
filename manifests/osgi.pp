@@ -7,13 +7,18 @@
 # - $souce_path the source location to obtain the files from.
 #
 class caapm::osgi (
-  $version  = '9.1.4.0',
+  $apmversion  = '9.1.4.0',
 
   $osgisource = 'puppetmaster'
 )inherits caapm::params {
   
   include staging
-  
+
+  $version = $apmversion ? {
+    '9.7.0.0' => '9.7.0.27',
+    '9.7.1.0' => '9.7.1.16',
+    default   => $apmversion,
+  }  
   $eula_file = 'eula.txt'
   
   # determine osgi package

@@ -1,5 +1,6 @@
 class caapm::profile::manager { 
   class { "caapm::em":
+#  caapm::em { 'mom':
     version => '9.1.4.0',
     install_dir => 'C:/Ecetera/Introscope9.1.4.0/',
     features => 'Enterprise Manager,Database,WebView',

@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# IScopeEM <summary>
+#
+# chkconfig:   2345 20 80
+# description: "Starts and stops the CA APM Introscope Enterprise Manager"
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+export WILYHOME=<%= scope.lookupvar("caapm::em::user_install_dir") %>
+export WILYPARENT=${WILYHOME}
+
+cd ${WILYHOME}/bin
+
+./EMCtrl.sh $*
+

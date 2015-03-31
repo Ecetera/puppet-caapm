@@ -29,12 +29,21 @@ class caapm::database (
 
 ) inherits caapm::params {
   
-  $service_name  = $::operatingsystem ? {
-    'windows' => 'pgsql-8.4',
-     default  => 'postgresql-8.4',
+  
+  $service_name = $version ? {
+    '9.1.4.0' => $::operatingsystem ? {
+        'windows' => 'pgsql-8.4',
+        default  => 'postgresql-8.4',
+      },
+    '9.6.0.0' => $::operatingsystem ? {
+        'windows' => 'pgsql-9.2',
+         default  => 'postgresql-9.2',
+      },
+     default => undef
   }
   
   class {'caapm::em': 
+    version => $version,
     features => 'Database',
     install_dir => $install_dir,
     
@@ -58,12 +67,4 @@ class caapm::database (
     enable  => true,
   }
   
-/*  
-  file { $lic_file:
-    source => "${puppet_src}/license/${lic_file}",
-    notify  => Service[$service_name],  
-    path => "${install_dir}license/${lic_file}",
-    require => Package[$pkg_name],
-  }  
- */   
 }

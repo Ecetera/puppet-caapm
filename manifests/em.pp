@@ -116,8 +116,12 @@ class caapm::em (
 ) inherits caapm::params {
   
   include staging
-  require caapm::osgi
+#  require caapm::osgi
   
+  class { "caapm::osgi":
+    apmversion => $version,
+  }
+    
   $staging_path = $staging::params::path 
 
   $user_install_dir = $::operatingsystem ? {
@@ -261,14 +265,14 @@ class caapm::em (
         # ensure the service is running
         service { $service_name:
           ensure  => $em_as_service,
-          enable  => true,
+          enable  => $em_as_service,
           require => File[$lic_file],
         }
 #      }  
    
         service { $wv_service_name:
           ensure  => $wv_as_service,
-          enable  => true,
+          enable  => $wv_as_service,
         }  
 #      }
     

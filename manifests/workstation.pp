@@ -17,33 +17,18 @@ class caapm::workstation (
 
 ) inherits caapm::params {
   
-  require caapm::osgi
-
+  class { "caapm::osgi":
+    apmversion => $version,
+  }
+  
   $staging_path = $staging::params::path 
   
-#  $user_install_dir = to_windows_escaped("${install_dir}")
-#  $user_install_dir = "${install_dir}"
-   $user_install_dir = $::operatingsystem ? {
+  $user_install_dir = $::operatingsystem ? {
     'windows' => to_windows_escaped("${install_dir}"),
     default  => "${install_dir}",
   }
 
   
-/*
-Assume the following for consistency
-  _src is what you download from puppet itself
-  bin_src is the fqn for puppet:// with pkg_bin  
-  pkg_bin is the installer.exe
-  pkg_name for windows is the display name
-  svc_name is name in services.msc
-  
-What do you set the above for this use case: workstation?
-  pkg_bin = IntroscopeWorkstation${version}windows.exe
-  bin_src = puppet://modules/caapm/$version/$pkg_bin
-  pkg_name = "CA APM Workstation 9.1.4.0" 
-  svc_name = IscopeEM
-   */
-
   $pkg_name = "CA APM Introscope Workstation ${version}" 
   $eula_file = 'ca-eula.txt'
   $resp_file = 'Workstation.ResponseFile.txt'
@@ -63,13 +48,7 @@ What do you set the above for this use case: workstation?
     source => "${puppet_src}/${eula_file}",
     subdir => $staging_subdir,
   }  
-/*
-  -> file_line { 'Accept the eula.txt':
-    path => "$staging_path/$staging_subdir/$eula_file",  
-    line => 'CA-EULA=accept',
-    match   => "^CA-EULA=.*$",
-  }
-*/
+
    
   # download the Workstation installer  
   staging::file { $pkg_bin:

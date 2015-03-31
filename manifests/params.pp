@@ -46,8 +46,7 @@ class caapm::params (
   # Settings common to a kernel
   case $::kernel {
     default: { fail("CA APM component does not support kernel ${::kernel}") }
-    'Linux': {
-      $path_delimiter       = '/'
+    Linux, CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       $em_home = "/opt/caapm/Introscope${version}/"
       $install_dir = "${em_home}"
       $em_confdir = "${em_home}/config"
@@ -58,22 +57,7 @@ class caapm::params (
       $group  =  'root'
       $mode   = '0644'    
     }
-    'SunOS': {
-      $path_delimiter       = '/'
-      $forwarder_src_subdir = 'universalforwarder/solaris'
-      $forwarder_service    = [ 'splunk' ]
-      $forwarder_confdir    = '/opt/splunkforwarder/etc/system/local'
-      $server_src_subdir    = 'splunk/solaris'
-      $server_service       = [ 'splunk', 'splunkd', 'splunkweb' ]
-      $server_confdir       = '/opt/splunk/etc/system/local'
-      $workstation_features = ['Workstation']
-      $mom_features = ['Enterprise Manager, WebView, ProbeBuilder']
-      $lbm_features = ['Enterprise Manager']
-      $db_features = ['Database']
-      $emc_features = ['Enterprise Manager']
-    }
     'Windows': {
-      $path_delimiter       = '\\'
       $em_home = "D:/Apps/CA/APM/Introscope${version}/"
       $install_dir = "D:/Apps/CA/APM/Introscope${version}/"
       $em_confdir = "${em_home}/config"
@@ -85,24 +69,6 @@ class caapm::params (
       $mode   = '0644'    
     }
   }
-
-    
-/*  
-  file {'${caapm::params::tempdir}':
-    ensure => 'directory',
-    owner  => '${caapm::params::user}',
-    group  => '${caapm::params::group}',
-    mode   => '${caapm::params::mode}',
-  }
-        
-  $osgi_version = ${caapm::version} ? {
-    '9.7.0.0' => "9.7.0.27",
-    default  => "${caapm::version}",
-  }
-		
-  
-  
- */
   
 }
 
