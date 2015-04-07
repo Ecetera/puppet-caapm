@@ -3,7 +3,7 @@
 # Introscope Silent Installation Response File
 #
 # Sample Response File
-# CA Wily Introscope(R) Version 9.6.0.0 Release 9.6.0.0
+# CA Wily Introscope(R) Version 9.7.0 Release 9.7.0.27
 # Copyright (c) 2014 CA. All Rights Reserved.
 # Introscope(R) is a registered trademark of CA.
 #
@@ -61,11 +61,11 @@ ca-eulaFile=<%= scope.lookupvar("caapm::workstation::eula_file") %>
 # Example Unix install directory: /IntroscopeSilentInstall/
 # Left blank, this property will default to one of the following values: 
 # On Windows...
-#    C:\\Program Files\\CA APM\\Introscope9.6.0.0\\ 
+#    C:\\Program Files\\CA APM\\Introscope9.7.0.27\\ 
 #        (Exact name and drive letter of program files directory may vary 
 #        depending on OS configuration) 
 # On Unix...
-#    /root/Introscope9.6.0.0/
+#    /root/Introscope9.7.0.27/
 #        (Under the logged-in-end-user's home directory. Exact directory may vary 
 #        depending on user account.)
 USER_INSTALL_DIR=<%= scope.lookupvar("caapm::workstation::user_install_dir_em") %>

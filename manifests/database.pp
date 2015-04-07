@@ -8,7 +8,7 @@
 #
 class caapm::database (
   $version = $caapm::params::version,
-  $install_dir = $caapm::params::install_dir,  
+  $user_install_dir = $caapm::params::user_install_dir,  
       
   # APM Database Settings
   $database = $caapm::params::apm_db,
@@ -29,6 +29,7 @@ class caapm::database (
 
 ) inherits caapm::params {
   
+  contain caapm::em
   
   $service_name = $version ? {
     '9.1.4.0' => $::operatingsystem ? {
@@ -39,13 +40,21 @@ class caapm::database (
         'windows' => 'pgsql-9.2',
          default  => 'postgresql-9.2',
       },
+    '9.7.0.27' => $::operatingsystem ? {
+        'windows' => 'pgsql-9.2',
+         default  => 'postgresql-9.2',
+      },
+    '9.7.1.27' => $::operatingsystem ? {
+        'windows' => 'pgsql-9.2',
+         default  => 'postgresql-9.2',
+      },
      default => undef
   }
   
   class {'caapm::em': 
     version => $version,
     features => 'Database',
-    install_dir => $install_dir,
+    user_install_dir => $user_install_dir,
     
     # APM Database Settings
     database => $database,

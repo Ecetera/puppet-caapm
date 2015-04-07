@@ -10,7 +10,7 @@
 # - $port the default port to display on the workstation login dialogue
 class caapm::workstation (
   $version = $caapm::params::version,
-  $install_dir = $caapm::params::install_dir,  
+  $user_install_dir = $caapm::params::user_install_dir,  
   $user = 'guest',
   $host = 'momhost',
   $port = $caapm::params::default_port,
@@ -23,9 +23,9 @@ class caapm::workstation (
   
   $staging_path = $staging::params::path 
   
-  $user_install_dir = $::operatingsystem ? {
-    'windows' => to_windows_escaped("${install_dir}"),
-    default  => "${install_dir}",
+  $user_install_dir_em = $::operatingsystem ? {
+    'windows' => to_windows_escaped("${user_install_dir}"),
+    default  => "${user_install_dir}",
   }
 
   

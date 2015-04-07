@@ -73,7 +73,7 @@ ca-eulaFile=<%= scope.lookupvar("caapm::em::eula_file") %>
 #    /root/Introscope9.6.0.0/
 #        (Under the logged-in-end-user's home directory. Exact directory may vary 
 #        depending on user account.)
-USER_INSTALL_DIR=<%= scope.lookupvar("caapm::em::user_install_dir") %>
+USER_INSTALL_DIR=<%= scope.lookupvar("caapm::em::user_install_dir_em") %>
 
 
 # Introscope features to install. Must be a comma-delimited list.
@@ -153,10 +153,8 @@ shouldUpgrade=<%= scope.lookupvar("caapm::em::upgradeEM") %>
 # append a trailing slash; escape backslashes on Windows.
 #      Example Windows value: C:\\IntroscopeSilentlyUpgradedInstall\\
 #      Example Unix value: /IntroscopeSilentlyUpgradedInstall/
-<% if scope.lookupvar("caapm::em::upgradeEM") != true %>
-#upgradedInstallDir=
-<% else %> 
-upgradedInstallDir=<%= scope.lookupvar("caapm::em::$install_dir") %>
+<% if scope.lookupvar("caapm::em::upgradeEM") %>upgradedInstallDir=<%= scope.lookupvar("caapm::em::$install_dir_em") %>
+<% else %>#upgradedInstallDir=
 <% end %>
 
 
@@ -282,7 +280,7 @@ emThreadDumpDir=<%= scope.lookupvar("caapm::em::threaddump_dir") %>
 # Select Monitoring Options 
 #---------------------------------------------
 # Files for monitoring specific environments are installed in the examples folder. 
-# If you don�t select monitoring for any of these environments now, you can 
+# If you don't select monitoring for any of these environments now, you can 
 # manually enable monitoring later by copying files from the examples folder.
 # Set the property to true or false.
 #
@@ -396,10 +394,8 @@ emAsServiceDisplayName=<%= scope.lookupvar("caapm::em::service_display_name") %>
 # On Windows, backslashes must be escaped.
 # Example [Windows]: jre\\bin\\java.exe
 # Example [Unix]:    jre/bin/java
-<% if scope.lookupvar("caapm::em::emLaxNlCurrentVm") != '' %>
-emLaxNlCurrentVm=<%= scope.lookupvar("caapm::em::emLaxNlCurrentVm") %>
-<% else %> 
-#emLaxNlCurrentVm=
+<% if scope.lookupvar("caapm::em::emLaxNlCurrentVm") != '' %>emLaxNlCurrentVm=<%= scope.lookupvar("caapm::em::emLaxNlCurrentVm") %>
+<% else %>#emLaxNlCurrentVm=
 <% end %>
 
 # Specify any desired command line arguments to be used by the 
@@ -408,10 +404,8 @@ emLaxNlCurrentVm=<%= scope.lookupvar("caapm::em::emLaxNlCurrentVm") %>
 # -showversion -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:CMSInitiatingOccupancyFraction=50 
 # If you are using both Hot Failover and the CEM UI, 
 # add this switch, -Dosgi.clean=false
-<% if scope.lookupvar("caapm::em::emLaxNlJavaOptionAdditional") != '' %>
-emLaxNlJavaOptionAdditional=<%= scope.lookupvar("caapm::em::emLaxNlJavaOptionAdditional") %>
-<% else %> 
-#emLaxNlJavaOptionAdditional=-Xms512m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi
+<% if scope.lookupvar("caapm::em::emLaxNlJavaOptionAdditional") != '' %>emLaxNlJavaOptionAdditional=<%= scope.lookupvar("caapm::em::emLaxNlJavaOptionAdditional") %>
+<% else %>#emLaxNlJavaOptionAdditional=-Xms512m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi
 <% end %>
 
 #####################################################
@@ -444,15 +438,9 @@ dbPassword=<%= scope.lookupvar("caapm::em::db_user_passwd") %>
 # database install dir for Windows. For Linux and Solaris set default to /opt/database
 # If you are running CA APM, it is recommended that you put 
 # the APM database on its own disk or partition.
-<% if @operatingsystem == 'windows' %>
 databaseDir=<%= scope.lookupvar("caapm::em::postgres_dir") %>
 dbAdminUser=<%= scope.lookupvar("caapm::em::pg_admin_user") %>
 dbAdminPassword=<%= scope.lookupvar("caapm::em::pg_admin_passwd") %>
-<% else %> 
-#databaseDir=database
-#dbAdminUser=postgres
-#dbAdminPassword=C@wilyapm90
-<% end %>
 
 # For PostgreSQL DB installation on Windows platform only
 # Set the DB install script execution timeout wait time (in milliseconds)

@@ -8,7 +8,7 @@
 #
 class caapm::em (
   $version = $caapm::params::version,
-  $install_dir = $caapm::params::install_dir,  
+  $user_install_dir = $caapm::params::user_install_dir,  
   $features = 'Enterprise Manager,WebView',
   
   $owner  = $caapm::params::owner,
@@ -17,6 +17,7 @@ class caapm::em (
   
   # Enterprise Manager Upgrade toggle
   $upgradeEM = false,
+  $install_dir = undef,
   
   # Enteprise Manager Ports Settings
   $default_port = $caapm::params::default_port,
@@ -124,11 +125,48 @@ class caapm::em (
     
   $staging_path = $staging::params::path 
 
-  $user_install_dir = $::operatingsystem ? {
-    'windows' => to_windows_escaped("${install_dir}"),
-    default  => "${install_dir}",
+  $user_install_dir_em = $::operatingsystem ? {
+    'windows' => to_windows_escaped("${user_install_dir}"),
+    default  => "${user_install_dir}",
   }
 /*  
+  if upgradeEM {
+    $install_dir_em = $::operatingsystem ? {
+      'windows' => to_windows_escaped("${install_dir}"),
+      default  => "${install_dir}",
+    }
+    $target_dir = $install_dir_em
+
+  } else {
+
+    $target_dir = $user_install_dir_em
+  }
+ */  
+  $target_dir = $upgradeEM ? {
+    false => $user_install_dir_em,
+    true => $::operatingsystem ? {
+      'windows' => to_windows_escaped("${install_dir}"),
+      default  => "${install_dir}",
+    },
+    default => $user_install_dir_em
+  }
+
+/*  
+ *   $install_dir_em = $::upgradeEM ? {
+    true => $::operatingsystem ? {
+      'windows' => to_windows_escaped("${install_dir}"),
+      default  => "${install_dir}",
+    },
+    false => undef,
+    default => undef, 
+  }
+  
+  $target_dir = $::install_dir_em ? {
+    undef => $user_install_dir_em,
+    default => $install_dir_em,
+  } 
+
+
   case $database {
     'postgres': {
         $pg_dir = $caapm::params::pg_dir
@@ -192,7 +230,7 @@ class caapm::em (
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       exec { $pkg_name :
         command     => "$staging_path/$staging_subdir/$pkg_bin -f $install_options;true",
-        creates     =>  "${user_install_dir}launcher.jar",
+        creates     =>  "${target_dir}launcher.jar",
         require     => [File[$resp_file], Staging::File[$pkg_bin]],
         logoutput   => false,
         timeout     => 0,
@@ -204,7 +242,7 @@ class caapm::em (
       file { $service_name:
         path       => "/etc/init.d/$service_name",
         ensure     => present,
-        content    => template("$module_name/$version/init.d/introscope"),
+        content    => template("$module_name/init.d/introscope"),
         owner      =>  $owner,
         group      =>  $group,
         mode       =>  '0777',    
@@ -215,7 +253,7 @@ class caapm::em (
       file { $wv_service_name:
         path    => "/etc/init.d/$wv_service_name",
         ensure  => present,
-        content => template("$module_name/$version/init.d/webview"),
+        content => template("$module_name/init.d/webview"),
         owner   =>  $owner,
         group   =>  $group,
         mode    =>  '0777',    
@@ -224,7 +262,7 @@ class caapm::em (
 
       # generate the SystemV init script
       file { "WVCtrl.sh":
-        path      => "${user_install_dir}/bin/WVCtrl.sh",
+        path      => "${target_dir}/bin/WVCtrl.sh",
         ensure    => present,
         source    => "${puppet_src}/bin/WVCtrl.sh",
         owner     =>  $owner,
@@ -256,7 +294,7 @@ class caapm::em (
         file { $lic_file:
           ensure  => 'present',
           source  => "${puppet_src}/license/${lic_file}",
-          path    => "${install_dir}license/${lic_file}",
+          path    => "${target_dir}license/${lic_file}",
           owner   =>  $owner,
           group   =>  $group,
           mode    =>  $mode,    
@@ -268,12 +306,10 @@ class caapm::em (
           enable  => $em_as_service,
           require => File[$lic_file],
         }
-#      }  
-   
+
         service { $wv_service_name:
           ensure  => $wv_as_service,
           enable  => $wv_as_service,
         }  
-#      }
     
 }

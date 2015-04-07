@@ -3,8 +3,8 @@
 # Introscope Silent Installation Response File
 #
 # Sample Response File
-# CA Wily Introscope(R) Version 9.1 Release 9.1.4.0
-# Copyright (c) 2012 CA. All Rights Reserved.
+# CA Wily Introscope(R) Version 9.7.1 Release 9.7.1.16
+# Copyright (c) 2015 CA. All Rights Reserved.
 # Introscope(R) is a registered trademark of CA.
 #
 ##############################################################################
@@ -66,14 +66,14 @@ ca-eulaFile=<%= scope.lookupvar("caapm::em::eula_file") %>
 # Example Unix install directory: /IntroscopeSilentInstall/
 # Left blank, this property will default to one of the following values: 
 # On Windows...
-#    C:\\Program Files\\CA APM\\Introscope9.1.4.0\\ 
+#    C:\\Program Files\\CA APM\\Introscope9.7.1.16\\ 
 #        (Exact name and drive letter of program files directory may vary 
 #        depending on OS configuration) 
 # On Unix...
-#    /root/Introscope9.1.4.0/
+#    /root/Introscope9.7.1.16/
 #        (Under the logged-in-end-user's home directory. Exact directory may vary 
 #        depending on user account.)
-USER_INSTALL_DIR=<%= scope.lookupvar("caapm::em::user_install_dir") %>
+USER_INSTALL_DIR=<%= scope.lookupvar("caapm::em::user_install_dir_em") %>
 
 
 # Introscope features to install. Must be a comma-delimited list.
@@ -163,14 +163,6 @@ shouldUpgrade=<%= scope.lookupvar("caapm::em::upgradeEM") %>
 # Enterprise Manager Install Settings
 #
 # ===================================
-
-# Absolute path to license file. If you do not specify a license file, 
-# or if the specified file is not valid, the Introscope Enterprise 
-# Manager will be installed, but will not run.
-# On Windows, backslashes must be escaped.
-wilyLicenseFile=<%= scope.lookupvar("caapm::em::lic_file") %>
-
-
 
 # Port used by Enterprise Manager to listen for incoming connections.
 emPort=<%= scope.lookupvar("caapm::em::default_port") %>
@@ -288,7 +280,7 @@ emThreadDumpDir=<%= scope.lookupvar("caapm::em::threaddump_dir") %>
 # Select Monitoring Options 
 #---------------------------------------------
 # Files for monitoring specific environments are installed in the examples folder. 
-# If you don’t select monitoring for any of these environments now, you can 
+# If you don't select monitoring for any of these environments now, you can 
 # manually enable monitoring later by copying files from the examples folder.
 # Set the property to true or false.
 #
@@ -406,7 +398,6 @@ emAsServiceDisplayName=<%= scope.lookupvar("caapm::em::service_display_name") %>
 <% else %>#emLaxNlCurrentVm=
 <% end %>
 
-
 # Specify any desired command line arguments to be used by the 
 # Enterprise Manager JVM.
 # The following switches are recommended for 32-bit Sun JVMs: 
@@ -416,7 +407,6 @@ emAsServiceDisplayName=<%= scope.lookupvar("caapm::em::service_display_name") %>
 <% if scope.lookupvar("caapm::em::emLaxNlJavaOptionAdditional") != '' %>emLaxNlJavaOptionAdditional=<%= scope.lookupvar("caapm::em::emLaxNlJavaOptionAdditional") %>
 <% else %>#emLaxNlJavaOptionAdditional=-Xms512m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi
 <% end %>
-
 
 #####################################################
 # APM Database Settings
@@ -444,6 +434,7 @@ dbUser=<%= scope.lookupvar("caapm::em::db_user_name") %>
 dbPassword=<%= scope.lookupvar("caapm::em::db_user_passwd") %>
 
 # Set the following set of properties when installing the database (in addition to properties above).
+
 # database install dir for Windows. For Linux and Solaris set default to /opt/database
 # If you are running CA APM, it is recommended that you put 
 # the APM database on its own disk or partition.
@@ -541,7 +532,7 @@ wvLaxNlCurrentVm=<%= scope.lookupvar("caapm::em::wv_current_vm") %>
 <% if scope.lookupvar("caapm::em::wvLaxNlJavaOptionAdditional") != '' %>
 wvLaxNlJavaOptionAdditional=<%= scope.lookupvar("caapm::em::wvLaxNlJavaOptionAdditional") %>
 <% else %> 
-#wvLaxNlJavaOptionAdditional=-Xms128m -Xmx512m -Djava.awt.headless=true -Dorg.owasp.esapi.resources=./config/esapi
+#wvLaxNlJavaOptionAdditional=-Xms128m -Xmx512m -Djava.awt.headless=true -Dorg.owasp.esapi.resources=./config/esapi -Dsun.java2d.noddraw=true -XX:PermSize=128m -XX:MaxPermSize=256m
 <% end %>
 
 
@@ -575,7 +566,7 @@ pbLaxNlCurrentVm=<%= scope.lookupvar("caapm::em::pbLaxNlCurrentVm") %>
 <% if scope.lookupvar("caapm::em::pbLaxNlJavaOptionAdditional") != '' %>
 pbLaxNlJavaOptionAdditional=<%= scope.lookupvar("caapm::em::pbLaxNlJavaOptionAdditional") %>
 <% else %> 
-#pbLaxNlJavaOptionAdditional=-Xms32m -Xmx64m
+#pbLaxNlJavaOptionAdditional=
 <% end %>
 
 
