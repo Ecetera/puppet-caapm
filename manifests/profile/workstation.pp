@@ -1,3 +1,8 @@
+# 
+# == Class: caapm::profile::collector
+#
+# This profile configures the defaults for a CA APM Workstation 
+#
 class caapm::profile::workstation { 
   
 #  $version = '9.1.4.0'

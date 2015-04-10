@@ -1,6 +1,8 @@
-# Class: caapm::workstation
+# 
+# == Class: caapm::workstation
 #
-# This class manages the CA APM Workstation components archive and its accompanying End User License Agreement file, eula.txt. 
+# Downloads from file folder and install ca apm workstation with a silent install on linux and windows servers
+#
 #
 # Parameters:
 # - $version the workstation version to download and install.
@@ -11,7 +13,7 @@
 class caapm::workstation (
   $version = $caapm::params::version,
   $user_install_dir = $caapm::params::user_install_dir,  
-  $user = 'guest',
+  $user = 'Admin',
   $host = 'momhost',
   $port = $caapm::params::default_port,
 

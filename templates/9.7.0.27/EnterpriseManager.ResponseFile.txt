@@ -153,7 +153,7 @@ shouldUpgrade=<%= scope.lookupvar("caapm::em::upgradeEM") %>
 # append a trailing slash; escape backslashes on Windows.
 #      Example Windows value: C:\\IntroscopeSilentlyUpgradedInstall\\
 #      Example Unix value: /IntroscopeSilentlyUpgradedInstall/
-<% if scope.lookupvar("caapm::em::upgradeEM") %>upgradedInstallDir=<%= scope.lookupvar("caapm::em::$install_dir_em") %>
+<% if scope.lookupvar("caapm::em::upgradeEM") %>upgradedInstallDir=<%= scope.lookupvar("caapm::em::target_dir") %>
 <% else %>#upgradedInstallDir=
 <% end %>
 
@@ -456,7 +456,7 @@ validateDatabase=true
 
 # set upgradeSchema to true if you want to upgrade schema from 4.5.0 or 5.0.0 to 9.0.5
 # Schema can be upgraded only on Linux and Windows.
-#upgradeSchema=true
+upgradeSchema=<%= scope.lookupvar("caapm::em::upgrade_schema") %>
 
 # Oracle properties (set these if you are using Oracle database.)
 # Set 'useExistingSchemaForOracle' property to true if the schema already exists 

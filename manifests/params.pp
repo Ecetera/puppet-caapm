@@ -1,11 +1,8 @@
-# Class: caapm::params
+# 
+# == Class: caapm::params
 #
-# This class manages CA APM parameters.
+# This call defines the defaults for ca apm installs
 #
-# Parameters:
-# - $em_home the installation directory for Introscope on your Enterprise Manager.
-# - The $user CA APM runs as.
-# - The $group CA APM is a member of.
 class caapm::params (
 ) {
 

@@ -1,3 +1,8 @@
+# 
+# == Class: caapm::profile::database
+#
+# This profile configures the defaults for the PostgreSQL APM DB 
+#
 class caapm::profile::database { 
   class { "caapm::database":
     version => '9.6.0.0',

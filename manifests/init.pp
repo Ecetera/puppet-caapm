@@ -1,14 +1,14 @@
-# Class: caapm
+# 
+# == Class: caapm
 #
-# This module manages caapm
+# CA APM module 
 #
-# Parameters: none
+# === Parameters
 #
-# Actions:
+# === Variables
 #
-# Requires: see Modulefile
+# === Examples
 #
-# Sample Usage:
 #
 class caapm (
   $em_role = $caapm::params::em_role,  # standalone, emc, mom, cdv, tcs

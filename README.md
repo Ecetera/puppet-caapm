@@ -83,7 +83,7 @@ class { "caapm::em":
 To install the CA APM Database (PostgreSQL) on Windows:
 ```puppet
 class { "caapm::database":
-  install_dir => "D:/Apps/CA/APM/",
+  install_dir => "D:/Apps/CA/APM/PostgreSQL/",
 }
 ```
 

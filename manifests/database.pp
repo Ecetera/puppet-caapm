@@ -1,10 +1,8 @@
-# Class: caapm::database
+# 
+# == Class: caapm::database
 #
-# This class manages the CA APM Database PostgreSQL Bundle
+# This class manages the CA APM Database PostgreSQL Bundle 
 #
-# Parameters:
-# - $version the osgi version to download and install.
-# - $souce_path the source location to obtain the files from.
 #
 class caapm::database (
   $version = $caapm::params::version,

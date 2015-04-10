@@ -17,7 +17,8 @@ class caapm::em (
   
   # Enterprise Manager Upgrade toggle
   $upgradeEM = false,
-  $install_dir = undef,
+  $upgraded_install_dir = undef,
+  $upgrade_schema = false,
   
   # Enteprise Manager Ports Settings
   $default_port = $caapm::params::default_port,
@@ -129,59 +130,33 @@ class caapm::em (
     'windows' => to_windows_escaped("${user_install_dir}"),
     default  => "${user_install_dir}",
   }
-/*  
-  if upgradeEM {
-    $install_dir_em = $::operatingsystem ? {
-      'windows' => to_windows_escaped("${install_dir}"),
-      default  => "${install_dir}",
-    }
-    $target_dir = $install_dir_em
 
-  } else {
-
-    $target_dir = $user_install_dir_em
-  }
- */  
+ 
   $target_dir = $upgradeEM ? {
     false => $user_install_dir_em,
     true => $::operatingsystem ? {
-      'windows' => to_windows_escaped("${install_dir}"),
-      default  => "${install_dir}",
+      'windows' => to_windows_escaped("${upgraded_install_dir}"),
+      default  => "${upgraded_install_dir}",
     },
     default => $user_install_dir_em
   }
-
-/*  
- *   $install_dir_em = $::upgradeEM ? {
-    true => $::operatingsystem ? {
-      'windows' => to_windows_escaped("${install_dir}"),
-      default  => "${install_dir}",
-    },
-    false => undef,
-    default => undef, 
-  }
-  
-  $target_dir = $::install_dir_em ? {
-    undef => $user_install_dir_em,
-    default => $install_dir_em,
-  } 
-
-
-  case $database {
-    'postgres': {
-        $pg_dir = $caapm::params::pg_dir
-        $pg_admin_user = $caapm::params::pg_admin_user
-        $pg_admin_passwd = $caapm::params::pg_admin_passwd
+/* 
+    file { "launcher.jar" :
+      path   => "${target_dir}launcher.jar",
+      ensure => false /* $::upgradeEM ? {
+        true => absent,
+        false => undef,
+        default => undef
+        } 
     }
-    'oracle' : {}
-    default: {}   
-  }
- */  
-
+ */
+ 
+ 
   $pkg_name = "CA APM Introscope ${version}" 
   $eula_file = 'ca-eula.txt'
   $resp_file = 'EnterpriseManager.ResponseFile.txt'
   $lic_file = "${ipaddress}.em.lic"
+  $failed_log = 'silent.install.failed.txt'
     
   $puppet_src = "puppet:///modules/${module_name}"
 
@@ -209,13 +184,14 @@ class caapm::em (
   
   # generate the response file
   file { $resp_file:
-    path => "$staging_path/$staging_subdir/$resp_file",
-    ensure => present,
+    path    => "$staging_path/$staging_subdir/$resp_file",
+    ensure  => present,
+    force   => true,
     content => template("$module_name/$version/$resp_file"),
 #    source_permissions => ignore,
-    owner =>  $owner,
-    group =>  $group,
-    mode  =>  $mode,    
+    owner   =>  $owner,
+    group   =>  $group,
+    mode    =>  $mode,    
   }
   
   $install_options = $::operatingsystem ? {
@@ -224,15 +200,20 @@ class caapm::em (
   }
   
   
-  
+  file { $failed_log :
+    path   => "$staging_path/$staging_subdir/$failed_log",
+    ensure => absent,
+  }
 
   case $operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       exec { $pkg_name :
-        command     => "$staging_path/$staging_subdir/$pkg_bin -f $install_options;true",
+#        command     => "$staging_path/$staging_subdir/$pkg_bin -f $install_options;cat $staging_path/$staging_subdir/silent.install.failed.txt;true",
+        command     => "$staging_path/$staging_subdir/$pkg_bin -f $install_options",
         creates     =>  "${target_dir}launcher.jar",
-        require     => [File[$resp_file], Staging::File[$pkg_bin]],
-        logoutput   => false,
+        require     => [File[$resp_file], Staging::File[$pkg_bin], File[$failed_log]],
+        logoutput   => true,
+        returns     => 1,
         timeout     => 0,
         before      => File[$lic_file],
         notify      => [Service[$service_name],Service[$wv_service_name]],
@@ -242,10 +223,11 @@ class caapm::em (
       file { $service_name:
         path       => "/etc/init.d/$service_name",
         ensure     => present,
-        content    => template("$module_name/init.d/introscope"),
+        force => true,
+        content    => template("${module_name}/init.d/introscope"),
         owner      =>  $owner,
         group      =>  $group,
-        mode       =>  '0777',    
+        mode       =>  '0755',    
         notify     => Service[$service_name],
       }
 
@@ -253,21 +235,23 @@ class caapm::em (
       file { $wv_service_name:
         path    => "/etc/init.d/$wv_service_name",
         ensure  => present,
-        content => template("$module_name/init.d/webview"),
+        force => true,
+        content => template("${module_name}/init.d/webview"),
         owner   =>  $owner,
         group   =>  $group,
-        mode    =>  '0777',    
+        mode    =>  '0755',    
         require => File["WVCtrl.sh"]
       }
 
-      # generate the SystemV init script
+      # generate the WebView Control script
       file { "WVCtrl.sh":
         path      => "${target_dir}/bin/WVCtrl.sh",
         ensure    => present,
+        force => true,
         source    => "${puppet_src}/bin/WVCtrl.sh",
         owner     =>  $owner,
         group     =>  $group,
-        mode      =>  '0777',
+        mode      =>  '0755',
         require   => Exec[$pkg_name] ,    
       }
     }
@@ -278,7 +262,7 @@ class caapm::em (
         ensure          => "$version",
         source          => "$staging_path/$staging_subdir/$pkg_bin",
         install_options => [" -f $install_options" ],
-        require         => [File[$resp_file], Staging::File[$pkg_bin]],
+        require         => [File[$resp_file], Staging::File[$pkg_bin],File["silent.install.failed.txt"]],
         notify          => [Service[$service_name],  Service[$wv_service_name]],
         allow_virtual   => true,
       }
