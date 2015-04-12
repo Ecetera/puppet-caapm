@@ -216,7 +216,7 @@ class caapm::em (
         returns     => 1,
         timeout     => 0,
         before      => File[$lic_file],
-        notify      => [Service[$service_name],Service[$wv_service_name]],
+        notify      => [Service[$service_name],Service[$wv_service_name],File[$lic_file]],
       }
       
       # generate the SystemV init script
@@ -263,7 +263,7 @@ class caapm::em (
         source          => "$staging_path/$staging_subdir/$pkg_bin",
         install_options => [" -f $install_options" ],
         require         => [File[$resp_file], Staging::File[$pkg_bin],File["silent.install.failed.txt"]],
-        notify          => [Service[$service_name],  Service[$wv_service_name]],
+        notify          => [Service[$service_name],  Service[$wv_service_name],File[$lic_file]],
         allow_virtual   => true,
       }
     }

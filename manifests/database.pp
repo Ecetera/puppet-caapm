@@ -27,7 +27,6 @@ class caapm::database (
 
 ) inherits caapm::params {
   
-  contain caapm::em
   
   $service_name = $version ? {
     '9.1.4.0' => $::operatingsystem ? {
