@@ -32,6 +32,7 @@ class caapm::params (
   $pg_admin_user ='postgres'
   $pg_admin_passwd ='C@wilyapm90'
   $pg_install_timeout = 240000
+  $pg_as_service = true
 
   $staging_subdir = "${module_name}"
   $accept_eula = 'accept'

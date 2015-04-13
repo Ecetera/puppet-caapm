@@ -101,13 +101,6 @@ class { "caapm::em ":}
 }
 ```
 
-Remove the CA APM Introscope package:
-```puppet
-class { "caapm::em ":}
-  ensure => "absent",
-}
-```
-
 ##Limitations
 
 This module was developed for use on *nix puppet master with Windows and Unix puppet agents.

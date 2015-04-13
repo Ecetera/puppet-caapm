@@ -216,7 +216,7 @@ class caapm::em (
         returns     => 1,
         timeout     => 0,
         before      => File[$lic_file],
-        notify      => [Service[$service_name],Service[$wv_service_name],File[$lic_file]],
+        notify      => [Service[$service_name],Service[$wv_service_name]],
       }
       
       # generate the SystemV init script
@@ -263,26 +263,27 @@ class caapm::em (
         source          => "$staging_path/$staging_subdir/$pkg_bin",
         install_options => [" -f $install_options" ],
         require         => [File[$resp_file], Staging::File[$pkg_bin],File["silent.install.failed.txt"]],
-        notify          => [Service[$service_name],  Service[$wv_service_name],File[$lic_file]],
+        notify          => [Service[$service_name],  Service[$wv_service_name]],
         allow_virtual   => true,
       }
     }
   }
   
   
-       $em_as_service = ('Enterprise Manager' in $features) or $config_as_service
-       $wv_as_service = ('WebView' in $features) or $config_wv_as_service
-  
-  
+  $em_as_service = ('Enterprise Manager' in $features) or $config_as_service
+  $wv_as_service = ('WebView' in $features) or $config_wv_as_service
 
+  
         file { $lic_file:
-          ensure  => 'present',
+          ensure  =>  present,
           source  => "${puppet_src}/license/${lic_file}",
           path    => "${target_dir}license/${lic_file}",
           owner   =>  $owner,
           group   =>  $group,
           mode    =>  $mode,    
         }
+  
+
 
         # ensure the service is running
         service { $service_name:
