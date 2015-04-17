@@ -56,7 +56,7 @@
 # On Windows, backslashes must be escaped.
 #    Example Windows value: C:\\Documents and Settings\\ca-eula.txt
 #    Example Unix value:    /home/myuser/ca-eula.txt
-ca-eulaFile=<%= scope.lookupvar("caapm::database::eula_file") %>
+ca-eulaFile=<%= @eula_file %>
   
 # Directory where Introscope is to be installed.
 # The directory path must be absolute, not relative.
@@ -73,7 +73,7 @@ ca-eulaFile=<%= scope.lookupvar("caapm::database::eula_file") %>
 #    /root/Introscope9.7.1.16/
 #        (Under the logged-in-end-user's home directory. Exact directory may vary 
 #        depending on user account.)
-USER_INSTALL_DIR=<%= scope.lookupvar("caapm::database::user_install_dir_em") %>
+USER_INSTALL_DIR=<%= @user_install_dir_em %>
 
 
 # Introscope features to install. Must be a comma-delimited list.
@@ -85,7 +85,7 @@ USER_INSTALL_DIR=<%= scope.lookupvar("caapm::database::user_install_dir_em") %>
 # To install database along with EM add "Database" to the property below
 # Ensure that you also specify databaseDir, dbAdminUser and dbAdminPassword properties
 # below if you want to install APM database.
-silentInstallChosenFeatures=<%= scope.lookupvar("caapm::database::features") %>
+silentInstallChosenFeatures=<%= @features %>
 
 # If the above chosen features list includes Enterprise Manager or WebView,  
 # specify the location of the external component library package (zip or tar).
@@ -144,7 +144,7 @@ eulaFile=<%= scope.lookupvar("caapm::osgi::eula_file") %>
 #        b) set the service and display names to their new values
 # The upgrade procedure is not reversible. CA APM recommends creating a full 
 # backup of your Introscope installation before initiating an upgrade.
-shouldUpgrade=<%= scope.lookupvar("caapm::database::upgradeEM") %>
+shouldUpgrade=<%= @upgradeEM %>
 
 # To rename the Introscope install directory during an upgrade,
 # uncomment this property and specify a new name and location 
@@ -153,7 +153,7 @@ shouldUpgrade=<%= scope.lookupvar("caapm::database::upgradeEM") %>
 # append a trailing slash; escape backslashes on Windows.
 #      Example Windows value: C:\\IntroscopeSilentlyUpgradedInstall\\
 #      Example Unix value: /IntroscopeSilentlyUpgradedInstall/
-<% if scope.lookupvar("caapm::database::upgradeEM") %>upgradedInstallDir=<%= scope.lookupvar("caapm::database::target_dir") %>
+<% if @upgradeEM %>upgradedInstallDir=<%= @target_dir %>
 <% else %>#upgradedInstallDir=
 <% end %>
 
@@ -165,10 +165,10 @@ shouldUpgrade=<%= scope.lookupvar("caapm::database::upgradeEM") %>
 # ===================================
 
 # Port used by Enterprise Manager to listen for incoming connections.
-emPort=<%= scope.lookupvar("caapm::database::default_port") %>
+emPort=<%= @default_port %>
 
 # Port used by Enterprise Manager to serve web applications.
-emWebPort=<%= scope.lookupvar("caapm::database::web_port") %>
+emWebPort=<%= @web_port %>
 
 
 
@@ -179,11 +179,11 @@ emWebPort=<%= scope.lookupvar("caapm::database::web_port") %>
 
 # Password for Enterprise Manager Admin account 
 # leave this entry blank to use default
-emAdminPassword=<%= scope.lookupvar("caapm::database::admin_passwd") %>
+emAdminPassword=<%= @admin_passwd %>
 
 # password for Enterprise Manager Guest account 
 # leave this entry blank to use default
-emGuestPassword=<%= scope.lookupvar("caapm::database::guest_passwd") %>
+emGuestPassword=<%= @guest_passwd %>
 
 
 #############################################
@@ -191,12 +191,12 @@ emGuestPassword=<%= scope.lookupvar("caapm::database::guest_passwd") %>
 #---------------------------------------
 
 # Set to true if this Enterprise Manager will participate in a cluster.
-shouldClusterEm=<%= scope.lookupvar("caapm::database::clusterEM") %>
+shouldClusterEm=<%= clusterEM %>
 
 # If the above property is set to true, specify a clustering role
 # for this Enterprise Manager. Valid values are "Collector", "Manager" or "CDV"
 # (case sensitive, no quotes). 
-emClusterRole=<%= scope.lookupvar("caapm::database::cluster_role") %>
+emClusterRole=<%= @cluster_role %>
 
 # If this Enterprise Manager will act as a cluster manager, specify
 # connection properties (host and port) for up to ten managed collectors.
@@ -233,7 +233,7 @@ emCollectorPort.10=
 # Specify a fixed length of time (in days) to store trace data.
 # To conserve disk space, choose a lower value. 
 # To store more trace data, choose a higher value.
-emTxTraceDataShelfLife=<%= scope.lookupvar("caapm::database::txnTraceDataShelfLife") %>
+emTxTraceDataShelfLife=<%= @txnTraceDataShelfLife %>
 
 # Specify a directory for storing trace data. 
 # Be sure to choose a directory with sufficient storage space. 
@@ -242,11 +242,11 @@ emTxTraceDataShelfLife=<%= scope.lookupvar("caapm::database::txnTraceDataShelfLi
 # On Windows, backslashes must be escaped. 
 # Example [Windows]: traces\\mytraces
 # Example [Unix]:    traces/mytraces
-emTxTraceDir=<%= scope.lookupvar("caapm::database::txnTraceDir") %>
+emTxTraceDir=<%= @txnTraceDir %>
 
 # If disk space is a concern, you can optionally specify a disk space cap 
 # for trace data. 
-emTxTraceDiskSpaceCap=<%= scope.lookupvar("caapm::database::txnTraceDiskSpaceCap") %>
+emTxTraceDiskSpaceCap=<%= @txnTraceDiskSpaceCap %>
 
 
 ###############################################
@@ -265,7 +265,7 @@ emTxTraceDiskSpaceCap=<%= scope.lookupvar("caapm::database::txnTraceDiskSpaceCap
 # On Windows, backslashes must be escaped. 
 # Example [Windows]: data\\mystorage
 # Example [Unix]:    data/mystorage
-emDataStoreDir=<%= scope.lookupvar("caapm::database::smartstor_dir") %>
+emDataStoreDir=<%= @smartstor_dir %>
 
 ###############################################
 # Enterprise Manager Thread Dump Directory
@@ -274,7 +274,7 @@ emDataStoreDir=<%= scope.lookupvar("caapm::database::smartstor_dir") %>
 # On Windows, backslashes must be escaped. 
 # Example [Windows]: threaddumps\\mystorage
 # Example [Unix]:    threaddumps/mystorage
-emThreadDumpDir=<%= scope.lookupvar("caapm::database::threaddump_dir") %>
+emThreadDumpDir=<%= @threaddump_dir %>
 
 ###############################################
 # Select Monitoring Options 
@@ -285,76 +285,76 @@ emThreadDumpDir=<%= scope.lookupvar("caapm::database::threaddump_dir") %>
 # Set the property to true or false.
 #
 #CA APM Integration for Application Delivery Analysis 
-shouldEnableAPMIntegrationPackForADA=<%= scope.lookupvar("caapm::database::enable_ADA") %>
+shouldEnableAPMIntegrationPackForADA=<%= @enable_ADA %>
 
 #CA APM for Oracle Databases
-shouldEnableCAAPMForOracleDB=<%= scope.lookupvar("caapm::database::enable_OracleDB") %>
+shouldEnableCAAPMForOracleDB=<%= @enable_OracleDB %>
 
 #CA APM for Microsoft SharePoint
-shouldEnableCAAPMForSharePointPortal=<%= scope.lookupvar("caapm::database::enable_SharePointPortal") %>
+shouldEnableCAAPMForSharePointPortal=<%= @enable_SharePointPortal %>
 
 #CA APM for Web Servers	
-shouldEnableCAAPMForWebServers=<%= scope.lookupvar("caapm::database::enable_WebServers") %>
+shouldEnableCAAPMForWebServers=<%= @enable_WebServers %>
 
 #CA APM for Oracle WebLogic Server
-shouldEnableCAAPMForWebLogic=<%= scope.lookupvar("caapm::database::enable_WebLogic") %>
+shouldEnableCAAPMForWebLogic=<%= @enable_WebLogic %>
 
 #CA APM for Oracle WebLogic Portal
-shouldEnableCAAPMForWebLogicPortal=<%= scope.lookupvar("caapm::database::enable_WebLogicPortal") %>
+shouldEnableCAAPMForWebLogicPortal=<%= @enable_WebLogicPortal %>
 
 #CA APM for IBM WebSphere Application Server for Distributed Environments
-shouldEnableCAAPMForWebSphere=<%= scope.lookupvar("caapm::database::enable_WebSphere") %>
+shouldEnableCAAPMForWebSphere=<%= @enable_WebSphere %>
 
 #CA APM for IBM WebSphere Portal
-shouldEnableCAAPMForWebSpherePortal=<%= scope.lookupvar("caapm::database::enable_WebSpherePortal") %>
+shouldEnableCAAPMForWebSpherePortal=<%= @enable_WebSpherePortal %>
 
 #CA APM for IBM WebSphere MQ and IBM WebSphere Message Broker
-shouldEnableCAAPMForWebSphereMQandMB=<%= scope.lookupvar("caapm::database::enable_WebSphereMQandMB") %>
+shouldEnableCAAPMForWebSphereMQandMB=<%= @enable_WebSphereMQandMB %>
 
 #CA APM for IBM WebSphere Application Server for z/OS	
-shouldEnableCAAPMForWebSphereZOS=<%= scope.lookupvar("caapm::database::enable_WebSphereZOS") %>
+shouldEnableCAAPMForWebSphereZOS=<%= @enable_WebSphereZOS %>
 
 #CA APM for IBM CICS Transaction Gateway
-shouldEnableCAAPMForIBMCTG=<%= scope.lookupvar("caapm::database::enable_IBMCTG") %>
+shouldEnableCAAPMForIBMCTG=<%= @enable_IBMCTG %>
 
 #CA APM for IBM z/OS	
-shouldEnableCAAPMForIBMzOSExtension=<%= scope.lookupvar("caapm::database::enable_IBMzOSExtension") %>
+shouldEnableCAAPMForIBMzOSExtension=<%= @enable_IBMzOSExtension %>
 
 #CA Cross-Enterprise Application Performance Management
-shouldEnableSysview=<%= scope.lookupvar("caapm::database::enable_Sysview") %>
+shouldEnableSysview=<%= @enable_Sysview %>
 
 #CA APM for CA SiteMinder Web Access Manager 
-shouldEnableCAAPMForSiteMinder=<%= scope.lookupvar("caapm::database::enable_SiteMinder") %>
+shouldEnableCAAPMForSiteMinder=<%= @enable_SiteMinder %>
 
 #CA APM for CA SiteMinder SNMP Collector	
-shouldEnableCAAPMForSiteMinderSNMP=<%= scope.lookupvar("caapm::database::enable_SiteMinderSNMP") %>
+shouldEnableCAAPMForSiteMinderSNMP=<%= @enable_SiteMinderSNMP %>
 
 #SOA Monitoring Options
-shouldEnableCAAPMForSOA=<%= scope.lookupvar("caapm::database::enable_SOA") %>
+shouldEnableCAAPMForSOA=<%= @enable_SOA %>
 
 #CA APM for Oracle Service Bus
-shouldEnableCAAPMForOSB=<%= scope.lookupvar("caapm::database::enable_OSB") %>
+shouldEnableCAAPMForOSB=<%= @enable_OSB %>
 
 #CA APM for TIBCO BusinessWorks
-shouldEnableCAAPMForTibcoBW=<%= scope.lookupvar("caapm::database::enable_TibcoBW") %>
+shouldEnableCAAPMForTibcoBW=<%= @enable_TibcoBW %>
 
 #CA APM for TIBCO Enterprise Message Service
-shouldEnableCAAPMForTibcoEMS=<%= scope.lookupvar("caapm::database::enable_TibcoEMS") %>
+shouldEnableCAAPMForTibcoEMS=<%= @enable_TibcoEMS %>
 
 #CA APM for IBM WebSphere Process Server/Business Process Management
-shouldEnableCAAPMForWPSandWESB=<%= scope.lookupvar("caapm::database::enable_WPSandWESB") %>
+shouldEnableCAAPMForWPSandWESB=<%= @enable_WPSandWESB %>
 
 #CA APM for webMethods Broker	
-shouldEnableCAAPMForWMBroker=<%= scope.lookupvar("caapm::database::enable_WMBroker") %>
+shouldEnableCAAPMForWMBroker=<%= @enable_WMBroker %>
 
 #CA APM for webMethods Integration Server
-shouldEnableCAAPMForWebMethodsIS=<%= scope.lookupvar("caapm::database::enable_WebMethodsIS") %>
+shouldEnableCAAPMForWebMethodsIS=<%= @enable_WebMethodsIS %>
 
 #CA APM Integration with Cloud Monitor
-shouldEnableAPMIntegrationPackForCM=<%= scope.lookupvar("caapm::database::enable_CloudMonitor") %>
+shouldEnableAPMIntegrationPackForCM=<%= @enable_CloudMonitor %>
 
 #CA APM Integration for CA LISA
-shouldEnableCAAPMIntegrationForCALISA=<%= scope.lookupvar("caapm::database::enable_CALISA") %>
+shouldEnableCAAPMIntegrationForCALISA=<%= @enable_CALISA %>
 
 
 #####################################################
@@ -368,17 +368,17 @@ shouldEnableCAAPMIntegrationForCALISA=<%= scope.lookupvar("caapm::database::enab
 # effect. Only if previous installation has configured EM as service
 # the Windows service name and service display name will be revised
 # from the original values to the values specified in this section.
-shouldConfigEmAsService=<%= scope.lookupvar("caapm::database::config_as_service") %>
+shouldConfigEmAsService=<%= @config_as_service %>
 
 # Enter a unique service name for the Service if one is desired.
 # The service name is for use by the Windows registry.
 # The service name must be 8 characters or less, with no spaces.
-emAsServiceName=<%= scope.lookupvar("caapm::database::service_name") %>
+emAsServiceName=<%= @service_name %>
 
 # Enter a unique display name for the Service if one is desired.
 # The display name is for use in Windows control panels, and with
 # the NET START command. It may contain spaces.
-emAsServiceDisplayName=<%= scope.lookupvar("caapm::database::service_display_name") %>
+emAsServiceDisplayName=<%= @service_display_name %>
 
 
 ###############################################
@@ -394,7 +394,7 @@ emAsServiceDisplayName=<%= scope.lookupvar("caapm::database::service_display_nam
 # On Windows, backslashes must be escaped.
 # Example [Windows]: jre\\bin\\java.exe
 # Example [Unix]:    jre/bin/java
-<% if scope.lookupvar("caapm::database::emLaxNlCurrentVm") != '' %>emLaxNlCurrentVm=<%= scope.lookupvar("caapm::database::emLaxNlCurrentVm") %>
+<% if @emLaxNlCurrentVm != '' %>emLaxNlCurrentVm=<%= @emLaxNlCurrentVm %>
 <% else %>#emLaxNlCurrentVm=
 <% end %>
 
@@ -404,7 +404,7 @@ emAsServiceDisplayName=<%= scope.lookupvar("caapm::database::service_display_nam
 # -showversion -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:CMSInitiatingOccupancyFraction=50 
 # If you are using both Hot Failover and the CEM UI, 
 # add this switch, -Dosgi.clean=false
-<% if scope.lookupvar("caapm::database::emLaxNlJavaOptionAdditional") != '' %>emLaxNlJavaOptionAdditional=<%= scope.lookupvar("caapm::database::emLaxNlJavaOptionAdditional") %>
+<% if @emLaxNlJavaOptionAdditional != '' %>emLaxNlJavaOptionAdditional=<%= @emLaxNlJavaOptionAdditional %>
 <% else %>#emLaxNlJavaOptionAdditional=-Xms512m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi
 <% end %>
 
@@ -414,7 +414,7 @@ emAsServiceDisplayName=<%= scope.lookupvar("caapm::database::service_display_nam
 
 # The APM database can be on PostgreSQL or Oracle 10g/11g
 # Set one of the propeties to true depending on whether you choose Postgres or Oracle
-<% if scope.lookupvar("caapm::database::apm_db") != 'postgres' %>
+<% if @database != 'postgres' %>
 chosenDatabaseIsPostgres=false
 chosenDatabaseIsOracle=true
 <% else %> 
@@ -427,28 +427,28 @@ chosenDatabaseIsOracle=false
 # Set the following set of properties when pointing to an existing APM database
 # and when installing PostgreSQL database.
 
-dbHost=<%= scope.lookupvar("caapm::database::db_host") %>
-dbPort=<%= scope.lookupvar("caapm::database::db_port") %>
-dbName=<%= scope.lookupvar("caapm::database::db_name") %>
-dbUser=<%= scope.lookupvar("caapm::database::db_user_name") %>
-dbPassword=<%= scope.lookupvar("caapm::database::db_user_passwd") %>
+dbHost=<%= @db_host %>
+dbPort=<%= @db_port %>
+dbName=<%= @db_name %>
+dbUser=<%= @db_user_name %>
+dbPassword=<%= @db_user_passwd %>
 
 # Set the following set of properties when installing the database (in addition to properties above).
 
 # database install dir for Windows. For Linux and Solaris set default to /opt/database
 # If you are running CA APM, it is recommended that you put 
 # the APM database on its own disk or partition.
-databaseDir=<%= scope.lookupvar("caapm::database::postgres_dir") %>
-dbAdminUser=<%= scope.lookupvar("caapm::database::pg_admin_user") %>
-dbAdminPassword=<%= scope.lookupvar("caapm::database::pg_admin_passwd") %>
+databaseDir=<%= @postgres_dir %>
+dbAdminUser=<%= @pg_admin_user %>
+dbAdminPassword=<%= @pg_admin_passwd %>
 
 # For PostgreSQL DB installation on Windows platform only
 # Set the DB install script execution timeout wait time (in milliseconds)
-dbInstallScriptTimeoutInMillis=<%= scope.lookupvar("caapm::database::pg_install_timeout") %>
+dbInstallScriptTimeoutInMillis=<%= @pg_install_timeout %>
 
 # Set validateDatabase to true if you want to validate the existing APM database and
 # create new schema.
-<% if scope.lookupvar("caapm::database::validate_db") != 'true' %>
+<% if @validate_db != 'true' %>
 #validateDatabase=true
 <% else %> 
 validateDatabase=true
@@ -456,18 +456,18 @@ validateDatabase=true
 
 # set upgradeSchema to true if you want to upgrade schema from 4.5.0 or 5.0.0 to 9.0.5
 # Schema can be upgraded only on Linux and Windows.
-upgradeSchema=<%= scope.lookupvar("caapm::database::upgrade_schema") %>
+upgradeSchema=<%= @upgrade_schema %>
 
 # Oracle properties (set these if you are using Oracle database.)
 # Set 'useExistingSchemaForOracle' property to true if the schema already exists 
 # for EM to connect. Set this property to false (default) if you want to create new schema
 # on a Oracle Database.
 useExistingSchemaForOracle=false
-oracleDbHost=<%= scope.lookupvar("caapm::database::db_host") %>
-oracleDbPort=<%= scope.lookupvar("caapm::database::db_port") %>
-oracleDbSidName=<%= scope.lookupvar("caapm::database::db_name") %>
-oracleDbUsername=<%= scope.lookupvar("caapm::database::db_user_name") %>
-oracleDbPassword=<%= scope.lookupvar("caapm::database::db_user_passwd") %>
+oracleDbHost=<%= @db_host %>
+oracleDbPort=<%= @db_port %>
+oracleDbSidName=<%= @db_name %>
+oracleDbUsername=<%= @db_user_name %>
+oracleDbPassword=<%= @db_user_passwd %>
 
 ####################################
 # WebView Install Settings
@@ -477,9 +477,9 @@ oracleDbPassword=<%= scope.lookupvar("caapm::database::db_user_passwd") %>
 # Specify the port on which WebView will listen for HTTP connections. 
 # Also specify the hostname and port of the Introscope Enterprise Manager 
 # to which WebView will connect. 
-wvPort=<%= scope.lookupvar("caapm::database::webview_port") %>
-wvEmHost=<%= scope.lookupvar("caapm::database::webview_em_host") %>
-wvEmPort=<%= scope.lookupvar("caapm::database::webview_em_port") %>
+wvPort=<%= @webview_port %>
+wvEmHost=<%= @webview_em_host %>
+wvEmPort=<%= @webview_em_port %>
 
 
 ##########################################
@@ -493,17 +493,17 @@ wvEmPort=<%= scope.lookupvar("caapm::database::webview_em_port") %>
 # effect. Only if previous installation has configured WV as service
 # the Windows service name and service display name will be revised
 # from the original values to the values specified in this section.
-shouldConfigWvAsService=<%= scope.lookupvar("caapm::database::config_wv_as_service") %>
+shouldConfigWvAsService=<%= @config_wv_as_service %>
 
 # Enter a unique service name for the Service if one is desired.
 # The service name is for use by the Windows registry.
 # The service name must be 8 characters or less, with no spaces.
-wvAsServiceName=<%= scope.lookupvar("caapm::database::wv_service_name") %>
+wvAsServiceName=<%= @wv_service_name %>
 
 # Enter a unique display name for the Service if one is desired.
 # The display name is for use in Windows control panels, and with
 # the NET START command. It may contain spaces.
-wvAsServiceDisplayName=<%= scope.lookupvar("caapm::database::wv_service_display_name") %>
+wvAsServiceDisplayName=<%= @wv_service_display_name %>
 
 
 ####################################
@@ -519,8 +519,8 @@ wvAsServiceDisplayName=<%= scope.lookupvar("caapm::database::wv_service_display_
 # On Windows, backslashes must be escaped.
 # Example [Windows]: jre\\bin\\java.exe
 # Example [Unix]:    jre/bin/java
-<% if scope.lookupvar("caapm::database::wv_current_vm") != '' %>
-wvLaxNlCurrentVm=<%= scope.lookupvar("caapm::database::wv_current_vm") %>
+<% if @wv_current_vm != '' %>
+wvLaxNlCurrentVm=<%= @wv_current_vm %>
 <% else %> 
 #wvLaxNlCurrentVm=
 <% end %>
@@ -529,8 +529,8 @@ wvLaxNlCurrentVm=<%= scope.lookupvar("caapm::database::wv_current_vm") %>
 # WebView JVM. The recommended setting for the headless switch is:
 #  - false for Windows platforms
 #  - true for other UNIX and mainframe platforms
-<% if scope.lookupvar("caapm::database::wvLaxNlJavaOptionAdditional") != '' %>
-wvLaxNlJavaOptionAdditional=<%= scope.lookupvar("caapm::database::wvLaxNlJavaOptionAdditional") %>
+<% if @wvLaxNlJavaOptionAdditional != '' %>
+wvLaxNlJavaOptionAdditional=<%= @wvLaxNlJavaOptionAdditional %>
 <% else %> 
 #wvLaxNlJavaOptionAdditional=-Xms128m -Xmx512m -Djava.awt.headless=true -Dorg.owasp.esapi.resources=./config/esapi -Dsun.java2d.noddraw=true -XX:PermSize=128m -XX:MaxPermSize=256m
 <% end %>
@@ -555,16 +555,16 @@ wvLaxNlJavaOptionAdditional=<%= scope.lookupvar("caapm::database::wvLaxNlJavaOpt
 # On Windows, backslashes must be escaped.
 # Example [Windows]: jre\\bin\\java.exe
 # Example [Unix]:    jre/bin/java
-<% if scope.lookupvar("caapm::database::pbLaxNlCurrentVm") != '' %>
-pbLaxNlCurrentVm=<%= scope.lookupvar("caapm::database::pbLaxNlCurrentVm") %>
+<% if @pbLaxNlCurrentVm != '' %>
+pbLaxNlCurrentVm=<%= @pbLaxNlCurrentVm %>
 <% else %> 
 #pbLaxNlCurrentVm=
 <% end %>
 
 # Specify any desired command line arguments to be used by the 
 # ProbeBuilder JVM. 
-<% if scope.lookupvar("caapm::database::pbLaxNlJavaOptionAdditional") != '' %>
-pbLaxNlJavaOptionAdditional=<%= scope.lookupvar("caapm::database::pbLaxNlJavaOptionAdditional") %>
+<% if @pbLaxNlJavaOptionAdditional != '' %>
+pbLaxNlJavaOptionAdditional=<%= @pbLaxNlJavaOptionAdditional %>
 <% else %> 
 #pbLaxNlJavaOptionAdditional=
 <% end %>
