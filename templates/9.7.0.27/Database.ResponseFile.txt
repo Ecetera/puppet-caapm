@@ -99,7 +99,7 @@ silentInstallChosenFeatures=<%= @features %>
 #    Example Windows value: C:\\osgiPackages.v<x.y>.windows.zip
 #    Example Unix value:    /osgiPackages.v<x.y>.unix.tar
 #            where <x.y> should be a valid version string.
-externalComponentPackage=<%= scope.lookupvar("caapm::osgi::pkg_name") %>
+externalComponentPackage=<%= @osgi_pkg_name %>
   
 # If the above chosen features list includes Enterprise Manager or WebView,  
 # specify the location of the external component library's End User  
@@ -115,7 +115,7 @@ externalComponentPackage=<%= scope.lookupvar("caapm::osgi::pkg_name") %>
 # On Windows, backslashes must be escaped.
 #    Example Windows value: C:\\Documents and Settings\\eula.txt
 #    Example Unix value:    /home/myuser/eula.txt
-eulaFile=<%= scope.lookupvar("caapm::osgi::eula_file") %>
+eulaFile=<%= @osgi_eula_file %>
   
 
 
@@ -368,17 +368,17 @@ shouldEnableCAAPMIntegrationForCALISA=<%= @enable_CALISA %>
 # effect. Only if previous installation has configured EM as service
 # the Windows service name and service display name will be revised
 # from the original values to the values specified in this section.
-shouldConfigEmAsService=<%= @config_as_service %>
+shouldConfigEmAsService=<%= @config_em_as_service %>
 
 # Enter a unique service name for the Service if one is desired.
 # The service name is for use by the Windows registry.
 # The service name must be 8 characters or less, with no spaces.
-emAsServiceName=<%= @service_name %>
+emAsServiceName=<%= @em_service_name %>
 
 # Enter a unique display name for the Service if one is desired.
 # The display name is for use in Windows control panels, and with
 # the NET START command. It may contain spaces.
-emAsServiceDisplayName=<%= @service_display_name %>
+emAsServiceDisplayName=<%= @em_service_display_name %>
 
 
 ###############################################

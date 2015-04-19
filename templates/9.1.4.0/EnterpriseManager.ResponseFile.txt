@@ -168,7 +168,7 @@ shouldUpgrade=<%= @upgradeEM %>
 # or if the specified file is not valid, the Introscope Enterprise 
 # Manager will be installed, but will not run.
 # On Windows, backslashes must be escaped.
-wilyLicenseFile=<%= scope.lookupvar("caapm::database::lic_file") %>
+wilyLicenseFile=<%= @lic_file %>
 
 
 
