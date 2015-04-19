@@ -9,7 +9,7 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
-export WILYHOME=<%= scope.lookupvar("caapm::em::user_install_dir") %>
+export WILYHOME=<%= @user_install_dir_em %>
 export WILYPARENT=${WILYHOME}
 
 cd ${WILYHOME}/bin

@@ -200,7 +200,7 @@ define caapm::em (
     path   => "${staging_path}/${staging_subdir}/${failed_log}",
   }
 
-  case $operatingsystem {
+  case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       exec { $pkg_name :
 #        command     => "$staging_path/$staging_subdir/$pkg_bin -f $install_options;cat $staging_path/$staging_subdir/silent.install.failed.txt;true",
