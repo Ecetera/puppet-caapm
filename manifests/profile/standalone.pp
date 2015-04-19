@@ -4,9 +4,6 @@
 # This profile configures the defaults for a standalone Enterprise Manager
 #
 
-#
-# TODO: make this pass on puppet-lint
-#
 
 class caapm::profile::standalone {
 

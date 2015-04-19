@@ -11,32 +11,48 @@
 # - $host the default host to display on the workstation login dialogue
 # - $port the default port to display on the workstation login dialogue
 
-#
-# TODO: make this pass on puppet-lint
-#
-class caapm::workstation (
-  $version          = $caapm::params::version,
-  $user_install_dir = $caapm::params::user_install_dir,
+define caapm::workstation (
+  $version          = '9.1.4.0',
+  $user_install_dir = undef,
   $user             = 'Admin',
   $host             = 'momhost',
-  $port             = $caapm::params::default_port,
-) inherits caapm::params {
-  class { "caapm::osgi": apmversion => $version, }
+  $port             = '5001',
 
-  $staging_path = $staging::params::path
+  $owner  = 'Administrator',
+  $group  = 'Users',
+  $mode   = '0655',
+
+  $puppet_src = "puppet:///modules/${module_name}"
+
+){
+
+  require staging
+
+  $staging_subdir = "${module_name}"
+  $staging_path = "${staging::params::path}"
+
 
   $user_install_dir_em = $::operatingsystem ? {
     'windows' => to_windows_escaped("${user_install_dir}"),
-    default   => "${user_install_dir}",
+    default  => "${user_install_dir}",
   }
+
+  $osgi_eula_file = 'eula.txt'
+  $osgi_pkg_name  = $::operatingsystem ? {
+    'windows' => "osgiPackages.v${version}.windows.zip",
+    default   => "osgiPackages.v${version}.unix.tar",
+  }
+
+  caapm::osgi { $version:
+    eula_file => "${osgi_eula_file}",
+    pkg_name  => "${osgi_pkg_name}"
+  }
+
 
   $pkg_name = "CA APM Introscope Workstation ${version}"
   $eula_file = 'ca-eula.txt'
   $resp_file = 'Workstation.ResponseFile.txt'
-
-  $puppet_src = "puppet:///modules/${module_name}/${version}"
-
-  $resp_src = "${puppet_src}/${resp_file}"
+  $failed_log = 'silent.install.failed.txt'
 
   # determine the executable package
   $pkg_bin = $::operatingsystem ? {
@@ -46,40 +62,49 @@ class caapm::workstation (
   }
 
   # download the eula.txt
-  staging::file { $eula_file:
-    source => "${puppet_src}/${eula_file}",
-    subdir => $staging_subdir,
+  file { $eula_file:
+    ensure => present,
+    force  => true,
+    path   => "${staging_path}/${staging_subdir}/${eula_file}",
+    source => "${puppet_src}/${version}/${eula_file}",
+    owner  => "${owner}",
+    group  => "${group}",
+    mode   => "${mode}",
   }
 
   # download the Workstation installer
   staging::file { $pkg_bin:
-    source  => "${puppet_src}/${pkg_bin}",
-    subdir  => $staging_subdir,
-    require => Staging::File[$eula_file],
+    source => "${puppet_src}/${version}/${pkg_bin}",
+    subdir => "${staging_subdir}",
   }
 
   # generate the response file
   file { $resp_file:
-    path    => "$staging_path/$staging_subdir/$resp_file",
     ensure  => present,
-    content => template("$module_name/$version/$resp_file"),
-    #    source_permissions => ignore,
-    owner   => $caapm::params::owner,
-    group   => $caapm::params::group,
-    mode    => $caapm::params::mode,
+    force   => true,
+    path    => "${staging_path}/${staging_subdir}/${resp_file}",
+    content => template("${module_name}/${version}/${resp_file}"),
+    owner   =>  "${owner}",
+    group   =>  "${group}",
+    mode    =>  "${mode}",
   }
 
   $install_options = $::operatingsystem ? {
-    'windows' => "$staging_path\\$staging_subdir\\$resp_file",
-    default   => "$staging_path/$staging_subdir/$resp_file",
+    'windows' => "${staging_path}\\${staging_subdir}\\${resp_file}",
+    default   => "${staging_path}/${staging_subdir}/${resp_file}",
+  }
+
+  file { $failed_log :
+    ensure => absent,
+    path   => "${staging_path}/${staging_subdir}/${failed_log}",
   }
 
   # install the Workstation package
   package { $pkg_name:
-    ensure          => "$version",
-    source          => "$staging_path\\$staging_subdir\\$pkg_bin",
-    install_options => [" -f $install_options"],
-    require         => [File[$resp_file], Staging::File[$pkg_bin]]
+    ensure          => "${version}",
+    source          => "${staging_path}\\${staging_subdir}\\${pkg_bin}",
+    install_options => [" -f ${install_options}"],
+    require         => [Caapm::Osgi[$version], File[$resp_file], Staging::File[$pkg_bin], File[$failed_log]]
   }
 
 }

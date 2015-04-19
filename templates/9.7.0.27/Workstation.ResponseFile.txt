@@ -49,7 +49,7 @@
 # On Windows, backslashes must be escaped.
 #    Example Windows value: C:\\Documents and Settings\\ca-eula.txt
 #    Example Unix value:    /home/myuser/ca-eula.txt
-ca-eulaFile=<%= scope.lookupvar("caapm::workstation::eula_file") %>
+ca-eulaFile=<%= @eula_file %>
 
 
   
@@ -68,7 +68,7 @@ ca-eulaFile=<%= scope.lookupvar("caapm::workstation::eula_file") %>
 #    /root/Introscope9.7.0.27/
 #        (Under the logged-in-end-user's home directory. Exact directory may vary 
 #        depending on user account.)
-USER_INSTALL_DIR=<%= scope.lookupvar("caapm::workstation::user_install_dir_em") %>
+USER_INSTALL_DIR=<%= @user_install_dir_em %>
 
 # Introscope features to install. Must be a comma-delimited list.
 # Example: Workstation
@@ -85,7 +85,7 @@ silentInstallChosenFeatures=Workstation
 #    Example Windows value: C:\\osgiPackages.v<x.y>.windows.zip
 #    Example Unix value:    /osgiPackages.v<x.y>.unix.tar
 #            where <x.y> should be a valid version string.
-externalComponentPackage=<%= scope.lookupvar("caapm::osgi::pkg_name") %>
+externalComponentPackage=<%= osgi_pkg_name %>
   
 # Location of the external component library's End User License Agreement (EULA). 
 # This agreement must be acknowledged and accepted by the end user
@@ -100,7 +100,7 @@ externalComponentPackage=<%= scope.lookupvar("caapm::osgi::pkg_name") %>
 # On Windows, backslashes must be escaped.
 #    Example Windows value: C:\\Documents and Settings\\eula.txt
 #    Example Unix value:    /home/myuser/eula.txt
-eulaFile=<%= scope.lookupvar("caapm::osgi::eula_file") %>
+eulaFile=<%= @osgi_eula_file %>
   
 
 
@@ -112,9 +112,9 @@ eulaFile=<%= scope.lookupvar("caapm::osgi::eula_file") %>
 # Specify default values the Workstation will offer in the login screen. 
 # Any user specified here will need to be created by your Administrator 
 # and given access privileges in order to log in successfully.
-wsUser=<%= scope.lookupvar("caapm::workstation::user") %>
-wsHost=<%= scope.lookupvar("caapm::workstation::host") %>
-wsPort=<%= scope.lookupvar("caapm::workstation::port") %>
+wsUser=<%= @user %>
+wsHost=<%= @host %>
+wsPort=<%= @port %>
 
 
 #########################################

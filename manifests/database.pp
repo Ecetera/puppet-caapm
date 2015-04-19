@@ -64,7 +64,7 @@ define caapm::database (
 
   $pkg_name = "CA APM Introscope ${version}"
   $eula_file = 'ca-eula.txt'
-  $resp_file = 'Database.ResponseFile.txt'
+  $resp_file = 'EnterpriseManager.ResponseFile.txt'
   $lic_file = "${::ipaddress}.em.lic"
   $failed_log = 'silent.install.failed.txt'
   $features = 'Database'
@@ -85,9 +85,9 @@ define caapm::database (
     force  => true,
     path   => "${staging_path}/${staging_subdir}/${eula_file}",
     source => "${puppet_src}/${version}/${eula_file}",
-    owner  =>  $owner,
-    group  =>  $group,
-    mode   =>  $mode,
+    owner  => "${owner}",
+    group  => "${group}",
+    mode   => "${mode}",
   }
 
   # download the Enterprise Manager installer
@@ -102,9 +102,9 @@ define caapm::database (
     force   => true,
     path    => "${staging_path}/${staging_subdir}/${resp_file}",
     content => template("${module_name}/${version}/${resp_file}"),
-    owner   =>  $owner,
-    group   =>  $group,
-    mode    =>  $mode,
+    owner   => "${owner}",
+    group   => "${group}",
+    mode    => "${mode}",
   }
 
   $install_options = $::operatingsystem ? {
@@ -124,7 +124,7 @@ define caapm::database (
         command   => "${staging_path}/${staging_subdir}/${pkg_bin} -f ${install_options}",
         require   => [File[$resp_file], Staging::File[$pkg_bin], File[$failed_log]],
         logoutput => true,
-        returns   => 1,
+        returns   => [0,1],
         timeout   => 0,
         notify    => Service[$service_name],
       }

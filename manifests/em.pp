@@ -8,8 +8,8 @@
 #
 
 define caapm::em (
-  $version = $caapm::params::version,
-  $user_install_dir = "${::user_install_dir}",
+  $version = '9.1.4.0',
+  $user_install_dir = undef,
   $features = 'Enterprise Manager,WebView',
 
   # Enterprise Manager Upgrade toggle
@@ -153,29 +153,32 @@ define caapm::em (
   $pkg_name = "CA APM Introscope ${version}"
   $eula_file = 'ca-eula.txt'
   $resp_file = 'EnterpriseManager.ResponseFile.txt'
-  $lic_file = "${ipaddress}.em.lic"
+  $lic_file = "${::ipaddress}.em.lic"
   $failed_log = 'silent.install.failed.txt'
 
   $resp_src = "${puppet_src}/${resp_file}"
 
   # determine the executable package
   $pkg_bin = $::operatingsystem ? {
-    'windows' => "introscope${version}${operatingsystem}AMD64.exe",
-    default  => "introscope${version}linuxAMD64.bin",
+    'windows' => "introscope${version}${::operatingsystem}AMD64.exe",
+    default   => "introscope${version}linuxAMD64.bin",
   }
 
   # download the eula.txt
-  staging::file { $eula_file:
+  file { $eula_file:
+    ensure => present,
+    force  => true,
+    path   => "${staging_path}/${staging_subdir}/${eula_file}",
     source => "${puppet_src}/${version}/${eula_file}",
-    subdir => $staging_subdir,
+    owner  => "${owner}",
+    group  => "${group}",
+    mode   => "${mode}",
   }
 
   # download the Enterprise Manager installer
   staging::file { $pkg_bin:
-    source  => "${puppet_src}/${version}/${pkg_bin}",
-    subdir  => "${staging_subdir}",
-    require => Staging::File[$eula_file],
-
+    source => "${puppet_src}/${version}/${pkg_bin}",
+    subdir => "${staging_subdir}",
   }
 
   # generate the response file
@@ -208,7 +211,7 @@ define caapm::em (
         creates   =>  "${target_dir}launcher.jar",
         require   => [Caapm::Osgi[$version],File[$resp_file], Staging::File[$pkg_bin], File[$failed_log]],
         logoutput => true,
-        returns   => 1,
+        returns   => [0,1],
         timeout   => 0,
         before    => File[$lic_file],
         notify    => [Service[$em_service_name],Service[$wv_service_name]],
