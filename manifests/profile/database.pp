@@ -4,15 +4,11 @@
 # This profile configures the defaults for the PostgreSQL APM DB
 #
 
-#
-# TODO: make this pass on puppet-lint
-#
-
 class caapm::profile::database {
 
-#  $version = '9.1.4.0'
+  $version = '9.1.4.0'
 #  $version = '9.6.0.0'
-  $version = '9.7.0.27'
+#  $version = '9.7.0.27'
 #  $version = '9.7.1.16'
 
 
@@ -23,6 +19,6 @@ class caapm::profile::database {
     database         => 'postgres',
     postgres_dir     => 'C:/Ecetera/PostgreSQL/',
     owner            => 'Administrator',
-    group            => 'Administrators',
+    group            => 'Users',
   }
 }
