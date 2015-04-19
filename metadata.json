@@ -5,7 +5,7 @@
   	{ "name":"nanliu/staging", "version_requirement": ">= 1.0.3"}  
   ],
   "license": "Apache 2.0",
-  "name": "ecetera-caapm",
+  "name": "Ecetera-caapm",
   "operatingsystem_support": [
   	{ "operatingsystem":"RedHat", "operatingsystemrelease":[ "5.0", "6.0" ] },
   	{ "operatingsystem":"Windows Server", "operatingsystemrelease":[ "2003 SP2/R2", "2008 SP2", "2008 R2", "2008 R2 SP1" ] },
