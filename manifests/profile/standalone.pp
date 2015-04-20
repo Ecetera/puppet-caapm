@@ -16,7 +16,7 @@ class caapm::profile::standalone {
 
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       caapm::em {'*nx_standalone':
-        version                     => "${version}",
+        version                     => $version,
         features                    => 'Enterprise Manager,WebView,Database',
         clusterEM                   => false,
         user_install_dir            => "/opt/caapm/Introscope${version}/",
@@ -37,7 +37,7 @@ class caapm::profile::standalone {
 
     windows: {
       caapm::em {'win_standalone':
-        version                     => "${version}",
+        version                     => $version,
         features                    => 'Enterprise Manager,WebView,Database',
         clusterEM                   => false,
         user_install_dir            => "C:/Ecetera/Introscope${version}/",

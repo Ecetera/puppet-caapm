@@ -32,7 +32,7 @@ For supported OS's refer to [CA APM Compatibility Guide] (http://www.ca.com/us/s
 To begin using this module, use the Puppet Module Tool (PMT) from the command line to install this module:
 
 ```puppet
-puppet module install ecetera-caapm
+puppet module install Ecetera-caapm
 ```
 
 This will place the module into your primary module path if you do not utilize the --target-dir directive.
@@ -65,25 +65,41 @@ The expected directory structure is:
 
 To install the CA APM Workstation:
 ```puppet
-class { "caapm::workstation":
-  install_dir => "C:/Program Files (x86)/CA/APM/",
-  version     => "9.1.4.0",
+caapm::workstation {'apmws':
+  version          => "${version}",
+  user_install_dir => "D:/Apps/CA/APM/Introscope${version}/",
 }
 ```
 
 To install the CA APM Enterprise Manager (Standalone) with default settings:
 ```puppet
-class { "caapm::em":
-  install_dir => "D:/Apps/CA/APM/",
-  version     => "9.1.4.0",
-  features    => "Database,Enterprise Manager,WebView',
+caapm::em {'win_standalone':
+  version                     => "${version}",
+  features                    => 'Enterprise Manager,WebView,Database',
+  clusterEM                   => false,
+  user_install_dir            => "C:/Ecetera/Introscope${version}/",
+  txnTraceDir                 => 'C:/Ecetera/traces',
+  smartstor_dir               => 'C:/Ecetera/smartstor',
+  threaddump_dir              => 'C:/Ecetera/threaddumps',
+  emLaxNlJavaOptionAdditional => '-Xms1024m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi',
+  database                    => 'postgres',
+  postgres_dir                => 'C:/Ecetera/PostgreSQL/',
+  config_em_as_service        => true,
+  config_wv_as_service        => true,
+  owner                       => 'Administrator',
+  group                       => 'Users'
 }
 ```
 
 To install the CA APM Database (PostgreSQL) on Windows:
 ```puppet
-class { "caapm::database":
-  install_dir => "D:/Apps/CA/APM/PostgreSQL/",
+caapm::database { 'apmdb':
+  version          => "${version}",
+  user_install_dir => "/opt/caapm/Introscope${version}/",
+  database         => 'postgres',
+  postgres_dir     => '/opt/caapm/PostgreSQL/',
+  owner            => 'postgres',
+  group            => 'postgres',
 }
 ```
 

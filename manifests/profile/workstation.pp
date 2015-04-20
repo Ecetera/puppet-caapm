@@ -1,11 +1,7 @@
 #
-# == Class: caapm::profile::collector
+# == Class: caapm::profile::workstation
 #
 # This profile configures the defaults for a CA APM Workstation
-#
-
-#
-# TODO: make this pass on puppet-lint
 #
 
 class caapm::profile::workstation {
@@ -18,7 +14,7 @@ class caapm::profile::workstation {
 
 
   caapm::workstation {'apmws':
-    version          => "${version}",
+    version          => $version,
     user_install_dir => "D:/Apps/CA/APM/Introscope${version}/",
   }
 

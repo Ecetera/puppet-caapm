@@ -15,8 +15,8 @@ define caapm::osgi (
 
   include staging
 
-  $staging_subdir = "${module_name}"
-  $staging_path = "${staging::params::path}"
+  $staging_subdir = $module_name
+  $staging_path = $staging::params::path
 
   $version = $apmversion ? {
     '9.7.0.0' => '9.7.0.27',
@@ -35,14 +35,14 @@ define caapm::osgi (
   # download the eula.txt
   staging::file { $eula_file:
     source => "${pkg_source}/${eula_file}",
-    subdir => "${staging_subdir}",
+    subdir => $staging_subdir,
   }
 
 
   # download the osgi package
   staging::file { $pkg_name:
     source  => "${pkg_source}/${pkg_name}",
-    subdir  => "${staging_subdir}",
+    subdir  => $staging_subdir,
     require => Staging::File[$eula_file],
   }
 

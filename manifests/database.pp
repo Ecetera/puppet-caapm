@@ -1,13 +1,13 @@
 #
-# == Class: caapm::database
+# == Define: caapm::database
 #
-# This class manages the CA APM Database PostgreSQL Bundle
+# This installs the CA APM Database PostgreSQL Bundle
 #
 #
 
 define caapm::database (
   $version = '9.7.1.16',
-  $user_install_dir = "${::user_install_dir}",
+  $user_install_dir = undef,
 
   # APM Database Settings
   $database = 'postgres',
@@ -34,8 +34,8 @@ define caapm::database (
 
   include staging
 
-  $staging_subdir = "${module_name}"
-  $staging_path = "${staging::params::path}"
+  $staging_subdir = $module_name
+  $staging_path = $staging::params::path
 
   $service_name = $version ? {
     '9.1.4.0' => $::operatingsystem ? {
@@ -58,8 +58,8 @@ define caapm::database (
   }
 
   $user_install_dir_em = $::operatingsystem ? {
-    'windows' => to_windows_escaped("${user_install_dir}"),
-    default  => "${user_install_dir}",
+    'windows' => to_windows_escaped($user_install_dir),
+    default  => $user_install_dir,
   }
 
   $pkg_name = "CA APM Introscope ${version}"
@@ -85,15 +85,15 @@ define caapm::database (
     force  => true,
     path   => "${staging_path}/${staging_subdir}/${eula_file}",
     source => "${puppet_src}/${version}/${eula_file}",
-    owner  => "${owner}",
-    group  => "${group}",
-    mode   => "${mode}",
+    owner  => $owner,
+    group  => $group,
+    mode   => $mode,
   }
 
   # download the Enterprise Manager installer
   staging::file { $pkg_bin:
     source => "${puppet_src}/${version}/${pkg_bin}",
-    subdir => "${staging_subdir}",
+    subdir => $staging_subdir,
   }
 
   # generate the response file
@@ -102,9 +102,9 @@ define caapm::database (
     force   => true,
     path    => "${staging_path}/${staging_subdir}/${resp_file}",
     content => template("${module_name}/${version}/${resp_file}"),
-    owner   => "${owner}",
-    group   => "${group}",
-    mode    => "${mode}",
+    owner   => $owner,
+    group   => $group,
+    mode    => $mode,
   }
 
   $install_options = $::operatingsystem ? {
@@ -134,7 +134,7 @@ define caapm::database (
     windows: {
       # install the Enterprise Manager package
       package { $pkg_name :
-        ensure          => "${version}",
+        ensure          => $version,
         source          => "${staging_path}/${staging_subdir}/${pkg_bin}",
         install_options => [" -f ${install_options}" ],
         require         => [File[$resp_file], Staging::File[$pkg_bin],File[$failed_log]],

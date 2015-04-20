@@ -15,7 +15,7 @@ class caapm::profile::database {
 
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       caapm::database { 'apmdb':
-        version          => "${version}",
+        version          => $version,
         user_install_dir => "/opt/caapm/Introscope${version}/",
         database         => 'postgres',
         postgres_dir     => '/opt/caapm/PostgreSQL/',
@@ -26,7 +26,7 @@ class caapm::profile::database {
 
     windows: {
       caapm::database { 'apmdb':
-        version          => "${version}",
+        version          => $version,
         user_install_dir => "C:/Ecetera/Introscope${version}/",
         database         => 'postgres',
         postgres_dir     => 'C:/Ecetera/PostgreSQL/',

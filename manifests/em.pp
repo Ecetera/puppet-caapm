@@ -1,6 +1,7 @@
-# Class: caapm::em
 #
-# This class manages the Enterprise Manager archive and its accompanying End User License Agreement file, eula.txt.
+# == Define: caapm::em
+#
+# This installs the Enterprise Manager and its accompanying End User License Agreement file, eula.txt.
 #
 # Parameters:
 # - $version the osgi version to download and install.
@@ -120,20 +121,20 @@ define caapm::em (
 
   require staging
 
-  $staging_subdir = "${module_name}"
-  $staging_path = "${staging::params::path}"
+  $staging_subdir = $module_name
+  $staging_path = $staging::params::path
 
 
   $user_install_dir_em = $::operatingsystem ? {
-    'windows' => to_windows_escaped("${user_install_dir}"),
-    default  => "${user_install_dir}",
+    'windows' => to_windows_escaped($user_install_dir),
+    default  => $user_install_dir,
   }
 
   $target_dir = $upgradeEM ? {
     false => $user_install_dir_em,
     true => $::operatingsystem ? {
-      'windows' => to_windows_escaped("${upgraded_install_dir}"),
-      default  => "${upgraded_install_dir}",
+      'windows' => to_windows_escaped($upgraded_install_dir),
+      default  => $upgraded_install_dir,
     },
     default => $user_install_dir_em
   }
@@ -145,8 +146,8 @@ define caapm::em (
   }
 
   caapm::osgi { $version:
-    eula_file => "${osgi_eula_file}",
-    pkg_name  => "${osgi_pkg_name}"
+    eula_file => $osgi_eula_file,
+    pkg_name  => $osgi_pkg_name
   }
 
 
@@ -170,15 +171,15 @@ define caapm::em (
     force  => true,
     path   => "${staging_path}/${staging_subdir}/${eula_file}",
     source => "${puppet_src}/${version}/${eula_file}",
-    owner  => "${owner}",
-    group  => "${group}",
-    mode   => "${mode}",
+    owner  => $owner,
+    group  => $group,
+    mode   => $mode,
   }
 
   # download the Enterprise Manager installer
   staging::file { $pkg_bin:
     source => "${puppet_src}/${version}/${pkg_bin}",
-    subdir => "${staging_subdir}",
+    subdir => $staging_subdir,
   }
 
   # generate the response file
@@ -257,7 +258,7 @@ define caapm::em (
     windows: {
       # install the Enterprise Manager package
       package { $pkg_name :
-        ensure          => "${version}",
+        ensure          => $version,
         source          => "${staging_path}/${staging_subdir}/${pkg_bin}",
         install_options => [" -f ${install_options}" ],
         require         => [Caapm::Osgi[$version], File[$resp_file], Staging::File[$pkg_bin], File[$failed_log]],
@@ -277,21 +278,21 @@ define caapm::em (
     ensure =>  present,
     source => "${puppet_src}/license/${lic_file}",
     path   => "${target_dir}license/${lic_file}",
-    owner  => "${owner}",
-    group  => "${group}",
-    mode   => "${mode}",
+    owner  => $owner,
+    group  => $group,
+    mode   => $mode,
   }
 
   # ensure the service is running
   service { $em_service_name:
-    ensure  => "${em_as_service}",
-    enable  => "${em_as_service}",
+    ensure  => $em_as_service,
+    enable  => $em_as_service,
     require => File[$lic_file],
   }
 
   service { $wv_service_name:
-    ensure => "${wv_as_service}",
-    enable => "${wv_as_service}",
+    ensure => $wv_as_service,
+    enable => $wv_as_service,
   }
 
 }

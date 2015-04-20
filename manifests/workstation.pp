@@ -1,5 +1,5 @@
 #
-# == Class: caapm::workstation
+# == Define: caapm::workstation
 #
 # Downloads from file folder and install ca apm workstation with a silent install on linux and windows servers
 #
@@ -28,13 +28,13 @@ define caapm::workstation (
 
   require staging
 
-  $staging_subdir = "${module_name}"
-  $staging_path = "${staging::params::path}"
+  $staging_subdir = $module_name
+  $staging_path = $staging::params::path
 
 
   $user_install_dir_em = $::operatingsystem ? {
-    'windows' => to_windows_escaped("${user_install_dir}"),
-    default  => "${user_install_dir}",
+    'windows' => to_windows_escaped($user_install_dir),
+    default  => $user_install_dir,
   }
 
   $osgi_eula_file = 'eula.txt'
@@ -44,8 +44,8 @@ define caapm::workstation (
   }
 
   caapm::osgi { $version:
-    eula_file => "${osgi_eula_file}",
-    pkg_name  => "${osgi_pkg_name}"
+    eula_file => $osgi_eula_file,
+    pkg_name  => $osgi_pkg_name
   }
 
 
@@ -67,15 +67,15 @@ define caapm::workstation (
     force  => true,
     path   => "${staging_path}/${staging_subdir}/${eula_file}",
     source => "${puppet_src}/${version}/${eula_file}",
-    owner  => "${owner}",
-    group  => "${group}",
-    mode   => "${mode}",
+    owner  => $owner,
+    group  => $group,
+    mode   => $mode,
   }
 
   # download the Workstation installer
   staging::file { $pkg_bin:
     source => "${puppet_src}/${version}/${pkg_bin}",
-    subdir => "${staging_subdir}",
+    subdir => $staging_subdir,
   }
 
   # generate the response file
@@ -84,9 +84,9 @@ define caapm::workstation (
     force   => true,
     path    => "${staging_path}/${staging_subdir}/${resp_file}",
     content => template("${module_name}/${version}/${resp_file}"),
-    owner   =>  "${owner}",
-    group   =>  "${group}",
-    mode    =>  "${mode}",
+    owner   => $owner,
+    group   => $group,
+    mode    => $mode,
   }
 
   $install_options = $::operatingsystem ? {
@@ -101,7 +101,7 @@ define caapm::workstation (
 
   # install the Workstation package
   package { $pkg_name:
-    ensure          => "${version}",
+    ensure          => $version,
     source          => "${staging_path}\\${staging_subdir}\\${pkg_bin}",
     install_options => [" -f ${install_options}"],
     require         => [Caapm::Osgi[$version], File[$resp_file], Staging::File[$pkg_bin], File[$failed_log]]
