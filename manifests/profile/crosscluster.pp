@@ -4,18 +4,20 @@
 # This profile configures the defaults for a cross-cluster viewer Enterprise Manager 
 #
 class caapm::profile::crosscluster { 
-  class { "caapm::em":
-    version                     => '9.1.4.0',
-    user_install_dir            => 'C:/Ecetera/Introscope9.1.4.0/',
+  caapm::em {'cross-cluster-domain':
+    version                     => '9.6.0.0',
+    user_install_dir            => "/opt/caapm/Introscope9.6.0.0/",
     features                    => 'Enterprise Manager',
     clusterEM                   => true,
     cluster_role                => 'CDV',
-    txnTraceDir                 => 'C:/Ecetera/traces',
-    smartstor_dir               => 'C:/Ecetera/smartstor',
-    threaddump_dir              => 'C:/Ecetera/threaddumps',
+    txnTraceDir                 => '/var/caapm/traces',
+    smartstor_dir               => '/var/caapm/smartstor',
+    threaddump_dir              => '/var/caapm/threaddumps',
     emLaxNlJavaOptionAdditional => '-Xms1024m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi',
     database                    => 'postgres',
     db_host                     => 'win28r2.diamond.org',
-    config_as_service           => true,
-  }  
+    em_service_name             => 'introscope',
+    config_em_as_service        => true,
+  } 
+
 }

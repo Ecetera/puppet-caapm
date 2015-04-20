@@ -97,7 +97,7 @@ define caapm::em (
   $webview_em_port = 5001,
 
   # WebView As Windows Service Settings
-  $config_wv_as_service = true,
+  $config_wv_as_service = false,
   $wv_service_name = 'IScopeWV',
   $wv_service_display_name = 'Introscope WebView',
 
