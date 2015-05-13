@@ -1,12 +1,16 @@
-# 
+#
 # == Class: caapm::profile::collector
 #
-# This profile configures the defaults for a collector Enterprise Manager 
+# This profile configures the defaults for a collector Enterprise Manager
 #
-class caapm::profile::collector { 
+class caapm::profile::collector {
+
+  $version                     = '9.7.1.16'
+
+
   caapm::em {'collector':
-    version                     => '9.6.0.0',
-    user_install_dir            => "/opt/caapm/Introscope9.6.0.0/",
+    version                     => "${version}",
+    user_install_dir            => "/opt/caapm/Introscope${version}/",
     features                    => 'Enterprise Manager',
     clusterEM                   => true,
     cluster_role                => 'Collector',
@@ -18,6 +22,8 @@ class caapm::profile::collector {
     db_host                     => 'win28r2.diamond.org',
     em_service_name             => 'introscope',
     config_em_as_service        => true,
-  } 
-  
+    owner                       => 'root',
+    group                       => 'root',
+  }
+
 }

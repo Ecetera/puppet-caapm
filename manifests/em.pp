@@ -85,6 +85,7 @@ define caapm::em (
   $config_em_as_service = false,
   $em_service_name = 'IScopeEM',
   $em_service_display_name = 'Introscope Enterprise Manager',
+  $start_em_as_service = true,
 
   # Enterprise Manager Advanced JVM Settings
   $emLaxNlCurrentVm = '',     # Specify the path to the JVM that will be used to run the Enterprise Manager. Leave blank for default
@@ -100,6 +101,7 @@ define caapm::em (
   $config_wv_as_service = false,
   $wv_service_name = 'IScopeWV',
   $wv_service_display_name = 'Introscope WebView',
+  $start_wv_as_service = true,
 
   # WebView Advanced JVM Settings
   $wvLaxNlCurrentVm = '',     # Specify the path to the JVM that will be used to run the WebView. Leave blank for default
@@ -198,11 +200,13 @@ define caapm::em (
     default   => "${staging_path}/${staging_subdir}/${resp_file}",
   }
 
-
   file { $failed_log :
     ensure => absent,
     path   => "${staging_path}/${staging_subdir}/${failed_log}",
   }
+
+  $em_as_service = ('Enterprise Manager' in $features) or $config_em_as_service
+  $wv_as_service = ('WebView' in $features) or $config_wv_as_service
 
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
@@ -214,8 +218,9 @@ define caapm::em (
         logoutput => true,
         returns   => [0,1],
         timeout   => 0,
+        user      => "${owner}",
         before    => File[$lic_file],
-        notify    => [Service[$em_service_name],Service[$wv_service_name]],
+        notify    => [Service[$em_service_name]],
       }
 
       # generate the SystemV init script
@@ -224,22 +229,25 @@ define caapm::em (
         force   => true,
         path    => "/etc/init.d/${em_service_name}",
         content => template("${module_name}/init.d/introscope"),
-        owner   =>  $owner,
-        group   =>  $group,
+        owner   =>  $caapm::params::owner,
+        group   =>  $caapm::params::group,
         mode    =>  '0755',
         notify  => Service[$em_service_name],
       }
 
-      # generate the SystemV init script
-      file { $wv_service_name:
-        ensure  => present,
-        force   => true,
-        path    => "/etc/init.d/${wv_service_name}",
-        content => template("${module_name}/init.d/webview"),
-        owner   =>  $owner,
-        group   =>  $group,
-        mode    =>  '0755',
-        require => File['WVCtrl.sh']
+      if $wv_as_service == true {
+        # generate the SystemV init script
+        file { $wv_service_name:
+          ensure  => present,
+          force   => true,
+          path    => "/etc/init.d/${wv_service_name}",
+          content => template("${module_name}/init.d/webview"),
+          owner   =>  $caapm::params::owner,
+          group   =>  $caapm::params::group,
+          mode    =>  '0755',
+          require => [File['WVCtrl.sh'],Exec[$pkg_name]],
+          notify  => Service[$wv_service_name]
+        }
       }
 
       # generate the WebView Control script
@@ -271,9 +279,6 @@ define caapm::em (
     default: {}
   }
 
-  $em_as_service = ('Enterprise Manager' in $features) or $config_em_as_service
-  $wv_as_service = ('WebView' in $features) or $config_wv_as_service
-
   file { $lic_file:
     ensure =>  present,
     source => "${puppet_src}/license/${lic_file}",
@@ -285,14 +290,15 @@ define caapm::em (
 
   # ensure the service is running
   service { $em_service_name:
-    ensure  => $em_as_service,
+    ensure  => $start_em_as_service,
     enable  => $em_as_service,
     require => File[$lic_file],
   }
 
-  service { $wv_service_name:
-    ensure => $wv_as_service,
-    enable => $wv_as_service,
+  if $wv_as_service == true {
+    service { $wv_service_name:
+      ensure => $start_wv_as_service,
+      enable => $wv_as_service,
+    }
   }
-
 }

@@ -1,0 +1,10 @@
+com.puppetlabs.geppetto.pp.dsl.PP.saveactions.useProjectSettings=true
+com.puppetlabs.geppetto.pp.dsl.PP.useProjectSettings=true
+eclipse.preferences.version=1
+ensureEndsWithNewLine=true
+formatOnSave=false
+formatterIndentSize=2
+formatterPreferredWidth=132
+formatterSpacesForTabs=true
+replaceFunkySpaces=true
+trimLines=true
