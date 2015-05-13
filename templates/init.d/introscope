@@ -14,5 +14,5 @@ export WILYPARENT=${WILYHOME}
 
 cd ${WILYHOME}/bin
 
-./EMCtrl.sh $*
+su -c "cd ${WILYHOME}/bin;./EMCtrl.sh $*" -m <%= @owner %>
 
