@@ -126,6 +126,7 @@ define caapm::em (
   $staging_subdir = $module_name
   $staging_path = $staging::params::path
 
+  validate_absolute_path($user_install_dir)
 
   $user_install_dir_em = $::operatingsystem ? {
     'windows' => to_windows_escaped($user_install_dir),
@@ -140,6 +141,9 @@ define caapm::em (
     },
     default => $user_install_dir_em
   }
+
+  validate_absolute_path($target_dir)
+
 
   $osgi_eula_file = 'eula.txt'
   $osgi_pkg_name  = $::operatingsystem ? {
