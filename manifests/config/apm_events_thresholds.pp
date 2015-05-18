@@ -20,7 +20,7 @@ class caapm::config::apm_events_thresholds (
 
   $owner  = $caapm::params::owner,
   $group  = $caapm::params::group,
-  $mode   = '0755',
+  $mode   = '0644',
   $version = '9.1.4.0',
 
 ){
@@ -32,7 +32,7 @@ class caapm::config::apm_events_thresholds (
   file { $thresholds_config:
     ensure => present,
     force  => true,
-    path    => "$em_home/config/$thresholds_config",
+    path    => "${em_home}/config/${thresholds_config}",
     content => template("${module_name}/${version}/${thresholds_config}"),
     owner   =>  $owner,
     group   =>  $group,

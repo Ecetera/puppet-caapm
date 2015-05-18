@@ -104,6 +104,9 @@ class caapm::config::em_properties (
   $hotconfig_enable = true,
   $hotconfig_pollingInterval=60,
 
+  # APM Heuristics
+  $apm_overview_baselines = true,
+
 
   # Agent Transaction Trace Settings
   $agent_tt_sampling_perinterval_count = 1,
@@ -120,6 +123,11 @@ class caapm::config::em_properties (
   $clustering_manager_slow_collector_threshold = 10000,
 
   $collector_privatekey = 'internal/server/EM.private',
+
+  # Clustering High Concurrency Pool Configuration
+  $high_concurrency_pool_max_size = 5,
+  $high_concurrency_pool_min_size = 5,
+  $high_concurrency_pool_queue_size = 6000,
 
   # MOM Load Balancing Properties
   $loadbalancing_threshold = 20000,
@@ -143,20 +151,19 @@ class caapm::config::em_properties (
   # Web Services Incidents
   $ws_max_incidents = 500,
 
+  # APM SOA calculations
+  $soa_deviation_enabled = false,
+
+  # APM Help URL
+  $apm_help_url = 'https://wiki.ca.com/display/APMDEVOPS97/CA+Application+Performance+Management',
+
 #---------------------
-
-
-# transport.override.isengard.high.concurrency.pool.max.size=10   ## Uncomment for MOMs
-
 
 #  $clustering.login.em1.host=hostname
 #  $clustering.login.em1.port=5001
 #  $clustering.login.em1.publickey=internal/server/EM.public
 #  $clustering.login.em1.weight=
 
-
-  #com.wily.introscope.soa.deviation.enable = false,
-  #com.wily.introscope.help.url = 'https://wiki.ca.com/display/APMDEVOPS97/CA+Application+Performance+Management',
 
   $owner  = $caapm::params::owner,
   $group  = $caapm::params::group,

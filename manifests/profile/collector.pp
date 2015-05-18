@@ -8,11 +8,14 @@ class caapm::profile::collector {
   $version                     = '9.7.1.16'
   $em_home                     = "/opt/caapm/Introscope${version}/"
   $db_host                     = 'win28r2.diamond.org'
+  $cluster_role                = 'Collector'
   $em_service_name             = 'introscope'
   $config_em_as_service        = true
   $owner                       = 'root'
   $group                       = 'root'
   $em_java_opts_addtl          = '-Xms512m -Xmx512m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi'
+  $puppet_src                  = "puppet:///modules/${module_name}"
+  $apm_help_url                = "http://${::fqdn}:8081/IntroscopeHelp/Monitoring-System-Performance-and-Problems_80348605.html"
 
 
   caapm::em {'collector':
@@ -20,6 +23,7 @@ class caapm::profile::collector {
     user_install_dir            => $em_home,
     features                    => 'Enterprise Manager',
     clusterEM                   => true,
+    cluster_role                => $cluster_role,
     emLaxNlJavaOptionAdditional => $em_java_opts_addtl,
     database                    => 'postgres',
     db_host                     => $db_host,
@@ -43,7 +47,7 @@ class caapm::profile::collector {
   class { 'caapm::config::em_properties':
     version                     => $version,
     em_home                     => $em_home,
-    cluster_role                => 'Collector',
+    cluster_role                => $cluster_role,
     transactionevents_dir       => '/var/caapm/traces',
     smartstor_dir               => '/var/caapm/smartstor',
     threaddump_dir              => '/var/caapm/threaddumps',
@@ -53,6 +57,8 @@ class caapm::profile::collector {
 #    scauth_enable               => true,
 #    catalyst_snmp_enable        => true,
 #    catalyst_snmp_destination_host => 'redhat1',
+    soa_deviation_enabled       => true,
+    apm_help_url                => $apm_help_url,
     owner                       => $owner,
     group                       => $group,
   }
@@ -63,5 +69,26 @@ class caapm::profile::collector {
     owner   => $owner,
     group   => $group,
   }
+  ->
+  tidy { ["$em_home/config/modules"]:
+    recurse => true,
+    rmdirs  => true,
+  }
+  ->
+  file { ["$em_home/config/modules", "$em_home/webapps"]:
+    ensure  => directory,
+    owner   => $owner,
+    group   => $group,
+  }
+  ->
+  file { 'IntroscopeHelp.war':
+    ensure => present,
+    force  => true,
+    path   => "${em_home}/webapps/IntroscopeHelp.war",
+    source => "${puppet_src}/${version}/IntroscopeHelp.war",
+    owner  => $owner,
+    group  => $group,
+  }
+
 
 }
