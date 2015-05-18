@@ -12,6 +12,7 @@ class caapm::profile::collector {
   $config_em_as_service        = true
   $owner                       = 'root'
   $group                       = 'root'
+  $em_java_opts_addtl          = '-Xms512m -Xmx512m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi'
 
 
   caapm::em {'collector':
@@ -19,11 +20,7 @@ class caapm::profile::collector {
     user_install_dir            => $em_home,
     features                    => 'Enterprise Manager',
     clusterEM                   => true,
-    cluster_role                => 'Collector',
-    txnTraceDir                 => '/var/caapm/traces',
-    smartstor_dir               => '/var/caapm/smartstor',
-    threaddump_dir              => '/var/caapm/threaddumps',
-    emLaxNlJavaOptionAdditional => '-Xms1024m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi',
+    emLaxNlJavaOptionAdditional => $em_java_opts_addtl,
     database                    => 'postgres',
     db_host                     => $db_host,
     em_service_name             => $em_service_name,
@@ -35,7 +32,31 @@ class caapm::profile::collector {
 
   # establish dependency order
   ->
-
+  class { 'caapm::config::em_lax':
+    version            => $version,
+    em_home            => $em_home,
+    em_java_opts_addtl => $em_java_opts_addtl,
+    owner              => $owner,
+    group              => $group,
+  }
+  ->
+  class { 'caapm::config::em_properties':
+    version                     => $version,
+    em_home                     => $em_home,
+    cluster_role                => 'Collector',
+    transactionevents_dir       => '/var/caapm/traces',
+    smartstor_dir               => '/var/caapm/smartstor',
+    threaddump_dir              => '/var/caapm/threaddumps',
+    smartstor_archive           => '/var/caapm/smartstor/archive',
+    baselines_dir               => '/var/caapm/smartstor',
+#    snmp_enable                 => true,
+#    scauth_enable               => true,
+#    catalyst_snmp_enable        => true,
+#    catalyst_snmp_destination_host => 'redhat1',
+    owner                       => $owner,
+    group                       => $group,
+  }
+  ->
   class { 'caapm::config::apm_events_thresholds':
     version => $version,
     em_home => $em_home,
