@@ -10,13 +10,13 @@ class caapm::profile::manager {
   $em_home                     = "/opt/caapm/Introscope${version}/"
   $owner                       = 'root'
   $group                       = 'root'
-  $cluster_role                = 'Manager'
+  $cluster_role                = 'MOM'
 
 
-  caapm::em {'mom':
+  caapm::em {'Manager':
     version                     => $version,
     user_install_dir            => $em_home,
-    features                    => 'Enterprise Manager',
+    features                    => 'Enterprise Manager,WebView',
     clusterEM                   => true,
     cluster_role                => $cluster_role,
     txnTraceDir                 => '/var/caapm/traces',

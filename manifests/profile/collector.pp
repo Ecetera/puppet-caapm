@@ -67,9 +67,6 @@ class caapm::profile::collector {
     threaddump_dir              => '/var/caapm/threaddumps',
     smartstor_archive           => '/var/caapm/smartstor/archive',
     baselines_dir               => '/var/caapm/smartstor',
-#    snmp_enable                 => true,
-#    scauth_enable               => true,
-#    catalyst_snmp_enable        => true,
 #    soa_deviation_enabled       => true,
     owner                       => $owner,
     group                       => $group,
@@ -97,6 +94,5 @@ class caapm::profile::collector {
     owner   => $owner,
     group   => $group,
   }
-
 
 }

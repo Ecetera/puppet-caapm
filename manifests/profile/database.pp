@@ -1,4 +1,5 @@
-#
+
+  #
 # == Class: caapm::profile::database
 #
 # This profile configures the defaults for the PostgreSQL APM DB
@@ -19,8 +20,9 @@ class caapm::profile::database {
         user_install_dir => "/opt/caapm/Introscope${version}/",
         database         => 'postgres',
         postgres_dir     => '/opt/caapm/PostgreSQL/',
-        owner            => 'root',
-        group            => 'root',
+        pg_admin_user    => 'notdefaultuser',
+        owner            => 'apm',
+        group            => 'apm',
       }
     }
 

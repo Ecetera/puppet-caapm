@@ -25,6 +25,7 @@ class caapm::profile::standalone {
         threaddump_dir              => '/var/caapm/threaddumps',
         emLaxNlJavaOptionAdditional => '-Xms1024m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi',
         database                    => 'postgres',
+        pg_admin_user               => 'notdefaultuser',
         postgres_dir                => '/opt/caapm/PostgreSQL/',
         em_service_name             => 'introscope',
         wv_service_name             => 'webview',

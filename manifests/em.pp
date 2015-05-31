@@ -68,7 +68,7 @@ define caapm::em (
   $enable_CALISA = false,         #CA APM Integration for CA LISA
 
   # APM Database Settings
-  $database = 'postgres',
+  $database = 'postgresql',
   $db_host = 'localhost',
   $db_port = 5432,
   $db_name = 'cemdb',
@@ -115,7 +115,7 @@ define caapm::em (
 
   $owner  = 'Administrator',
   $group  = 'Users',
-  $mode   = '0755',
+  $mode   = '0744',
 
   $puppet_src = "puppet:///modules/${module_name}"
 
