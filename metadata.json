@@ -17,5 +17,5 @@
   "issues_url": "https://github.com/Ecetera/puppet-caapm/issues",
   "summary": "Collection of Puppet modules for managing CA Application Performance Management (APM)",
   "tags": ["windows", "redhat", "ca", "apm", "introscope", "wily"],
-  "version": "0.1.5"
+  "version": "1.0.2"
 }
