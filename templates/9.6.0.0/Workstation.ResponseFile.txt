@@ -1,0 +1,147 @@
+########################################################################
+#
+# Introscope Silent Installation Response File
+#
+# Sample Response File
+# CA Wily Introscope(R) Version 9.6.0.0 Release 9.6.0.0
+# Copyright (c) 2014 CA. All Rights Reserved.
+# Introscope(R) is a registered trademark of CA.
+#
+#######################################################################
+
+########################################################################
+# How to install silently and use this file: 
+#
+# Introscope can be installed in silent mode (i.e. requiring no 
+# interaction with a GUI or console). A silent install can use the 
+# settings specified in a response file. 
+#
+# Silent installation can be performed as follows:
+#
+# Place this file in any directory. 
+# Select the appropriate command format from the list below,
+# and enter it at the command line to invoke the installer:
+#
+#   installer.exe -f <absolute path to response file>
+#   installer.bin -f <absolute path to response file>
+#   java -classpath installer.jar install -f <absolute path to response file>
+#
+#
+#######################################################################
+
+
+
+#######################
+# General Settings
+#
+# ================
+
+# Specify the location of CA End User License Agreement (EULA)
+# file. This agreement must be acknowledged and accepted 
+# by the end user in order for installation to proceed. To acknowledge  
+# and accept the agreement:
+#   - open it in a text editor and read the terms and conditions 
+#   - edit the end of the file to indicate acceptance of the license 
+#   - save the changes
+#   - specify the agreement's location using the property below
+# The CA EULA location may be specified with an absolute or relative path.
+# Relative paths will be resolved relative to the installer launch directory.
+# On Windows, backslashes must be escaped.
+#    Example Windows value: C:\\Documents and Settings\\ca-eula.txt
+#    Example Unix value:    /home/myuser/ca-eula.txt
+ca-eulaFile=<%= @eula_file %>
+
+
+  
+# Directory where Introscope is to be installed.
+# The directory path must be absolute, not relative.
+# On all platforms, the path must end with a file separator.
+# On Windows, backslashes must be escaped.
+# Example Windows install directory: C:\\IntroscopeSilentInstall\\
+# Example Unix install directory: /IntroscopeSilentInstall/
+# Left blank, this property will default to one of the following values: 
+# On Windows...
+#    C:\\Program Files\\CA APM\\Introscope9.6.0.0\\ 
+#        (Exact name and drive letter of program files directory may vary 
+#        depending on OS configuration) 
+# On Unix...
+#    /root/Introscope9.6.0.0/
+#        (Under the logged-in-end-user's home directory. Exact directory may vary 
+#        depending on user account.)
+USER_INSTALL_DIR=<%= @user_install_dir_em %>
+
+# Introscope features to install. Must be a comma-delimited list.
+# Example: Workstation
+silentInstallChosenFeatures=Workstation
+
+# Location of external component library package (zip or tar).
+# The external component library package can be downloaded from: 
+# http://opensrcd.ca.com/ips/osgi
+# The package is required in order for the Workstation to run. 
+# If no package is specified, installation cannot be performed.
+# The package location may be specified with an absolute or relative path.
+# Relative paths will be resolved relative to the installer launch directory.
+# On Windows, backslashes must be escaped.
+#    Example Windows value: C:\\osgiPackages.v<x.y>.windows.zip
+#    Example Unix value:    /osgiPackages.v<x.y>.unix.tar
+#            where <x.y> should be a valid version string.
+externalComponentPackage=<%= osgi_pkg_name %>
+  
+# Location of the external component library's End User License Agreement (EULA). 
+# This agreement must be acknowledged and accepted by the end user
+# in order for installation to proceed. To acknowledge and accept the 
+# agreement:
+#   - open it in a text editor and read the terms and conditions 
+#   - edit the end of the file to indicate acceptance of the license 
+#   - save the changes
+#   - specify the agreement's location using the property below
+# The EULA location may be specified with an absolute or relative path.
+# Relative paths will be resolved relative to the installer launch directory.
+# On Windows, backslashes must be escaped.
+#    Example Windows value: C:\\Documents and Settings\\eula.txt
+#    Example Unix value:    /home/myuser/eula.txt
+eulaFile=<%= @osgi_eula_file %>
+  
+
+
+####################################
+# Workstation Install Settings
+#
+# ============================
+
+# Specify default values the Workstation will offer in the login screen. 
+# Any user specified here will need to be created by your Administrator 
+# and given access privileges in order to log in successfully.
+wsUser=<%= @user %>
+wsHost=<%= @host %>
+wsPort=<%= @port %>
+
+
+#########################################
+# Workstation Advanced JVM Settings
+#----------------------------------
+#
+# These options should only be configured by advanced users.
+# If you are unsure of which values to enter, keep the defaults by
+# leaving these properties commented out.
+
+# Specify the path to the JVM that will be used to run the Workstation. 
+# The path may be absolute, or relative to the Introscope home.
+# On Windows, backslashes must be escaped.
+# Example [Windows]: jre\\bin\\java.exe
+# Example [Unix]:    jre/bin/java
+#wsLaxNlCurrentVm=
+
+# Specify any desired command line arguments to be used by the 
+# Workstation JVM. 
+#wsLaxNlJavaOptionAdditional=-client -Xms64m -Xmx256m
+
+
+
+###############################
+# InstallAnywhere Settings
+# 
+# ========================
+
+# Installer UI mode. Do not edit.
+INSTALLER_UI=silent

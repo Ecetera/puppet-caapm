@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# IScopeWV <summary>
+#
+# chkconfig:   2345 20 80
+# description: "Starts and stops the CA APM Introscope WebView"
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+export WILYHOME=<%= @user_install_dir_em %>
+export WILYPARENT=${WILYHOME}
+
+cd ${WILYHOME}/bin
+
+su -c "cd ${WILYHOME}/bin;./WVCtrl.sh $*" -m <%= @owner %>
+
+
