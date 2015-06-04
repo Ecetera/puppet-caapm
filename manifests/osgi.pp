@@ -16,7 +16,7 @@ define caapm::osgi (
   include staging
 
   $staging_subdir = $module_name
-  $staging_path = $staging::params::path
+  $staging_path = $staging::path
 
   $version = $apmversion ? {
     '9.7.0.0' => '9.7.0.27',

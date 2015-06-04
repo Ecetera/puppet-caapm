@@ -35,7 +35,7 @@ define caapm::database (
   include staging
 
   $staging_subdir = $module_name
-  $staging_path = $staging::params::path
+  $staging_path = $staging::path
 
   $service_name = $version ? {
     '9.1.4.0' => $::operatingsystem ? {

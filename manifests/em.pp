@@ -121,10 +121,10 @@ define caapm::em (
 
 ){
 
-  require staging
+  include staging
 
   $staging_subdir = $module_name
-  $staging_path = $staging::params::path
+  $staging_path = $staging::path
 
   validate_absolute_path($user_install_dir)
 
