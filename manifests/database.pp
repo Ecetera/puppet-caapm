@@ -10,7 +10,7 @@ define caapm::database (
   $user_install_dir = undef,
 
   # APM Database Settings
-  $database = 'postgres',
+  $database = 'postgresql',
   $db_host = 'localhost',
   $db_port = 5432,
   $db_name = 'cemdb',
@@ -122,6 +122,7 @@ define caapm::database (
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       exec { $pkg_name :
         command   => "${staging_path}/${staging_subdir}/${pkg_bin} -f ${install_options}",
+        creates   =>  "${postgres_dir}/bin/postgres",
         require   => [File[$resp_file], Staging::File[$pkg_bin], File[$failed_log]],
         logoutput => true,
         returns   => [0,1],
@@ -145,11 +146,11 @@ define caapm::database (
     default: {}
   }
 
-
+#  if ($pg_admin_user == 'postgres') {
   # ensure the service is running
   service { $service_name:
     ensure => $pg_as_service,
     enable => $pg_as_service,
   }
-
+#  }
 }
