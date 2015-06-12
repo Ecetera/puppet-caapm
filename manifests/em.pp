@@ -121,10 +121,10 @@ define caapm::em (
 
 ){
 
-  require staging
+  include staging
 
   $staging_subdir = $module_name
-  $staging_path = $staging::params::path
+  $staging_path = $staging::path
 
   validate_absolute_path($user_install_dir)
 
@@ -217,7 +217,7 @@ define caapm::em (
       exec { $pkg_name :
 #        command     => "$staging_path/$staging_subdir/$pkg_bin -f $install_options;cat $staging_path/$staging_subdir/silent.install.failed.txt;true",
         command   => "${staging_path}/${staging_subdir}/${pkg_bin} -f ${install_options}",
-        creates   =>  "${target_dir}launcher.jar",
+        creates   =>  "${postgres_dir}bin/postgres",
         require   => [Caapm::Osgi[$version],File[$resp_file], Staging::File[$pkg_bin], File[$failed_log]],
         logoutput => true,
         returns   => [0,1],

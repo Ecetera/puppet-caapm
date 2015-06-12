@@ -29,8 +29,7 @@ define caapm::workstation (
   require staging
 
   $staging_subdir = $module_name
-  $staging_path = $staging::params::path
-
+  $staging_path = $staging::path
 
   $user_install_dir_em = $::operatingsystem ? {
     'windows' => to_windows_escaped($user_install_dir),

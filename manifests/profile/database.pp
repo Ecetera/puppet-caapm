@@ -18,10 +18,10 @@ class caapm::profile::database {
       caapm::database { 'apmdb':
         version          => $version,
         user_install_dir => "/opt/caapm/Introscope${version}/",
-        database         => 'postgres',
+        database         => 'postgresql',
         postgres_dir     => '/opt/caapm/PostgreSQL/',
         pg_admin_user    => 'notdefaultuser',
-        owner            => 'apm',
+        owner            => 'caapm',
         group            => 'apm',
       }
     }
@@ -30,7 +30,7 @@ class caapm::profile::database {
       caapm::database { 'apmdb':
         version          => $version,
         user_install_dir => "C:/Ecetera/Introscope${version}/",
-        database         => 'postgres',
+        database         => 'postgresql',
         postgres_dir     => 'C:/Ecetera/PostgreSQL/',
         owner            => 'Administrator',
         group            => 'Users',
