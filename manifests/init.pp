@@ -38,7 +38,7 @@ class caapm (
 
   validate_absolute_path($em_home)
 
-  file { $appdir:
+  file { ['/app', $appdir]:
     ensure  => directory,
     recurse => true,
   }
@@ -46,6 +46,16 @@ class caapm (
   file { $vardir:
     ensure  => directory,
     recurse => true,
+  }
+
+  group { $group:
+    ensure => present,
+  }
+
+  user { $owner:
+    ensure  => present,
+    gid     => $group,
+    require => Group[$group],
   }
 
 }
