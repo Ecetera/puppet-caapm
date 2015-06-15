@@ -5,7 +5,7 @@
 #
 
 class caapm::params {
-    $version                     = '9.7.1.27'
+    $version                     = '9.7.1.16'
     $appdir                      = '/app/caapm'
     $vardir                      = '/var/caapm'
     $em_home                     = "${appdir}/Introscope${version}/"
