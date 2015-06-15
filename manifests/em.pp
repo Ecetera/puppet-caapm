@@ -9,8 +9,8 @@
 #
 
 define caapm::em (
-  $version = '9.1.4.0',
-  $user_install_dir = undef,
+  $version = $::caapm::version,
+  $user_install_dir = $::caapm::em_home,
   $features = 'Enterprise Manager,WebView',
 
   # Enterprise Manager Upgrade toggle
@@ -33,14 +33,14 @@ define caapm::em (
 
   # Enterprise Manager Transaction Storage Settings
   $txnTraceDataShelfLife = 14,
-  $txnTraceDir = 'trace',
+  $txnTraceDir = $::caapm::txnTraceDir,
   $txnTraceDiskSpaceCap = undef,
 
   # Enterprise Manager SmartStor Settings
-  $smartstor_dir = 'data',
+  $smartstor_dir = $::caapm::smartstor_dir,
 
   # Enterprise Manager Thread Dump Settings
-  $threaddump_dir = 'threaddump',
+  $threaddump_dir = $::caapm::threaddump_dir,
 
   # CA APM Powerpack and Integrations toggle
   $enable_ADA = true,         #CA APM Integration for Application Delivery Analysis
@@ -75,7 +75,7 @@ define caapm::em (
   $db_user_name = 'admin',
   $db_user_passwd = 'wily',
 
-  $postgres_dir = 'database',
+  $postgres_dir = $::caapm::postgres_dir,
   $pg_admin_user ='postgres',
   $pg_admin_passwd ='C@wilyapm90',
   $pg_install_timeout = 240000,
@@ -89,7 +89,7 @@ define caapm::em (
 
   # Enterprise Manager Advanced JVM Settings
   $emLaxNlCurrentVm = '',     # Specify the path to the JVM that will be used to run the Enterprise Manager. Leave blank for default
-  $emLaxNlJavaOptionAdditional = '',  # Specify any desired command line arguments to be used by the Enterprise Manager JVM.
+  $emLaxNlJavaOptionAdditional = $::caapm::em_java_opts_addtl,  # Specify any desired command line arguments to be used by the Enterprise Manager JVM.
 #  $emLaxNlJavaOptionAdditional = '-Xms512m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi',
 
   # WebView Install Settings
@@ -113,9 +113,9 @@ define caapm::em (
   $pbLaxNlJavaOptionAdditional = '',  # Specify any desired command line arguments to be used by the ProbeBuilder JVM.
 #  $pbLaxNlJavaOptionAdditional='-Xms32m -Xmx64m'
 
-  $owner  = 'Administrator',
-  $group  = 'Users',
-  $mode   = '0744',
+  $owner  = $::caapm::owner,
+  $group  = $::caapm::group,
+  $mode   = $::caapm::mode,
 
   $puppet_src = "puppet:///modules/${module_name}"
 

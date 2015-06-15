@@ -1,6 +1,6 @@
 class caapm::config::em_properties (
 
-  $em_home = undef,
+  $em_home = $::caapm::em_home,
 
   # Enteprise Manager Ports Settings
   $default_port = 5001,
@@ -16,14 +16,14 @@ class caapm::config::em_properties (
   # Enterprise Manager Transaction Storage Settings
   $txnTraceDiskSpaceCap = undef,
 
-  $transactionevents_dir = 'trace',
+  $transactionevents_dir = $::caapm::txnTraceDir,
   $transactionevents_storage_max_data_age = 14,
   $transactionevents_storage_optimize_frequency = 24,
   $transactionevents_storage_optimize_timeoffsethour = 02,
 
   # Enterprise Manager SmartStor Settings
-  $smartstor_dir = 'data',
-  $smartstor_archive = 'archive',
+  $smartstor_dir = $::caapm::smartstor_dir,
+  $smartstor_archive = $::caapm::smartstor_archive,
   $smartstor_dedicatedcontroller = false,
   $smartstor_reperiodizationOffsetHour = 0,
   $smartstor_conversionOffsetMinute = 0,
@@ -34,11 +34,11 @@ class caapm::config::em_properties (
   $smartstor_tier3_age = 335,
   $smartstor_tier3_frequency = 900,
   $memoryCache_elements = 32,
-  $baselines_dir = 'data',
+  $baselines_dir = $::caapm::db_file,
 
   # Enterprise Manager Thread Dump Settings
   $threaddump_enable = true,
-  $threaddump_dir = 'threaddumps',
+  $threaddump_dir = $::caapm::threaddump_dir,
   $threaddump_storage_max_disk_usage = 5000,
   $threaddump_storage_clean_disk_freq_days = 1,
   $threaddump_storage_clean_disk_olderthan_days = 30,
@@ -165,10 +165,10 @@ class caapm::config::em_properties (
 #  $clustering.login.em1.weight=
 
 
-  $owner  = $caapm::params::owner,
-  $group  = $caapm::params::group,
-  $mode   = '0644',
-  $version = '9.1.4.0',
+  $owner  = $caapm::owner,
+  $group  = $caapm::group,
+  $mode   = $caapm::mode,
+  $version = $caapm::version
 
 ){
 

@@ -1,6 +1,6 @@
 class caapm::config::apm_events_thresholds (
 
-  $em_home = undef,
+  $em_home = $::caapm::em_home,
   $em_agent_metrics_limit = 50000,  #hiera_lookup(),
   $em_transactionevents_storage_max_disk_usage = 1024,  #hiera_lookup(),
   $em_metrics_live_limit = 500000,  #hiera_lookup(),
@@ -18,10 +18,10 @@ class caapm::config::apm_events_thresholds (
   $em_max_transaction_user_groups = 5000,  #hiera_lookup(),
   $em_max_application_user_rows = 1000,  #hiera_lookup(),
 
-  $owner  = $caapm::params::owner,
-  $group  = $caapm::params::group,
-  $mode   = '0644',
-  $version = '9.1.4.0',
+  $owner  = $caapm::owner,
+  $group  = $caapm::group,
+  $mode   = $caapm::mode,
+  $version = $caapm::version
 
 ){
 

@@ -1,13 +1,11 @@
 class caapm::config::domains_xml (
 
-  $em_home = undef,
-
+  $em_home = $::caapm::em_home,
   $domains = undef,
-
-  $owner  = $caapm::params::owner,
-  $group  = $caapm::params::group,
-  $mode   = '0644',
-  $version = '9.1.4.0',
+  $owner  = $caapm::owner,
+  $group  = $caapm::group,
+  $mode   = $caapm::mode,
+  $version = $caapm::version
 
 ){
 
