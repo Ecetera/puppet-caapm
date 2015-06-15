@@ -1,17 +1,13 @@
 class caapm::config::wv_lax (
 
-  $em_home = undef,
-
+  $em_home = $caapm::em_home,
   $wv_java_opts_addtl = 'Xms128m -Xmx512m -Djava.awt.headless=true -Dorg.owasp.esapi.resources=./config/esapi',
-
-  $owner  = $caapm::params::owner,
-  $group  = $caapm::params::group,
-  $mode   = '0644',
-  $version = '9.1.4.0',
+  $owner  = $caapm::owner,
+  $group  = $caapm::group,
+  $mode   = $caapm::mode,
+  $version = $caapm::version
 
 ){
-
-  validate_absolute_path($em_home)
 
   $wv_lax = "Introscope_WebView.lax"
 

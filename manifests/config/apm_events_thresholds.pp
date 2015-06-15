@@ -25,8 +25,6 @@ class caapm::config::apm_events_thresholds (
 
 ){
 
-  validate_absolute_path($em_home)
-
   $thresholds_config = "apm-events-thresholds-config.xml"
 
   file { $thresholds_config:

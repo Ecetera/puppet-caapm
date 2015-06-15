@@ -7,9 +7,7 @@ class caapm::config::em_lax (
   $mode   = $::caapm::mode,
   $version = $::caapm::version
 
-){
-
-  validate_absolute_path($em_home)
+) {
 
   $em_lax = "Introscope_Enterprise_Manager.lax"
 

@@ -36,4 +36,6 @@ class caapm (
     $mode                          = '0744',
 ) inherits caapm::params {
 
+  validate_absolute_path($em_home)
+
 }

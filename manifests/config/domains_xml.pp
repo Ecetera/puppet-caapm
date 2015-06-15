@@ -9,8 +9,6 @@ class caapm::config::domains_xml (
 
 ){
 
-  validate_absolute_path($em_home)
-
   $domains_xml = "domains.xml"
 
   file { $domains_xml:

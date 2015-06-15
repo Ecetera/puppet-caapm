@@ -170,9 +170,7 @@ class caapm::config::em_properties (
   $mode   = $caapm::mode,
   $version = $caapm::version
 
-){
-
-  validate_absolute_path($em_home)
+) {
 
   $em_properties = "IntroscopeEnterpriseManager.properties"
 
