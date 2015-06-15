@@ -121,10 +121,10 @@ define caapm::em (
 
 ){
 
-  include staging
+  #include staging
 
   $staging_subdir = $module_name
-  $staging_path = $staging::path
+  $staging_path = "${caapm::params::vardir}/staging"
 
   validate_absolute_path($user_install_dir)
 
