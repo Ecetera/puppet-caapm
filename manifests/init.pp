@@ -38,4 +38,14 @@ class caapm (
 
   validate_absolute_path($em_home)
 
+  file { $appdir:
+    ensure  => directory,
+    recurse => true,
+  }
+
+  file { $vardir:
+    ensure  => directory,
+    recurse => true,
+  }
+
 }

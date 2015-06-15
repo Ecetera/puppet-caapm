@@ -126,12 +126,10 @@ define caapm::em (
     fail('You must include the caapm base class before using any caapm defined resources')
   }
 
-  #include staging
+  require staging
 
   $staging_subdir = $module_name
   $staging_path = "${caapm::params::vardir}/staging"
-
-  validate_absolute_path($user_install_dir)
 
   $user_install_dir_em = $::operatingsystem ? {
     'windows' => to_windows_escaped($user_install_dir),
