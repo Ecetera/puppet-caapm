@@ -121,6 +121,11 @@ define caapm::em (
 
 ){
 
+  # The base class must be included first because it is used by parameter defaults
+  if ! defined(Class['caapm']) {
+    fail('You must include the caapm base class before using any caapm defined resources')
+  }
+
   #include staging
 
   $staging_subdir = $module_name
