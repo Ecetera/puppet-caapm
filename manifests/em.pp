@@ -185,6 +185,10 @@ define caapm::em (
     mode   => $mode,
   }
 
+  if file("${puppet_src}/${version}/${pkg_bin}", '/dev/null') != '' {
+    fail('You must place Enterprise Manager installer on Puppet Master')
+  }
+
   # download the Enterprise Manager installer
   staging::file { $pkg_bin:
     source => "${puppet_src}/${version}/${pkg_bin}",
