@@ -34,7 +34,7 @@ define caapm::osgi (
 
   # download the eula.txt
   staging::file { $eula_file:
-    source => "${pkg_src}/${eula_file}",
+    source => "${pkg_src}/${version}/${eula_file}",
     subdir => $staging_subdir,
   }
 
