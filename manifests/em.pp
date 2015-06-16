@@ -155,8 +155,9 @@ define caapm::em (
   }
 
   caapm::osgi { $version:
-    eula_file => $osgi_eula_file,
-    pkg_name  => $osgi_pkg_name
+    eula_file  => $osgi_eula_file,
+    pkg_name   => $osgi_pkg_name,
+    osgisource => $puppet_src,
   }
 
 
