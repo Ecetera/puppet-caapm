@@ -157,7 +157,7 @@ define caapm::em (
   caapm::osgi { $version:
     eula_file  => $osgi_eula_file,
     pkg_name   => $osgi_pkg_name,
-    osgisource => $pkg_src,
+    pkg_src    => $pkg_src,
   }
 
 
@@ -186,8 +186,8 @@ define caapm::em (
     mode   => $mode,
   }
 
-  if file("${pkg_src}/${version}/${pkg_bin}", '/dev/null') == '' {
-    fail('You must place Enterprise Manager installer on Puppet Master')
+  if file("${pkg_src}/${version}/${pkg_bin}", '/dev/null') != '' {
+    fail("You must place installer bins on Puppet Master in ${pkg_src}")
   }
 
   # download the Enterprise Manager installer
