@@ -9,7 +9,7 @@ define caapm::osgi (
   $apmversion  = $title,
   $eula_file = undef,
   $pkg_name = undef,
-  $osgisource = 'puppetmaster'
+  $pkg_src = "puppet:///modules/${module_name}"
 
 ) {
 
@@ -25,23 +25,23 @@ define caapm::osgi (
   }
 
 
-  $pkg_source = $osgisource ? {
-    'opensrcd' => "http://opensrcd.ca.com/ips/osgi/introscope_${version}",
-    default => "puppet:///modules/${module_name}/${version}",
-  }
+  #$pkg_source = $osgisource ? {
+  #  'opensrcd' => "http://opensrcd.ca.com/ips/osgi/introscope_${version}",
+  #  default => "puppet:///modules/${module_name}/${version}",
+  #}
 
-  $osgi_src = "${pkg_source}/${pkg_name}"
+  $osgi_src = "${pkg_src}/${pkg_name}"
 
   # download the eula.txt
   staging::file { $eula_file:
-    source => "${pkg_source}/${eula_file}",
+    source => "${pkg_src}/${eula_file}",
     subdir => $staging_subdir,
   }
 
 
   # download the osgi package
   staging::file { $pkg_name:
-    source  => "${pkg_source}/${pkg_name}",
+    source  => "${pkg_src}/${pkg_name}",
     subdir  => $staging_subdir,
     require => Staging::File[$eula_file],
   }

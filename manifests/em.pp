@@ -117,7 +117,7 @@ define caapm::em (
   $group  = $::caapm::group,
   $mode   = $::caapm::mode,
 
-  $puppet_src = "puppet:///modules/${module_name}"
+  $pkg_src = "puppet:///modules/${module_name}"
 
 ){
 
@@ -157,7 +157,7 @@ define caapm::em (
   caapm::osgi { $version:
     eula_file  => $osgi_eula_file,
     pkg_name   => $osgi_pkg_name,
-    osgisource => $puppet_src,
+    osgisource => $pkg_src,
   }
 
 
@@ -167,7 +167,7 @@ define caapm::em (
   $lic_file = "${::ipaddress}.em.lic"
   $failed_log = 'silent.install.failed.txt'
 
-  $resp_src = "${puppet_src}/${resp_file}"
+  $resp_src = "${pkg_src}/${resp_file}"
 
   # determine the executable package
   $pkg_bin = $::operatingsystem ? {
@@ -180,19 +180,19 @@ define caapm::em (
     ensure => present,
     force  => true,
     path   => "${staging_path}/${staging_subdir}/${eula_file}",
-    source => "${puppet_src}/${version}/${eula_file}",
+    source => "${pkg_src}/${version}/${eula_file}",
     owner  => $owner,
     group  => $group,
     mode   => $mode,
   }
 
-  if file("${puppet_src}/${version}/${pkg_bin}", '/dev/null') != '' {
+  if file("${pkg_src}/${version}/${pkg_bin}", '/dev/null') == '' {
     fail('You must place Enterprise Manager installer on Puppet Master')
   }
 
   # download the Enterprise Manager installer
   staging::file { $pkg_bin:
-    source => "${puppet_src}/${version}/${pkg_bin}",
+    source => "${pkg_src}/${version}/${pkg_bin}",
     subdir => $staging_subdir,
   }
 
@@ -267,7 +267,7 @@ define caapm::em (
         ensure  => present,
         force   => true,
         path    => "${target_dir}/bin/WVCtrl.sh",
-        source  => "${puppet_src}/bin/WVCtrl.sh",
+        source  => "${pkg_src}/bin/WVCtrl.sh",
         owner   => $owner,
         group   => $group,
         mode    => '0755',
@@ -293,7 +293,7 @@ define caapm::em (
 
   file { $lic_file:
     ensure =>  present,
-    source => "${puppet_src}/license/${lic_file}",
+    source => "${pkg_src}/license/${lic_file}",
     path   => "${target_dir}license/${lic_file}",
     owner  => $owner,
     group  => $group,
