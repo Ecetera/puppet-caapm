@@ -5,45 +5,46 @@
 #
 #
 
-define caapm::osgi (
+class caapm::osgi (
+/*
   $apmversion  = $title,
   $eula_file = undef,
   $pkg_name = undef,
   $osgisource = 'puppetmaster'
+ */
+) inherits caapm {
 
-) {
-
-  include staging
-
-  $staging_subdir = $module_name
-  $staging_path = $staging::path
-
-  $version = $apmversion ? {
+  $osgiversion = $version ? {
     '9.7.0.0' => '9.7.0.27',
     '9.7.1.0' => '9.7.1.16',
-    default   => $apmversion,
+    default   => $version,
   }
 
-
   $pkg_source = $osgisource ? {
-    'opensrcd' => "http://opensrcd.ca.com/ips/osgi/introscope_${version}",
-    default => "puppet:///modules/${module_name}/${version}",
+    'opensrcd' => "http://opensrcd.ca.com/ips/osgi/introscope_${osgiversion}",
+    default => "puppet:///modules/${module_name}/${osgiversion}",
   }
 
   $osgi_src = "${pkg_source}/${pkg_name}"
 
   # download the eula.txt
-  staging::file { $eula_file:
-    source => "${pkg_source}/${eula_file}",
-    subdir => $staging_subdir,
+  file { $osgi_eula_file:
+    ensure => present,
+    force  => true,
+    path   => "${stage_dir}/${osgi_eula_file}",
+    source => "${puppet_src}/${version}/${osgi_eula_file}",
+    owner  => $owner,
+    group  => $group,
+    mode   => $mode,
   }
 
-
   # download the osgi package
-  staging::file { $pkg_name:
-    source  => "${pkg_source}/${pkg_name}",
-    subdir  => $staging_subdir,
-    require => Staging::File[$eula_file],
+  file { $osgi_pkg_name:
+    path   => "${stage_dir}/${osgi_pkg_name}",
+    source => "${puppet_src}/${version}/${osgi_pkg_name}",
+    owner   =>  $owner,
+    group   =>  $group,
+    mode    =>  $mode,
   }
 
 }

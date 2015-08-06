@@ -197,7 +197,7 @@ This is because MOM EM has no way of knowing properties of EMs outside this clus
 -->
 
     <agent-collector name="Incomplete Agent Configuration">
-       <agent-specifier>(.*)(Default Agent|WebLogic Agent|WebSphere Agent)</agent-specifier>
+       <agent-specifier>(.*)(Default Agent|WebLogic Agent|WebSphere Agent)(.*)</agent-specifier>
        <include/>
     </agent-collector>
 
