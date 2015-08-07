@@ -47,7 +47,7 @@ lax.main.method=main
 #   -----------------
 #   the VM to use for the next launch
 
-lax.nl.current.vm=jre/bin/java
+lax.nl.current.vm=<%= @emLaxNlCurrentVm %>
 
 
 #   LAX.NL.JAVA.LAUNCHER.MAIN.CLASS
@@ -76,7 +76,7 @@ lax.nl.java.launcher.main.method=main
 #   -Dosgi.clean=false 
 #   Set the lax java option additional values like: -Xms1024m -Xmx1024m -Djava.awt.headless=false -XX:MaxPermSize=256m -Dmail.mime.charset=UTF-8 -Dorg.owasp.esapi.resources=./config/esapi -XX:+UseConcMarkSweepGC -XX:+UseParNewGC
 
-lax.nl.java.option.additional=<%= @em_java_opts_addtl %>
+lax.nl.java.option.additional=<%= @emLaxNlJavaOptionAdditional %>
 
 
 #   LAX.NL.MESSAGE.VM.NOT.LOADED

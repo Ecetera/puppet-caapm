@@ -61,11 +61,11 @@ class caapm::em::install inherits caapm {
   }
 
 
-#  validate_absolute_path($target_dir)
+  validate_absolute_path($em_home)
   file { $lic_file:
     ensure =>  present,
     source => "${puppet_src}/license/${lic_file}",
-    path   => "${target_dir}license/${lic_file}",
+    path   => "${em_home}license/${lic_file}",
     owner  => $owner,
     group  => $group,
     mode   => $mode,
@@ -77,7 +77,7 @@ class caapm::em::install inherits caapm {
       exec { $pkg_name :
 #        command     => "$staging_path/$staging_subdir/$pkg_bin -f $install_options;cat $staging_path/$staging_subdir/silent.install.failed.txt;true",
         command   => "${stage_dir}/${pkg_bin} -f ${install_options}",
-        creates   => "${target_dir}launcher.jar",
+        creates   => "${em_home}launcher.jar",
         require   => [Class[caapm::osgi],File[$resp_file], File[$pkg_bin], File[$failed_log]],
         logoutput => true,
         returns   => [0,1],

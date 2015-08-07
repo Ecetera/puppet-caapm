@@ -53,10 +53,8 @@ class caapm::defaults {
   $config_em_as_service    = false
   $start_em_as_service     = true
 
-  # Enterprise Manager Advanced JVM Settings
-  $emLaxNlCurrentVm            = ''     # Specify the path to the JVM that will be used to run the Enterprise Manager. Leave blank for default
-  $emLaxNlJavaOptionAdditional = ''  # Specify any desired command line arguments to be used by the Enterprise Manager JVM.
-#  $emLaxNlJavaOptionAdditional = '-Xms512m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi',
+  # Specify any desired command line arguments to be used by the Enterprise Manager JVM.
+  $emLaxNlJavaOptionAdditional = '-Xms1024m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi'
 
   # WebView Install Settings
   $webview_port                = 8080
@@ -89,7 +87,7 @@ class caapm::defaults {
 
 
 # defaults for IntroscopeEnterpriseManager.properties
-  $em_home                     = undef
+#  $em_home                     = undef
   $webserver_dir               = 'webapps'
 
   $trace_storage_max_data_age            = 14
@@ -109,6 +107,7 @@ class caapm::defaults {
   $smartstor_tier3_frequency             = 900
   $memoryCache_elements                  = 32
   $baselines_dir                         = 'data'
+  $logs_dir                              = 'logs'
 
   # Enterprise Manager Thread Dump Settings
   $threaddump_enable                     = true
@@ -180,7 +179,7 @@ class caapm::defaults {
   $change_detector_disabled            = true
 
   # Clustering Configuration
-  $clustering_collector_id                                        = $::fqdn  #hiera_lookup - dns alias
+  $clustering_collector_id             = $::fqdn  #hiera_lookup - dns alias
   $clustering_manager_slow_collector_disconnect_threshold_seconds = 60
   $clustering_manager_slow_collector_threshold = 10000
 
@@ -258,7 +257,7 @@ class caapm::defaults {
     default  => $user_install_dir,
   }
 
-  $target_dir = $upgradeEM ? {
+  $em_home = $upgradeEM ? {
     false => $user_install_dir_em,
     true  => $::operatingsystem ? {
       'windows' => to_windows_escaped($upgraded_install_dir),
@@ -272,6 +271,7 @@ class caapm::defaults {
       $stage_dir       = '/tmp'
       $osgi_pkg_name   = "osgiPackages.v${version}.unix.tar"
       $pkg_bin         =  "introscope${version}linuxAMD64.bin"
+      $emLaxNlCurrentVm = 'jre/bin/java'
       $em_service_name = 'introscope'
       $em_display_name = undef
       $wv_service_name = 'webview'
@@ -283,6 +283,7 @@ class caapm::defaults {
       $stage_dir       = 'C:\\Windows\\Temp'
       $osgi_pkg_name   = "osgiPackages.v${version}.windows.zip"
       $pkg_bin         = "introscope${version}${::operatingsystem}AMD64.exe"
+      $emLaxNlCurrentVm = 'jre\\bin\\java.exe'
       $em_service_name = 'IScopeEM'
       $em_display_name = 'Introscope Enterprise Manager'
       $wv_service_name = 'IScopeWV'
