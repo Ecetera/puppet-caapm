@@ -62,6 +62,7 @@ class caapm::em (
   $webview_port                = $::caapm::webview_port,
   $webview_em_host             = $::caapm::webview_em_host,
   $webview_em_port             = $::caapm::webview_em_port,
+  $smtp_host                   = $::caapm::smtp_host,
 
   # WebView As Windows Service Settings
   $config_wv_as_service        = $::caapm::config_wv_as_service,

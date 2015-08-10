@@ -414,7 +414,7 @@ emAsServiceDisplayName=<%= @em_service_display_name %>
 
 # The APM database can be on PostgreSQL or Oracle 10g/11g
 # Set one of the propeties to true depending on whether you choose Postgres or Oracle
-<% if @database != 'postgresql' %>
+<% if @database != 'Postgres' %>
 chosenDatabaseIsPostgres=false
 chosenDatabaseIsOracle=true
 <% else %> 

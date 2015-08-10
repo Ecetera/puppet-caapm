@@ -36,7 +36,7 @@ class caapm::defaults {
   $threaddump_dir          = 'threaddump'
 
   # APM Database Settings
-  $database                = 'postgresql'
+  $database                = 'Postgres'
   $db_host                 = 'localhost'
   $db_port                 = 5432
   $db_name                 = 'cemdb'
@@ -48,6 +48,7 @@ class caapm::defaults {
   $pg_admin_passwd         = 'C@wilyapm90'
   $pg_install_timeout      = 240000
   $pg_as_service           = true
+  $pg_ssl                  = false
 
   # Enterprise Manager As Windows Service Settings
   $config_em_as_service    = false
@@ -60,6 +61,7 @@ class caapm::defaults {
   $webview_port                = 8080
   $webview_em_host             = 'localhost'
   $webview_em_port             = 5001
+  $smtp_host                   = 'myMailServer.host.domain'
 
   # WebView As Windows Service Settings
   $config_wv_as_service        = false
@@ -87,7 +89,6 @@ class caapm::defaults {
 
 
 # defaults for IntroscopeEnterpriseManager.properties
-#  $em_home                     = undef
   $webserver_dir               = 'webapps'
 
   $trace_storage_max_data_age            = 14

@@ -60,6 +60,7 @@ class caapm (
   $pg_admin_passwd         = $caapm::defaults::pg_admin_passwd,
   $pg_install_timeout      = $caapm::defaults::pg_install_timeout,
   $pg_as_service           = $caapm::defaults::pg_as_service,
+  $pg_ssl                  = $caapm::defaults::pg_ssl,
 
   # Enterprise Manager As Windows Service Settings
   $config_em_as_service    = $caapm::defaults::config_em_as_service,
@@ -75,6 +76,7 @@ class caapm (
   $webview_port                = $caapm::defaults::webview_port,
   $webview_em_host             = $caapm::defaults::webview_em_host,
   $webview_em_port             = $caapm::defaults::webview_em_port,
+  $smtp_host                   = $caapm::defaults::smtp_host,
 
   # WebView As Windows Service Settings
   $config_wv_as_service        = $caapm::defaults::config_wv_as_service,
