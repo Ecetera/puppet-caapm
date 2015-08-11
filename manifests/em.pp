@@ -47,6 +47,8 @@ class caapm::em (
   $pg_admin_passwd         = $::caapm::pg_admin_passwd,
   $pg_install_timeout      = $::caapm::pg_install_timeout,
   $pg_as_service           = $::caapm::pg_as_service,
+  $pg_ssl                  = $::caapm::pg_ssl,
+
 
   # Enterprise Manager As Windows Service Settings
   $config_em_as_service    = $::caapm::config_em_as_service,

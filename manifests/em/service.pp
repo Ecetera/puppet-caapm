@@ -5,11 +5,6 @@ class caapm::em::service inherits caapm {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  $em_as_service = ('Enterprise Manager' in $features) or $config_em_as_service
-  $wv_as_service = ('WebView' in $features) or $config_wv_as_service
-  $pg_as_service = ('Database' in $features)
-
-
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
 
@@ -21,7 +16,7 @@ class caapm::em::service inherits caapm {
         content => template("${module_name}/init.d/introscope"),
         owner   =>  $owner,
         group   =>  $group,
-        mode    =>  '0744',
+        mode    =>  '0755',
         notify  => Service[$em_service_name],
       }
 
@@ -32,7 +27,7 @@ class caapm::em::service inherits caapm {
         content => template("${module_name}/init.d/webview"),
         owner   =>  $owner,
         group   =>  $group,
-        mode    =>  '0744',
+        mode    =>  '0755',
         require => [File['WVCtrl.sh'],Exec[$pkg_name]],
         notify  => Service[$wv_service_name]
       }
@@ -45,7 +40,7 @@ class caapm::em::service inherits caapm {
         source  => "${puppet_src}/bin/WVCtrl.sh",
         owner   => $owner,
         group   => $group,
-        mode    => '0744',
+        mode    => '0755',
         require => Exec[$pkg_name] ,
       }
 
@@ -68,7 +63,7 @@ class caapm::em::service inherits caapm {
     enable => $wv_as_service,
   }
 
-  service { 'postgres':
+  service { $pg_service_name:
     ensure => $pg_as_service,
     enable => $pg_as_service,
   }

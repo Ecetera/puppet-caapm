@@ -6,15 +6,7 @@ class caapm::em::install inherits caapm {
   }
 
   include caapm::osgi
-/*
-  class { 'caapm::osgi':
-    apmversion => $::caapm::version,
-    eula_file  => $::caapm::osgi_eula_file,
-    pkg_name   => $::caapm::osgi_pkg_name,
-  }
- */
-
-  $resp_src = "${puppet_src}/${resp_file}"
+#  $resp_src = "${puppet_src}/${resp_file}"
 
   # download the eula.txt
   file { $eula_file:
@@ -62,15 +54,6 @@ class caapm::em::install inherits caapm {
 
 
   validate_absolute_path($em_home)
-  file { $lic_file:
-    ensure =>  present,
-    source => "${puppet_src}/license/${lic_file}",
-    path   => "${em_home}license/${lic_file}",
-    owner  => $owner,
-    group  => $group,
-    mode   => $mode,
-  }
-
 
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {

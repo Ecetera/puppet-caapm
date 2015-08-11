@@ -267,6 +267,30 @@ class caapm::defaults {
     default => $user_install_dir_em
   }
 
+  $pg_service_name = $version ? {
+    '9.1.4.0' => $::operatingsystem ? {
+        'windows' => 'pgsql-8.4',
+        default  => 'postgresql-8.4',
+      },
+    '9.6.0.0' => $::operatingsystem ? {
+        'windows' => 'pgsql-9.2',
+        default  => 'postgresql-8.4',
+      },
+    '9.7.0.27' => $::operatingsystem ? {
+        'windows' => 'pgsql-9.2',
+        default  => 'postgresql-9.2',
+      },
+    '9.7.1.16' => $::operatingsystem ? {
+        'windows' => 'pgsql-9.2',
+        default  => 'postgresql-9.2',
+      },
+    default => undef,
+  }
+
+  $em_as_service = ('Enterprise Manager' in $features) or $config_em_as_service
+  $wv_as_service = ('WebView' in $features) or $config_wv_as_service
+  $pg_as_service = ('Database' in $features)
+
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       $stage_dir       = '/tmp'

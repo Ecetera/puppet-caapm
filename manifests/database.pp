@@ -5,152 +5,51 @@
 #
 #
 
-define caapm::database (
-  $version = '9.7.1.16',
-  $user_install_dir = undef,
+class caapm::database (
+
+
+  $version                 = $::caapm::version,
+  $user_install_dir        = $::caapm::user_install_dir,
+  $features                = $::caapm::features,
 
   # APM Database Settings
-  $database = 'postgresql',
-  $db_host = 'localhost',
-  $db_port = 5432,
-  $db_name = 'cemdb',
-  $db_user_name = 'admin',
-  $db_user_passwd = 'wily',
+  $database                = $::caapm::database,
+  $db_host                 = $::caapm::db_host,
+  $db_port                 = $::caapm::db_port,
+  $db_name                 = $::caapm::db_name,
+  $db_user_name            = $::caapm::db_user_name,
+  $db_user_passwd          = $::caapm::db_user_passwd,
 
-  $postgres_dir = 'database',
-  $pg_admin_user = 'postgres',
-  $pg_admin_passwd = 'C@wilyapm90',
-  $pg_install_timeout = 240000,
-  $pg_as_service = true,
+  $postgres_dir            = $::caapm::postgres_dir,
+  $pg_admin_user           = $::caapm::pg_admin_user,
+  $pg_admin_passwd         = $::caapm::pg_admin_passwd,
+  $pg_install_timeout      = $::caapm::pg_install_timeout,
+  $pg_as_service           = $::caapm::pg_as_service,
+  $pg_ssl                  = $::caapm::pg_ssl,
 
-  $owner  = 'Administrator',
-  $group  = 'Users',
-  $mode   = '0655',
+  $owner                       = $::caapm::owner,
+  $group                       = $::caapm::group,
+  $mode                        = $::caapm::mode,
 
-  $src_permissions = ignore,
   $puppet_src = "puppet:///modules/${module_name}"
 
 ){
 
-  include staging
+  include caapm::em::install
+  include caapm::db::config
+  include caapm::em::service
 
-  $staging_subdir = $module_name
-  $staging_path = $staging::path
+  Class['caapm::em::install'] ->
+  Class['caapm::db::config']  ->
+#  Class['caapm::em::plugins']  ->
+  Class['caapm::em::service']
 
-  $service_name = $version ? {
-    '9.1.4.0' => $::operatingsystem ? {
-        'windows' => 'pgsql-8.4',
-        default  => 'postgresql-8.4',
-      },
-    '9.6.0.0' => $::operatingsystem ? {
-        'windows' => 'pgsql-9.2',
-        default  => 'postgresql-8.4',
-      },
-    '9.7.0.27' => $::operatingsystem ? {
-        'windows' => 'pgsql-9.2',
-        default  => 'postgresql-9.2',
-      },
-    '9.7.1.16' => $::operatingsystem ? {
-        'windows' => 'pgsql-9.2',
-        default  => 'postgresql-9.2',
-      },
-    default => undef,
+  anchor {
+    'caapm::begin':
+       before  => Class['caapm::em::install','caapm::db::config'],
+       notify  => Class['caapm::em::service'];
+    'caapm::end':
+       require => Class['caapm::em::service'];
   }
 
-  $user_install_dir_em = $::operatingsystem ? {
-    'windows' => to_windows_escaped($user_install_dir),
-    default  => $user_install_dir,
-  }
-
-  $pkg_name = "CA APM Introscope ${version}"
-  $eula_file = 'ca-eula.txt'
-  $resp_file = 'EnterpriseManager.ResponseFile.txt'
-  $lic_file = "${::ipaddress}.em.lic"
-  $failed_log = 'silent.install.failed.txt'
-  $features = 'Database'
-  $upgradeEM = false
-  $clusterEM = false
-
-  $resp_src = "${puppet_src}/${resp_file}"
-
-  # determine the executable package
-  $pkg_bin = $::operatingsystem ? {
-    'windows' => "introscope${version}${::operatingsystem}AMD64.exe",
-    default  => "introscope${version}linuxAMD64.bin",
-  }
-
-  # download the eula.txt
-  file { $eula_file:
-    ensure => present,
-    force  => true,
-    path   => "${staging_path}/${staging_subdir}/${eula_file}",
-    source => "${puppet_src}/${version}/${eula_file}",
-    owner  => $owner,
-    group  => $group,
-    mode   => $mode,
-  }
-
-  # download the Enterprise Manager installer
-  staging::file { $pkg_bin:
-    source => "${puppet_src}/${version}/${pkg_bin}",
-    subdir => $staging_subdir,
-  }
-
-  # generate the response file
-  file { $resp_file:
-    ensure  => present,
-    force   => true,
-    path    => "${staging_path}/${staging_subdir}/${resp_file}",
-    content => template("${module_name}/${version}/${resp_file}"),
-    owner   => $owner,
-    group   => $group,
-    mode    => $mode,
-  }
-
-  $install_options = $::operatingsystem ? {
-    'windows' => "${staging_path}\\${staging_subdir}\\${resp_file}",
-    default   => "${staging_path}/${staging_subdir}/${resp_file}",
-  }
-
-
-  file { $failed_log :
-    ensure => absent,
-    path   => "${staging_path}/${staging_subdir}/${failed_log}",
-  }
-
-  case $::operatingsystem {
-    CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
-      exec { $pkg_name :
-        command   => "${staging_path}/${staging_subdir}/${pkg_bin} -f ${install_options}",
-        creates   =>  "${postgres_dir}/bin/postgres",
-        require   => [File[$resp_file], Staging::File[$pkg_bin], File[$failed_log]],
-        logoutput => true,
-        returns   => [0,1],
-        timeout   => 0,
-        notify    => Service[$service_name],
-      }
-
-    }
-
-    windows: {
-      # install the Enterprise Manager package
-      package { $pkg_name :
-        ensure          => $version,
-        source          => "${staging_path}/${staging_subdir}/${pkg_bin}",
-        install_options => [" -f ${install_options}" ],
-        require         => [File[$resp_file], Staging::File[$pkg_bin],File[$failed_log]],
-        notify          => Service[$service_name],
-        allow_virtual   => true,
-      }
-    }
-    default: {}
-  }
-
-#  if ($pg_admin_user == 'postgres') {
-  # ensure the service is running
-  service { $service_name:
-    ensure => $pg_as_service,
-    enable => $pg_as_service,
-  }
-#  }
 }
