@@ -1,308 +1,260 @@
-#
-# == Define: caapm::em
-#
-# This installs the Enterprise Manager and its accompanying End User License Agreement file, eula.txt.
-#
-# Parameters:
-# - $version the osgi version to download and install.
-# - $souce_path the source location to obtain the files from.
-#
 
-define caapm::em (
-  $version = '9.1.4.0',
-  $user_install_dir = undef,
-  $features = 'Enterprise Manager,WebView',
+class caapm::em (
 
-  # Enterprise Manager Upgrade toggle
-  $upgradeEM = false,
-  $upgraded_install_dir = undef,
-  $upgrade_schema = false,
+  $version                 = $::caapm::version,
+  $user_install_dir        = $::caapm::user_install_dir,
+  $features                = $::caapm::features,
+
+  # Enterprise Manager Upgrade toggles
+  $upgradeEM               = $::caapm::upgradeEM,
+  $upgraded_install_dir    = $::caapm::upgrade_install_dir,
+  $upgrade_schema          = $::caapm::upgrade_schema,
 
   # Enteprise Manager Ports Settings
-  $default_port = 5001,
-  $ssl_port = 5443,
-  $web_port = 8081,
+  $default_port            = $::caapm::default_port,
+  $ssl_port                = $::caapm::secure_port,
+  $web_port                = $::caapm::web_port,
 
   # Enterprise Manager User Password Settings
-  $admin_passwd = undef,
-  $guest_passwd = undef,
+  $admin_passwd            = $::caapm::admin_passwd,
+  $guest_passwd            = $::caapm::guest_passwd,
 
   # Enterprise Manager Clustering Settings
-  $clusterEM = false,        # Set to true if this Enterprise Manager will participate in a cluster.
-  $cluster_role = undef,        # Specify clustering role for this EM. Valid values are "Collector", "Manager" or "CDV"
+  $clusterEM               = $::caapm::cluserEM,        # Set to true if this Enterprise Manager will participate in a cluster.
+  $cluster_role            = $::caapm::cluster_role,    # Specify clustering role for this EM. Valid values are "Collector", "MOM" or "CDV"
 
   # Enterprise Manager Transaction Storage Settings
-  $txnTraceDataShelfLife = 14,
-  $txnTraceDir = 'trace',
-  $txnTraceDiskSpaceCap = undef,
+  $txnTraceDataShelfLife   = $::caapm::trace_shelf_life,
+  $txnTraceDir             = $::caapm::trace_dir,
+  $txnTraceDiskSpaceCap    = $::caapm::trace_disk_cap,
 
   # Enterprise Manager SmartStor Settings
-  $smartstor_dir = 'data',
+  $smartstor_dir           = $::caapm::smartstor_dir,
 
   # Enterprise Manager Thread Dump Settings
-  $threaddump_dir = 'threaddump',
-
-  # CA APM Powerpack and Integrations toggle
-  $enable_ADA = true,         #CA APM Integration for Application Delivery Analysis
-  $enable_OracleDB = false,         #CA APM for Oracle Databases
-  $enable_SharePointPortal = false,         #CA APM for Microsoft SharePoint
-  $enable_WebServers = false,         #CA APM for Web Servers
-  $enable_WebLogic = false,         #CA APM for Oracle WebLogic Server
-  $enable_WebLogicPortal = false,         #CA APM for Oracle WebLogic Portal
-  $enable_WebSphere = false,         #CA APM for IBM WebSphere Application Server for Distributed Environments
-  $enable_WebSpherePortal = false,         #CA APM for IBM WebSphere Portal
-  $enable_WebSphereMQandMB = false,         #CA APM for IBM WebSphere MQ and IBM WebSphere Message Broker
-  $enable_IBMCTG = false,         #CA APM for IBM CICS Transaction Gateway
-  $enable_IBMzOSExtension = false,         #CA APM for IBM z/OS
-  $enable_Sysview = false,         #CA Cross-Enterprise Application Performance Management
-  $enable_SiteMinder = false,         #CA APM for CA SiteMinder Web Access Manager
-  $enable_SiteMinderSNMP = false,         #CA APM for CA SiteMinder SNMP Collector
-  $enable_SOA = true, #SOA Monitoring Options
-  $enable_OSB = false,         #CA APM for Oracle Service Bus
-  $enable_TibcoBW = false,         #CA APM for TIBCO BusinessWorks
-  $enable_TibcoEMS = false,         #CA APM for TIBCO Enterprise Message Service
-  $enable_WPSandWESB = false,         #CA APM for IBM WebSphere Process Server/Business Process Management
-  $enable_WMBroker = false,         #CA APM for webMethods Broker
-  $enable_WebMethodsIS = false,         #CA APM for webMethods Integration Server
-  $enable_CloudMonitor = false,         #CA APM Integration with Cloud Monitor
-  $enable_CALISA = false,         #CA APM Integration for CA LISA
+  $threaddump_dir          = $::caapm::threaddump_dir,
 
   # APM Database Settings
-  $database = 'postgresql',
-  $db_host = 'localhost',
-  $db_port = 5432,
-  $db_name = 'cemdb',
-  $db_user_name = 'admin',
-  $db_user_passwd = 'wily',
+  $database                = $::caapm::database,
+  $db_host                 = $::caapm::db_host,
+  $db_port                 = $::caapm::db_port,
+  $db_name                 = $::caapm::db_name,
+  $db_user_name            = $::caapm::db_user_name,
+  $db_user_passwd          = $::caapm::db_user_passwd,
 
-  $postgres_dir = 'database',
-  $pg_admin_user ='postgres',
-  $pg_admin_passwd ='C@wilyapm90',
-  $pg_install_timeout = 240000,
-  $pg_as_service = true,
+  $postgres_dir            = $::caapm::postgres_dir,
+  $pg_admin_user           = $::caapm::pg_admin_user,
+  $pg_admin_passwd         = $::caapm::pg_admin_passwd,
+  $pg_install_timeout      = $::caapm::pg_install_timeout,
+  $pg_as_service           = $::caapm::pg_as_service,
 
   # Enterprise Manager As Windows Service Settings
-  $config_em_as_service = false,
-  $em_service_name = 'IScopeEM',
-  $em_service_display_name = 'Introscope Enterprise Manager',
-  $start_em_as_service = true,
+  $config_em_as_service    = $::caapm::config_em_as_service,
+  $em_service_name         = $::caapm::em_service_name,
+  $em_service_display_name = $::caapm::em_service_display_name,
+  $start_em_as_service     = $::caapm::start_em_as_service,
 
   # Enterprise Manager Advanced JVM Settings
-  $emLaxNlCurrentVm = '',     # Specify the path to the JVM that will be used to run the Enterprise Manager. Leave blank for default
-  $emLaxNlJavaOptionAdditional = '',  # Specify any desired command line arguments to be used by the Enterprise Manager JVM.
-#  $emLaxNlJavaOptionAdditional = '-Xms512m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi',
+  $emLaxNlCurrentVm            = $::caapm::emLaxNlCurrentVm,             # Specify the path to the JVM that will be used to run the Enterprise Manager. Leave blank for default
+  $emLaxNlJavaOptionAdditional = $::caapm::emLaxNlJavaOptionAdditional,  # Specify any desired command line arguments to be used by the Enterprise Manager JVM.
 
   # WebView Install Settings
-  $webview_port = 8080,
-  $webview_em_host = 'localhost',
-  $webview_em_port = 5001,
+  $webview_port                = $::caapm::webview_port,
+  $webview_em_host             = $::caapm::webview_em_host,
+  $webview_em_port             = $::caapm::webview_em_port,
+  $smtp_host                   = $::caapm::smtp_host,
 
   # WebView As Windows Service Settings
-  $config_wv_as_service = false,
-  $wv_service_name = 'IScopeWV',
-  $wv_service_display_name = 'Introscope WebView',
-  $start_wv_as_service = true,
+  $config_wv_as_service        = $::caapm::config_wv_as_service,
+  $wv_service_name             = $::caapm::wv_service_name,
+  $wv_service_display_name     = $::caapm::wv_service_display_name,
+  $start_wv_as_service         = $::caapm::start_wv_as_service,
 
   # WebView Advanced JVM Settings
-  $wvLaxNlCurrentVm = '',     # Specify the path to the JVM that will be used to run the WebView. Leave blank for default
-  $wvLaxNlJavaOptionAdditional = '',  # Specify any desired command line arguments to be used by the WebView JVM.
-#  $wvLaxNlJavaOptionAdditional='-Xms128m -Xmx512m -Djava.awt.headless=true -Dorg.owasp.esapi.resources=./config/esapi'
+  $wvLaxNlCurrentVm            = $::caapm::wvLaxNlCurrentVm,             # Specify the path to the JVM that will be used to run the WebView. Leave blank for default
+  $wvLaxNlJavaOptionAdditional = $::caapm::wvLaxNlJavaOptionAdditional,  # Specify any desired command line arguments to be used by the WebView JVM.
 
   # ProbeBuilder Advanced JVM Settings
-  $pbLaxNlCurrentVm = '',     # Specify the path to the JVM that will be used to run the Workstation. Leave blank for default
-  $pbLaxNlJavaOptionAdditional = '',  # Specify any desired command line arguments to be used by the ProbeBuilder JVM.
-#  $pbLaxNlJavaOptionAdditional='-Xms32m -Xmx64m'
+  $pbLaxNlCurrentVm            = $::caapm::pbLaxNlCurrentVm,             # Specify the path to the JVM that will be used to run the Workstation. Leave blank for default
+  $pbLaxNlJavaOptionAdditional = $::caapm::pbLaxNlJavaOptionAdditional,  # Specify any desired command line arguments to be used by the ProbeBuilder JVM.
 
-  $owner  = 'Administrator',
-  $group  = 'Users',
-  $mode   = '0744',
+# defaults for IntroscopeEnterpriseManager.properties
+  $webserver_dir               = $::caapm::webserver_dir,
+
+  $trace_storage_max_data_age            = $::caapm::trace_storage_max_data_age,
+  $trace_storage_optimize_frequency      = $::caapm::trace_storage_optimize_frequency,
+  $trace_storage_optimize_timeoffsethour = $::caapm::trace_storage_optimize_timeoffsethour,
+
+  # Enterprise Manager SmartStor Settings
+  $smartstor_archive                     = $::caapm::smartstor_archive,
+  $smartstor_dedicatedcontroller         = $::caapm::smartstor_dedicatedcontroller,
+  $smartstor_reperiodizationOffsetHour   = $::caapm::smartstor_reperiodizationOffsetHour,
+  $smartstor_conversionOffsetMinute      = $::caapm::smartstor_conversionOffsetMinute,
+  $smartstor_tier1_age                   = $::caapm::smartstor_tier1_age,
+  $smartstor_tier1_frequency             = $::caapm::smartstor_tier1_frequency,
+  $smartstor_tier2_age                   = $::caapm::smartstor_tier2_age,
+  $smartstor_tier2_frequency             = $::caapm::smartstor_tier2_frequency,
+  $smartstor_tier3_age                   = $::caapm::smartstor_tier3_age,
+  $smartstor_tier3_frequency             = $::caapm::smartstor_tier3_frequency,
+  $memoryCache_elements                  = $::caapm::memoryCache_elements,
+  $baselines_dir                         = $::caapm::baselines_dir,
+
+  # Enterprise Manager Thread Dump Settings
+  $threaddump_enable                     = $::caapm::threaddump_enable,
+  $threaddump_storage_max_disk_usage     = $::caapm::threaddump_storage_max_disk_usage,
+  $threaddump_storage_clean_disk_freq_days      = $::caapm::threaddump_storage_clean_disk_freq_days,
+  $threaddump_storage_clean_disk_olderthan_days = $::caapm::threaddump_storage_clean_disk_olderthan_days,
+
+  # SNMP Adapter Settings
+  $snmp_enable              = $::caapm::snmp_enable,
+  $snmp_agent_port          = $::caapm::snmp_agent_port,
+  $snmp_notification_enable = $::caapm::snmp_notification_enable,
+  $snmp_target_host         = $::caapm::snmp_target_host,
+  $snmp_target_port         = $::caapm::snmp_target_port,
+  $snmp_target_community    = $::caapm::snmp_target_community,
+
+  # SCARVES Smartcard Authentication
+  $scauth_enable            = $::caapm::scauth_enable,
+  $scauth_hostname          = $::caapm::scauth_hostname,
+  $scauth_port              = $::caapm::scauth_port,
+  $scauth_keystore          = $::caapm::scauth_keystore,
+  $scauth_keypass           = $::caapm::scauth_keypass,
+
+  # SSA/Catalyst SNMP
+  $catalyst_snmp_enable           = $::caapm::catalyst_snmp_enable,
+  $catalyst_snmp_destination_host = $::caapm::catalyst_snmp_destination_host,
+  $catalyst_snmp_destination_port = $::caapm::catalyst_snmp_destination_port,
+  $catalyst_snmp_community        = $::caapm::catalyst_snmp_community,
+  $catalyst_snmp_trigger          = $::caapm::catalyst_snmp_trigger,
+  $catalyst_data_obsolete_time    = $::caapm::catalyst_data_obsolete_time,
+
+  # Hot Failover Configuration
+  $failover_enable                = $::caapm::failover_enable,
+  $failover_primary               = $::caapm::failover_primary,
+  $failover_secondary             = $::caapm::failover_secondary,
+  $failover_interval              = $::caapm::failover_interval,
+
+  # EM Cluster Configuration
+
+  # WebView settings
+  $webview_default_url              = $::caapm::webview_default_url,
+  $webview_disableLogin             = $::caapm::webview_disableLogin,
+  $webview_analysisworkbench_enable = $::caapm::webview_analysisworkbench_enable,
+
+
+  $em_config_dir                    = $::caapm::em_config_dir,
+  $em_auto_unmount_delay            = $::caapm::em_auto_unmount_delay,
+
+  $db_reconnect_interval            = $::caapm::db_reconnect_interval,
+  $db_recording_queue_limit         = $::caapm::db_recording_queue_limit,
+
+  # Management Module Hot Deployment
+  $hotdeploy_dir                     = $::caapm::hotdeploy_dir,
+  $hotdeploy_checkFrequencyInSeconds = $::caapm::hotdeploy_checkFrequencyInSeconds,
+
+  # EM Hot Config
+  $hotconfig_enable                  = $::caapm::hotconfig_enable,
+  $hotconfig_pollingInterval         = $::caapm::hotconfig_pollingInterval,
+
+  # APM Heuristics
+  $apm_overview_baselines            = $::caapm::apm_overview_baselines,
+
+
+  # Agent Transaction Trace Settings
+  $agent_tt_sampling_perinterval_count = $::caapm::agent_tt_sampling_perinterval_count,
+  $agent_tt_sampling_interval_seconds  = $::caapm::agent_tt_sampling_interval_seconds,
+  $em_tt_compression_index             = $::caapm::em_tt_compression_index,
+
+  # Change Detector settings
+  $change_detector_disabled            = $::caapm::change_detector_disabled,
+
+  # Clustering Configuration
+  $clustering_collector_id             = $::caapm::clustering_collector_id,
+  $clustering_manager_slow_collector_disconnect_threshold_seconds = $::caapm::clustering_manager_slow_collector_disconnect_threshold_seconds,
+  $clustering_manager_slow_collector_threshold = $::caapm::clustering_manager_slow_collector_threshold,
+
+  $collector_privatekey             = $::caapm::collector_privatekey,
+
+  # Clustering High Concurrency Pool Configuration
+  $high_concurrency_pool_max_size   = $::caapm::high_concurrency_pool_max_size,
+  $high_concurrency_pool_min_size   = $::caapm::high_concurrency_pool_min_size,
+  $high_concurrency_pool_queue_size = $::caapm::high_concurrency_pool_queue_size,
+
+  # MOM Load Balancing Properties
+  $loadbalancing_threshold          = $::caapm::loadbalancing_threshold,
+  $loadbalancing_interval           = $::caapm::loadbalancing_interval,
+
+  # Agent Connection Control properties
+  $apm_agentcontrol_agent_allowed             = $::caapm::apm_agentcontrol_agent_allowed,
+  $apm_agentcontrol_agent_emlistlookup_enable = $::caapm::apm_agentcontrol_agent_emlistlookup_enable,
+  $apm_agentcontrol_agent_reconnect_wait      = $::caapm::apm_agentcontrol_agent_reconnect_wait,
+  $agent_disallowed_connection_limit          = $::caapm::agent_disallowed_connection_limit,
+
+  # AppMap Agent Config
+  $apm_data_agingTime                  = $::caapm::apm_data_agingTime,
+  $apm_data_timeWindow                 = $::caapm::apm_data_timeWindow,
+
+  # AppMap Pruning Config
+  $apm_pruning_enabled                 = $::caapm::apm_pruning_enabled,
+  $apm_data_preserving_time            = $::caapm::apm_data_preserving_time,
+  $apm_pruning_cron_trigger_expression = $::caapm::apm_pruning_cron_trigger_expression,
+
+  # Web Services Incidents
+  $ws_max_incidents                    = $::caapm::ws_max_incidents,
+
+  # APM SOA calculations
+  $soa_deviation_enabled               = $::caapm::soa_deviation_enabled,
+
+  # APM Help URL
+  $apm_help_url                        = $::caapm::apm_help_url,
+
+# end of defaults for IntroscopeEnterpriseManager.properties
+
+
+# defaults for apm-events-thresholds-config.xm
+  $em_agent_metrics_limit                                 = $::caapm::em_agent_metrics_limit,
+  $em_transactionevents_storage_max_disk_usage            = $::caapm::em_transactionevents_storage_max_disk_usage,
+  $em_metrics_live_limit                                  = $::caapm::em_metrics_live_limit,
+  $em_metrics_historical_limit                            = $::caapm::em_metrics_historical_limit,
+  $em_agent_connection_limit                              = $::caapm::em_agent_connection_limit,
+  $em_disconnected_historical_agent_limit                 = $::caapm::em_disconnected_historical_agent_limit,
+  $em_events_limit                                        = $::caapm::em_events_limit,
+  $em_agent_trace_limit                                   = $::caapm::em_agent_trace_limit,
+  $em_agent_error_limit                                   = $::caapm::em_agent_error_limit,
+  $apm_clw_max_users                                      = $::caapm::apm_clw_max_users,
+  $apm_workstation_max_users                              = $::caapm::apm_workstation_max_users,
+  $em_collector_cdv_max                                   = $::caapm::em_collector_cdv_max,
+  $em_transaction_discovery_max_nonidentifying_components = $::caapm::em_transaction_discovery_max_nonidentifying_components,
+  $em_max_number_domain_configuration_changes             = $::caapm::em_max_number_domain_configuration_changes,
+  $em_max_transaction_user_groups                         = $::caapm::em_max_transaction_user_groups,
+  $em_max_application_user_rows                           = $::caapm::em_max_application_user_rows,
+
+  $owner                       = $::caapm::owner,
+  $group                       = $::caapm::group,
+  $mode                        = $::caapm::mode,
 
   $puppet_src = "puppet:///modules/${module_name}"
 
-){
 
-  include staging
+)
+# inherits caapm::defaults
+{
 
-  $staging_subdir = $module_name
-  $staging_path = $staging::path
+  include caapm::em::install
+  include caapm::em::config
+  include caapm::em::service
 
-  validate_absolute_path($user_install_dir)
+  Class['caapm::em::install'] ->
+  Class['caapm::em::config']  ->
+#  Class['caapm::em::plugins']  ->
+  Class['caapm::em::service']
 
-  $user_install_dir_em = $::operatingsystem ? {
-    'windows' => to_windows_escaped($user_install_dir),
-    default  => $user_install_dir,
+  anchor {
+    'caapm::begin':
+       before  => Class['caapm::em::install','caapm::em::config'],
+       notify  => Class['caapm::em::service'];
+    'caapm::end':
+       require => Class['caapm::em::service'];
   }
 
-  $target_dir = $upgradeEM ? {
-    false => $user_install_dir_em,
-    true => $::operatingsystem ? {
-      'windows' => to_windows_escaped($upgraded_install_dir),
-      default  => $upgraded_install_dir,
-    },
-    default => $user_install_dir_em
-  }
-
-  validate_absolute_path($target_dir)
-
-
-  $osgi_eula_file = 'eula.txt'
-  $osgi_pkg_name  = $::operatingsystem ? {
-    'windows' => "osgiPackages.v${version}.windows.zip",
-    default   => "osgiPackages.v${version}.unix.tar",
-  }
-
-  caapm::osgi { $version:
-    eula_file => $osgi_eula_file,
-    pkg_name  => $osgi_pkg_name
-  }
-
-
-  $pkg_name = "CA APM Introscope ${version}"
-  $eula_file = 'ca-eula.txt'
-  $resp_file = 'EnterpriseManager.ResponseFile.txt'
-  $lic_file = "${::ipaddress}.em.lic"
-  $failed_log = 'silent.install.failed.txt'
-
-  $resp_src = "${puppet_src}/${resp_file}"
-
-  # determine the executable package
-  $pkg_bin = $::operatingsystem ? {
-    'windows' => "introscope${version}${::operatingsystem}AMD64.exe",
-    default   => "introscope${version}linuxAMD64.bin",
-  }
-
-  # download the eula.txt
-  file { $eula_file:
-    ensure => present,
-    force  => true,
-    path   => "${staging_path}/${staging_subdir}/${eula_file}",
-    source => "${puppet_src}/${version}/${eula_file}",
-    owner  => $owner,
-    group  => $group,
-    mode   => $mode,
-  }
-
-  # download the Enterprise Manager installer
-  staging::file { $pkg_bin:
-    source => "${puppet_src}/${version}/${pkg_bin}",
-    subdir => $staging_subdir,
-  }
-
-  # generate the response file
-  file { $resp_file:
-    ensure  => present,
-    force   => true,
-    path    => "${staging_path}/${staging_subdir}/${resp_file}",
-    content => template("${module_name}/${version}/${resp_file}"),
-    owner   =>  $owner,
-    group   =>  $group,
-    mode    =>  $mode,
-  }
-
-  $install_options = $::operatingsystem ? {
-    'windows' => "${staging_path}\\${staging_subdir}\\${resp_file}",
-    default   => "${staging_path}/${staging_subdir}/${resp_file}",
-  }
-
-  file { $failed_log :
-    ensure => absent,
-    path   => "${staging_path}/${staging_subdir}/${failed_log}",
-  }
-
-  $em_as_service = ('Enterprise Manager' in $features) or $config_em_as_service
-  $wv_as_service = ('WebView' in $features) or $config_wv_as_service
-
-  case $::operatingsystem {
-    CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
-      exec { $pkg_name :
-#        command     => "$staging_path/$staging_subdir/$pkg_bin -f $install_options;cat $staging_path/$staging_subdir/silent.install.failed.txt;true",
-        command   => "${staging_path}/${staging_subdir}/${pkg_bin} -f ${install_options}",
-        creates   =>  "${postgres_dir}bin/postgres",
-        require   => [Caapm::Osgi[$version],File[$resp_file], Staging::File[$pkg_bin], File[$failed_log]],
-        logoutput => true,
-        returns   => [0,1],
-        timeout   => 0,
-        user      => "${owner}",
-        before    => File[$lic_file],
-        notify    => [Service[$em_service_name]],
-      }
-
-      # generate the SystemV init script
-      file { $em_service_name:
-        ensure  => present,
-        force   => true,
-        path    => "/etc/init.d/${em_service_name}",
-        content => template("${module_name}/init.d/introscope"),
-        owner   =>  $caapm::params::owner,
-        group   =>  $caapm::params::group,
-        mode    =>  '0755',
-        notify  => Service[$em_service_name],
-      }
-
-      if $wv_as_service == true {
-        # generate the SystemV init script
-        file { $wv_service_name:
-          ensure  => present,
-          force   => true,
-          path    => "/etc/init.d/${wv_service_name}",
-          content => template("${module_name}/init.d/webview"),
-          owner   =>  $caapm::params::owner,
-          group   =>  $caapm::params::group,
-          mode    =>  '0755',
-          require => [File['WVCtrl.sh'],Exec[$pkg_name]],
-          notify  => Service[$wv_service_name]
-        }
-      }
-
-      # generate the WebView Control script
-      file { 'WVCtrl.sh':
-        ensure  => present,
-        force   => true,
-        path    => "${target_dir}/bin/WVCtrl.sh",
-        source  => "${puppet_src}/bin/WVCtrl.sh",
-        owner   => $owner,
-        group   => $group,
-        mode    => '0755',
-        require => Exec[$pkg_name] ,
-      }
-    }
-
-    windows: {
-      # install the Enterprise Manager package
-      package { $pkg_name :
-        ensure          => $version,
-        source          => "${staging_path}/${staging_subdir}/${pkg_bin}",
-        install_options => [" -f ${install_options}" ],
-        require         => [Caapm::Osgi[$version], File[$resp_file], Staging::File[$pkg_bin], File[$failed_log]],
-        notify          => [Service[$em_service_name], Service[$wv_service_name]],
-        allow_virtual   => true,
-        before          => File[$lic_file],
-      }
-    }
-
-    default: {}
-  }
-
-  file { $lic_file:
-    ensure =>  present,
-    source => "${puppet_src}/license/${lic_file}",
-    path   => "${target_dir}license/${lic_file}",
-    owner  => $owner,
-    group  => $group,
-    mode   => $mode,
-  }
-
-  # ensure the service is running
-  service { $em_service_name:
-    ensure  => $start_em_as_service,
-    enable  => $em_as_service,
-    require => File[$lic_file],
-  }
-
-  if $wv_as_service == true {
-    service { $wv_service_name:
-      ensure => $start_wv_as_service,
-      enable => $wv_as_service,
-    }
-  }
 }
