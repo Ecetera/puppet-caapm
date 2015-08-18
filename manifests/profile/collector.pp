@@ -79,15 +79,6 @@ class caapm::profile::collector {
     group   => $group,
   }
 
-  file { 'IntroscopeHelp.war':
-    ensure  => present,
-    force   => true,
-    path    => "${em_home}/webapps/IntroscopeHelp.war",
-    source  => "${puppet_src}/${version}/IntroscopeHelp.war",
-    owner   => $owner,
-    group   => $group,
-  }
-
   class { 'caapm::config::domains_xml':
     version => $version,
     em_home => $em_home,

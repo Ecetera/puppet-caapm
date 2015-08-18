@@ -37,19 +37,19 @@ class caapm::database (
 
   include caapm::em::install
   include caapm::db::config
-  include caapm::em::service
+  include caapm::db::service
 
   Class['caapm::em::install'] ->
   Class['caapm::db::config']  ->
 #  Class['caapm::em::plugins']  ->
-  Class['caapm::em::service']
+  Class['caapm::db::service']
 
   anchor {
     'caapm::begin':
        before  => Class['caapm::em::install','caapm::db::config'],
-       notify  => Class['caapm::em::service'];
+       notify  => Class['caapm::db::service'];
     'caapm::end':
-       require => Class['caapm::em::service'];
+       require => Class['caapm::db::service'];
   }
 
 }

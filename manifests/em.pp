@@ -241,6 +241,7 @@ class caapm::em (
 )
 # inherits caapm::defaults
 {
+      notify {"Running with em_as_service = $em_as_service":}
 
   include caapm::em::install
   include caapm::em::config

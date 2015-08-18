@@ -4,7 +4,8 @@ class caapm::defaults {
 
 # defaults for EnterpriseManager.ResponseFile.txt
   $user_install_dir        = "/app/caapm/Introscope${version}/"
-  $features                = 'Enterprise Manager,WebView'
+#  $features                = 'Enterprise Manager,WebView'
+  $features                = ''
 
   # Enterprise Manager Upgrade toggle
   $upgradeEM               = false
@@ -47,12 +48,12 @@ class caapm::defaults {
   $pg_admin_user           = 'postgres'
   $pg_admin_passwd         = 'C@wilyapm90'
   $pg_install_timeout      = 240000
-  $pg_as_service           = true
   $pg_ssl                  = false
+  $config_pg_as_service    = false
 
   # Enterprise Manager As Windows Service Settings
   $config_em_as_service    = false
-  $start_em_as_service     = true
+  $start_em_as_service     = false
 
   # Specify any desired command line arguments to be used by the Enterprise Manager JVM.
   $emLaxNlJavaOptionAdditional = '-Xms1024m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi'
@@ -65,7 +66,7 @@ class caapm::defaults {
 
   # WebView As Windows Service Settings
   $config_wv_as_service        = false
-  $start_wv_as_service         = true
+  $start_wv_as_service         = false
 
   # WebView Advanced JVM Settings
   $wvLaxNlCurrentVm            = ''     # Specify the path to the JVM that will be used to run the WebView. Leave blank for default
@@ -282,14 +283,14 @@ class caapm::defaults {
       },
     '9.7.1.16' => $::operatingsystem ? {
         'windows' => 'pgsql-9.2',
-        default  => 'postgresql-9.2',
+        default  => 'postgresql-9.2.4',
       },
     default => undef,
   }
 
   $em_as_service = ('Enterprise Manager' in $features) or $config_em_as_service
   $wv_as_service = ('WebView' in $features) or $config_wv_as_service
-  $pg_as_service = ('Database' in $features)
+  $pg_as_service = ('Database' in $features) or $config_pg_as_service
 
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
