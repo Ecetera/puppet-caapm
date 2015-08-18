@@ -59,7 +59,7 @@ class caapm (
   $pg_admin_user           = $caapm::defaults::pg_admin_user,
   $pg_admin_passwd         = $caapm::defaults::pg_admin_passwd,
   $pg_install_timeout      = $caapm::defaults::pg_install_timeout,
-  $pg_as_service           = $caapm::defaults::pg_as_service,
+  $config_pg_as_service    = $caapm::defaults::config_pg_as_service,
   $pg_ssl                  = $caapm::defaults::pg_ssl,
 
   # Enterprise Manager As Windows Service Settings
@@ -251,6 +251,9 @@ class caapm (
 
 
 ) inherits caapm::defaults {
+
+#    notify {"Running with features = $features":}
+
 
 
 }

@@ -288,9 +288,6 @@ class caapm::defaults {
     default => undef,
   }
 
-  $em_as_service = ('Enterprise Manager' in $features) or $config_em_as_service
-  $wv_as_service = ('WebView' in $features) or $config_wv_as_service
-  $pg_as_service = ('Database' in $features) or $config_pg_as_service
 
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {

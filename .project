@@ -3,6 +3,7 @@
 	<name>caapm</name>
 	<comment></comment>
 	<projects>
+		<project>stdlib</project>
 	</projects>
 	<buildSpec>
 	</buildSpec>

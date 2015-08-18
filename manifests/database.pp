@@ -24,7 +24,7 @@ class caapm::database (
   $pg_admin_user           = $::caapm::pg_admin_user,
   $pg_admin_passwd         = $::caapm::pg_admin_passwd,
   $pg_install_timeout      = $::caapm::pg_install_timeout,
-  $pg_as_service           = $::caapm::pg_as_service,
+  $config_pg_as_service    = $::caapm::config_pg_as_service,
   $pg_ssl                  = $::caapm::pg_ssl,
 
   $owner                       = $::caapm::owner,
