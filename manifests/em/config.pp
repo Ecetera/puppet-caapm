@@ -5,6 +5,10 @@ class caapm::em::config inherits caapm {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
+#  notify {"Running with em::config em_as_service = $em_as_service":}
+#  notify {"Running with em::config wv_as_service = $wv_as_service":}
+
+
   if $em_as_service {
 
     file { $lic_file:
@@ -76,13 +80,24 @@ class caapm::em::config inherits caapm {
     line  => "<property name=\"plainTextPasswords\">true</property>",
     match => "<property name=\"plainTextPasswords\">false</property>",
   }
+
+    if $webserver_dir != 'webapps'
+
+     $webserver_dir? {
+      'webapps' => "${em_home}/webapps/IntroscopeHelp.war",
+      default   => "$webserver_dir/IntroscopeHelp.war",
+    },
  */
 
     if $cluster_role == 'MOM' {
       file { 'IntroscopeHelp.war':
         ensure  => present,
         force   => true,
-        path    => "${em_home}/webapps/IntroscopeHelp.war",
+#        path    => "${em_home}/webapps/IntroscopeHelp.war",
+        path    => $webserver_dir ? {
+          'webapps' => "${em_home}/webapps/IntroscopeHelp.war",
+          default   => "${webserver_dir}/IntroscopeHelp.war",
+        },
         source  => "${puppet_src}/${version}/IntroscopeHelp.war",
         owner   => $owner,
         group   => $group,

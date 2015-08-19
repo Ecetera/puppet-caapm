@@ -6,7 +6,6 @@ class caapm::em::install inherits caapm {
   }
 
   include caapm::osgi
-#  $resp_src = "${puppet_src}/${resp_file}"
 
   # download the eula.txt
   file { $eula_file:

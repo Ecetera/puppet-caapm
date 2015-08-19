@@ -27,13 +27,14 @@ class caapm::database (
   $config_pg_as_service    = $::caapm::config_pg_as_service,
   $pg_ssl                  = $::caapm::pg_ssl,
 
-  $owner                       = $::caapm::owner,
-  $group                       = $::caapm::group,
-  $mode                        = $::caapm::mode,
+  $owner                   = $::caapm::owner,
+  $group                   = $::caapm::group,
+  $mode                    = $::caapm::mode,
 
   $puppet_src = "puppet:///modules/${module_name}"
 
 ){
+
 
   include caapm::em::install
   include caapm::db::config

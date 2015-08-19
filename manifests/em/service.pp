@@ -5,13 +5,12 @@ class caapm::em::service inherits caapm {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  $em_as_service = ('Enterprise Manager' in $features) or $config_em_as_service
-  $wv_as_service = ('WebView' in $features) or $config_wv_as_service
+#  notify {"Running with em::service em_as_service = $em_as_service":}
+#  notify {"Running with em::service wv_as_service = $wv_as_service":}
 
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
 
-#      notify {"Running with em_as_service = $em_as_service":}
       if $em_as_service {
 
         # generate the SystemV init script
@@ -28,7 +27,6 @@ class caapm::em::service inherits caapm {
 
       }
 
-      notify {"Running with wv_as_service = $wv_as_service":}
       if $wv_as_service {
         file { $wv_service_name:
           ensure  => present,
@@ -62,22 +60,15 @@ class caapm::em::service inherits caapm {
 
   }
 
-  notify {"Running with pg_as_service = $pg_as_service":}
-
   # ensure the service is running
   service { $em_service_name:
-    ensure => $start_em_as_service,
+    ensure => $em_as_service,
     enable => $em_as_service,
   }
 
   service { $wv_service_name:
-    ensure => $start_wv_as_service,
+    ensure => $wv_as_service,
     enable => $wv_as_service,
-  }
-
-  service { $pg_service_name:
-    ensure => $pg_as_service,
-    enable => $pg_as_service,
   }
 
 }

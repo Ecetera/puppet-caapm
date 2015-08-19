@@ -5,6 +5,8 @@ class caapm::db::config inherits caapm {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
+#  notify {"Running with db::config pg_as_service = $pg_as_service":}
+
 /*
   file {  "${em_home}/bin/Introscope_Enterprise_Manager.lax":
     ensure  =>  present,
