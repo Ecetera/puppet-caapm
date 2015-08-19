@@ -6,15 +6,6 @@ class caapm::em::install inherits caapm {
   }
 
   include caapm::osgi
-/*
-  class { 'caapm::osgi':
-    apmversion => $::caapm::version,
-    eula_file  => $::caapm::osgi_eula_file,
-    pkg_name   => $::caapm::osgi_pkg_name,
-  }
- */
-
-  $resp_src = "${puppet_src}/${resp_file}"
 
   # download the eula.txt
   file { $eula_file:
@@ -62,28 +53,23 @@ class caapm::em::install inherits caapm {
 
 
   validate_absolute_path($em_home)
-  file { $lic_file:
-    ensure =>  present,
-    source => "${puppet_src}/license/${lic_file}",
-    path   => "${em_home}license/${lic_file}",
-    owner  => $owner,
-    group  => $group,
-    mode   => $mode,
-  }
-
 
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       exec { $pkg_name :
 #        command     => "$staging_path/$staging_subdir/$pkg_bin -f $install_options;cat $staging_path/$staging_subdir/silent.install.failed.txt;true",
         command   => "${stage_dir}/${pkg_bin} -f ${install_options}",
-        creates   => "${em_home}launcher.jar",
+#        creates   => "${em_home}launcher.jar",
+        creates => $features ? {
+          'Database' => $postgres_dir,
+          default  => "${em_home}launcher.jar",
+        },
         require   => [Class[caapm::osgi],File[$resp_file], File[$pkg_bin], File[$failed_log]],
         logoutput => true,
         returns   => [0,1],
         timeout   => 0,
         user      => $owner,
-        before    => File[$lic_file],
+#        before    => File[$lic_file],
       }
     }
 
@@ -97,7 +83,7 @@ class caapm::em::install inherits caapm {
         require         => [Class[caapm::osgi],File[$resp_file], File[$pkg_bin], File[$failed_log]],
         notify          => [Service[$em_service_name], Service[$wv_service_name]],
         allow_virtual   => true,
-        before          => File[$lic_file],
+#        before          => File[$lic_file],
       }
     }
 

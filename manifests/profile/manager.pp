@@ -6,6 +6,10 @@
 
 class caapm::profile::manager {
 
+ include caapm::em
+/*
+ *
+
   $version                     = '9.7.1.16'
   $em_home                     = "/opt/caapm/Introscope${version}/"
   $owner                       = 'root'
@@ -37,6 +41,6 @@ class caapm::profile::manager {
     owner              => $owner,
     group              => $group,
   }
-
+*/
 
 }
