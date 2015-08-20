@@ -50,6 +50,8 @@ class caapm::defaults {
   $pg_install_timeout      = 240000
   $pg_ssl                  = false
   $config_pg_as_service    = false
+  $ssl_dir                 = '/app/caapm/ssl'
+  $ssl_ciphers             = 'ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH'
 
   # Enterprise Manager As Windows Service Settings
   $config_em_as_service    = false
