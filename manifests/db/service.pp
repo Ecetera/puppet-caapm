@@ -10,15 +10,16 @@ class caapm::db::service inherits caapm {
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
 
-#      if $pg_as_service {
+      if $pg_as_service {
         exec { "set_pg_service_user":
-#          onlyif  => "/usr/bin/test ! (-f /etc/init.d/${pg_service_name})",
 
-          onlyif  => "/bin/awk \'/su - abc -c/ {print;}\'",
+# these conditions were attempts to check before executing a replacement.
+#          onlyif  => "/usr/bin/test ! (-f /etc/init.d/${pg_service_name})",
+#          onlyif  => "/bin/awk \'/su - ${owner} -c/ {print;}\' /etc/init.d/${pg_service_name}",
+
           command => "/bin/awk \'{gsub(/su - postgres -c/, \"su - ${owner} -c\"); print;}\' ${postgres_dir}/${pg_service_name} > /etc/init.d/${pg_service_name}",
           creates => "/etc/init.d/${pg_service_name}",
-#          notify  => Service[$pg_service_name],
-        } ->
+        }
 
         file { "/etc/init.d/${pg_service_name}":
           ensure => present,
@@ -26,7 +27,7 @@ class caapm::db::service inherits caapm {
           group   =>  'root',
           mode    =>  '0755',
           notify  => Service[$pg_service_name],
- #         require => Exec['change_postgres_user']
+          require => Exec['set_pg_service_user']
         }
 
 /*
@@ -67,7 +68,7 @@ class caapm::db::service inherits caapm {
  */
 
 
-#      }
+      }
     }
     windows: {
 

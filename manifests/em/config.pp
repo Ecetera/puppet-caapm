@@ -28,6 +28,7 @@ class caapm::em::config inherits caapm {
       mode    => $mode,
     }
 
+# may need to manage an interim file.  copy over if there are major changes beyond plaintextpassword=true
     file { "${em_home}/config/IntroscopeEnterpriseManager.properties":
       ensure  => present,
       content => template("${module_name}/${version}/IntroscopeEnterpriseManager.properties"),
