@@ -104,6 +104,73 @@ class caapm::em::config inherits caapm {
         group   => $group,
       }
     }
+
+# if channel2 enabled
+#{
+   # enable this section for keystore and truststore configuration management
+  java_ks { 'caapm_ca:truststore':
+    ensure       => latest,
+    certificate  => '/etc/puppet/ssl/certs/ca.pem',
+    target       => 'internal/server/truststore',
+    password     => 'puppet',
+    trustcacerts => true,
+  }
+
+  java_ks { 'caapm_ca:keystore':
+    ensure       => latest,
+    certificate  => '/etc/puppet/ssl/certs/ca.pem',
+    target       => 'internal/server/keystore',
+    password     => 'puppet',
+    trustcacerts => true,
+  }
+
+
+#}
+
+    if $pg_ssl {
+      Openssl::Certificate::X509 <<| tag == "${cluster}-apmdb" |>>
+
+      @@openssl::certificate::x509 { "${cluster}-${role}-${hostname}":
+        ensure       => present,
+        country      => 'AU',
+        organization => 'diamond.org',
+        commonname   => $fqdn,
+        state        => 'VIC',
+        locality     => 'Melbourne',
+        unit         => 'Technology',
+#        altnames     => ["DNS.1:*.${domain}"],
+        email        => 'raul.dimar@gmail.com.au',
+        days         => 3456,
+        base_dir     => $ssl_dir,
+        owner        => $owner,
+        group        => $group,
+        force        => false,
+        cnf_tpl      => 'openssl/cert.cnf.erb',
+        require      => File [$ssl_dir],
+        tag          => "${cluster}-${role}"
+      }
+
+# how about the chain option?
+# how about the private key?
+# import the database certificate
+      java_ks { "${cluster}-${role}-${hostname}":
+        ensure       => latest,
+        certificate  => "${ssl_dir}/${cluster}-${role}-${hostname}.crt",
+        target       => $keystore,
+        password     => $admin_passwd,
+        trustcacerts => true,
+      }
+
+      java_ks { "${cluster}-${role}:${keystore}":
+        ensure       => latest,
+        certificate  => "${ssl_dir}/${cluster}-${role}-${hostname}.crt",
+        target       => $keystore,
+        password     => $admin_passwd,
+        trustcacerts => true,
+      }
+
+
+    }
   }
 
   if $wv_as_service {

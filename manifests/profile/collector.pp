@@ -5,6 +5,8 @@
 #
 class caapm::profile::collector {
 
+
+
   $version                     = '9.7.1.16'
   $em_home                     = "/opt/caapm/Introscope${version}/"
   $db_host                     = 'win28r2.diamond.org'
