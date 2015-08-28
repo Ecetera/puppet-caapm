@@ -30,6 +30,17 @@ class caapm::db::service inherits caapm {
           require => Exec['set_pg_service_user']
         }
 
+        file { "${postgres_dir}/data/postgresql.conf":
+          owner   =>  $owner,
+          group   =>  $group,
+          mode    =>  $mode,
+        }
+
+        file { "${postgres_dir}/data/pg_hba.conf":
+          owner   =>  $owner,
+          group   =>  $group,
+          mode    =>  $mode,
+        }
 /*
         exec { "change_postgres_user":
           onlyif  => "/bin/grep \'su - postgres -c\' /etc/init.d/${pg_service_name}",
@@ -80,6 +91,7 @@ class caapm::db::service inherits caapm {
   service { $pg_service_name:
     ensure => $pg_as_service,
     enable => $pg_as_service,
+    subscribe => [File["${postgres_dir}/data/pg_hba.conf"],File["${postgres_dir}/data/postgresql.conf"]]
   }
 
 }

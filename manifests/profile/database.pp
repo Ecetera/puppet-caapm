@@ -9,5 +9,4 @@ class caapm::profile::database {
 
   include caapm::database
 
-
 }

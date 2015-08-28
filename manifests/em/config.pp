@@ -81,15 +81,34 @@ class caapm::em::config inherits caapm {
     line  => "<property name=\"plainTextPasswords\">true</property>",
     match => "<property name=\"plainTextPasswords\">false</property>",
   }
-
-    if $webserver_dir != 'webapps'
-
-     $webserver_dir? {
-      'webapps' => "${em_home}/webapps/IntroscopeHelp.war",
-      default   => "$webserver_dir/IntroscopeHelp.war",
-    },
  */
-
+    if $cluster_role == 'MOM' {
+      if $webserver_dir == 'webapps' {
+        file { "${em_home}/webapps/IntroscopeHelp.war":
+          ensure  => present,
+          force   => true,
+          source  => "${puppet_src}/${version}/IntroscopeHelp.war",
+          owner   => $owner,
+          group   => $group,
+        }
+      } else {
+        file { "${webserver_dir}/IntroscopeHelp.war":
+          ensure  => present,
+          force   => true,
+          source  => "${puppet_src}/${version}/IntroscopeHelp.war",
+          owner   => $owner,
+          group   => $group,
+          require => File[$webserver_dir],
+        }
+        file { $webserver_dir:
+          ensure => 'directory',
+          owner   => $owner,
+          group   => $group,
+          mode    => $mode,
+        }
+      }
+    }
+    /*
     if $cluster_role == 'MOM' {
       file { 'IntroscopeHelp.war':
         ensure  => present,
@@ -102,12 +121,25 @@ class caapm::em::config inherits caapm {
         source  => "${puppet_src}/${version}/IntroscopeHelp.war",
         owner   => $owner,
         group   => $group,
+        require => $webserver_dir ? {
+          'webapps' => File["${em_home}/webapps"],
+          default   => File[$webserver_dir],
+        },
       }
-    }
 
+      file {"${em_home}/webapps":
+        ensure => 'directory',
+        owner   => $owner,
+        group   => $group,
+        mode    => $mode,
+      }
+
+    }
+ */
 # if channel2 enabled
 #{
    # enable this section for keystore and truststore configuration management
+/*
   java_ks { 'caapm_ca:truststore':
     ensure       => latest,
     certificate  => '/etc/puppet/ssl/certs/ca.pem',
@@ -123,9 +155,10 @@ class caapm::em::config inherits caapm {
     password     => 'puppet',
     trustcacerts => true,
   }
+ */
 
 
-#}
+/* use this code as of 27-Aug-2015
 
     if $pg_ssl {
       Openssl::Certificate::X509 <<| tag == "${cluster}-apmdb" |>>
@@ -157,7 +190,7 @@ class caapm::em::config inherits caapm {
         ensure       => latest,
         certificate  => "${ssl_dir}/${cluster}-${role}-${hostname}.crt",
         target       => $keystore,
-        password     => $admin_passwd,
+        password     => $keystore_passwd,
         trustcacerts => true,
       }
 
@@ -165,12 +198,12 @@ class caapm::em::config inherits caapm {
         ensure       => latest,
         certificate  => "${ssl_dir}/${cluster}-${role}-${hostname}.crt",
         target       => $keystore,
-        password     => $admin_passwd,
+        password     => $keystore_passwd,
         trustcacerts => true,
       }
 
 
-    }
+    } */
   }
 
   if $wv_as_service {

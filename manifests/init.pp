@@ -27,6 +27,9 @@ class caapm (
   $ssl_port                = $caapm::defaults::ssl_port,
   $web_port                = $caapm::defaults::web_port,
 
+  $keystore_file           = $caapm::defaults::keystore_file,
+  $keystore_passwd         = $caapm::defaults::keystore_passwd,
+
   # Enterprise Manager User Password Settings
   $admin_passwd            = $caapm::defaults::admin_passwd,
   $guest_passwd            = $caapm::defaults::guest_passwd,
