@@ -2,7 +2,7 @@
 #
 # IScopeEM <summary>
 #
-# chkconfig:   2345 20 80
+# chkconfig:   5 85 20
 # description: "Starts and stops the CA APM Introscope Enterprise Manager"
 #
 

@@ -17,6 +17,13 @@ class caapm::defaults {
   $ssl_port                = 5443
   $web_port                = 8081
 
+  $keystore_file           = 'internal/server/keystore'
+  $keystore_passwd         = 'password'
+
+  $truststore_file         = 'internal/server/truststore'
+  $truststore_passwd       = 'password'
+  $require_client_auth     = false
+
   # Enterprise Manager User Password Settings
   $admin_passwd            = undef
   $guest_passwd            = undef
@@ -48,8 +55,16 @@ class caapm::defaults {
   $pg_admin_user           = 'postgres'
   $pg_admin_passwd         = 'C@wilyapm90'
   $pg_install_timeout      = 240000
-  $pg_ssl                  = false
   $config_pg_as_service    = false
+
+  $pg_ssl                  = false
+  $ssl_dir                 = "${postgres_dir}/data"
+  $ssl_ciphers             = 'ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH'
+  $ssl_filename            = $::hostname
+  $ssl_cert_file           = "${ssl_dir}/server.crt"
+  $ssl_key_file            = "${ssl_dir}/server.key"
+  $ssl_ca_file             = "${ssl_dir}/root.crt"
+  $ssl_crl_file            = "${ssl_dir}/root.crl"
 
   # Enterprise Manager As Windows Service Settings
   $config_em_as_service    = false

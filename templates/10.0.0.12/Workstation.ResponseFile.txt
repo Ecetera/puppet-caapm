@@ -49,7 +49,9 @@
 # On Windows, backslashes must be escaped.
 #    Example Windows value: C:\\Documents and Settings\\ca-eula.txt
 #    Example Unix value:    /home/myuser/ca-eula.txt
-ca-eulaFile=
+ca-eulaFile=<%= @eula_file %>
+
+
   
 # Directory where Introscope is to be installed.
 # The directory path must be absolute, not relative.
@@ -66,7 +68,7 @@ ca-eulaFile=
 #    /root/Introscope10.0.0.12/
 #        (Under the logged-in-end-user's home directory. Exact directory may vary 
 #        depending on user account.)
-USER_INSTALL_DIR=
+USER_INSTALL_DIR=<%= @user_install_dir_em %>
 
 # Introscope features to install. Must be a comma-delimited list.
 # Example: Workstation
@@ -82,7 +84,7 @@ silentInstallChosenFeatures=Workstation
 # On Windows, backslashes must be escaped.
 #    Example Windows value: C:\\osgiPackages.v1.windows.zip
 #    Example Unix value:    /osgiPackages.v1.unix.tar
-externalComponentPackage=
+externalComponentPackage=<%= osgi_pkg_name %>
   
 # Location of the external component library's End User License Agreement (EULA). 
 # This agreement must be acknowledged and accepted by the end user
@@ -97,7 +99,8 @@ externalComponentPackage=
 # On Windows, backslashes must be escaped.
 #    Example Windows value: C:\\Documents and Settings\\eula.txt
 #    Example Unix value:    /home/myuser/eula.txt
-eulaFile=
+eulaFile=<%= @osgi_eula_file %>
+  
 
 
 ####################################
@@ -108,9 +111,9 @@ eulaFile=
 # Specify default values the Workstation will offer in the login screen. 
 # Any user specified here will need to be created by your Administrator 
 # and given access privileges in order to log in successfully.
-wsUser=Admin
-wsHost=localhost
-wsPort=5001
+wsUser=<%= @user %>
+wsHost=<%= @host %>
+wsPort=<%= @port %>
 
 
 #########################################

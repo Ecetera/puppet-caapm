@@ -14,4 +14,5 @@
         <grant group="Admin" permission="full"/>
         <grant user="Guest" permission="read"/>
     </SuperDomain>
+
 </domains>
