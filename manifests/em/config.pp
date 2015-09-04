@@ -29,12 +29,19 @@ class caapm::em::config inherits caapm {
     }
 
 # may need to manage an interim file.  copy over if there are major changes beyond plaintextpassword=true
-    file { "${em_home}/config/IntroscopeEnterpriseManager.properties":
+    file { "${em_home}/config/IntroscopeEnterpriseManager.ppmanaged":
       ensure  => present,
       content => template("${module_name}/${version}/IntroscopeEnterpriseManager.properties"),
       owner   => $owner,
       group   => $group,
       mode    => $mode,
+      notify  => Exec['update_em_properties'],
+    }
+
+    exec { 'update_em_properties':
+      command     => "cp -p ${em_home}/config/IntroscopeEnterpriseManager.ppmanaged ${em_home}/config/IntroscopeEnterpriseManager.properties",
+      ensure      => present,
+      refreshonly => true,
     }
 
     file { "${em_home}/config/apm-events-thresholds-config.xml":
