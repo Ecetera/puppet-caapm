@@ -40,7 +40,7 @@ class caapm::em::config inherits caapm {
 
     exec { 'update_em_properties':
       cwd         => "${em_home}/config",
-      command     => 'cp -p IntroscopeEnterpriseManager.ppmanaged IntroscopeEnterpriseManager.properties',
+      command     => '/bin/cp -p IntroscopeEnterpriseManager.ppmanaged IntroscopeEnterpriseManager.properties',
       refreshonly => true,
     }
 
