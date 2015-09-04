@@ -60,13 +60,21 @@ class caapm::em::config inherits caapm {
       mode   => $mode,
     }
 
-    file { "${em_home}/config/tess-db-cfg.xml":
+    file { "${em_home}/config/tess-db-cfg.ppmanaged":
       ensure =>  present,
       content => template("${module_name}/${version}/tess-db-cfg.xml"),
       owner  => $owner,
       group  => $group,
       mode   => $mode,
+      notify  => Exec['update_tess_db_cfg'],
     }
+
+    exec { 'update_tess_db_cfg':
+      cwd         => "${em_home}/config",
+      command     => '/bin/cp -p tess-db-cfg.ppmanaged tess-db-cfg.xml',
+      refreshonly => true,
+    }
+
 
     file { "${em_home}/config/loadbalancing.xml":
       ensure  =>  present,
