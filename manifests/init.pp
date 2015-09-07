@@ -80,7 +80,10 @@ class caapm (
   $start_em_as_service     = $caapm::defaults::start_em_as_service,
 
   # Enterprise Manager Advanced JVM Settings
-  $emLaxNlCurrentVm            = $caapm::defaults::emLaxNlCurrentVm,             # Specify the path to the JVM that will be used to run the Enterprise Manager. Leave blank for default
+  $emLaxNlCurrentVm            = $::operatingsystem ? {
+      'windows' => 'jre\\bin\\java.exe',
+      default  => 'jre/bin/java',
+    },
   $emLaxNlJavaOptionAdditional = $caapm::defaults::emLaxNlJavaOptionAdditional,  # Specify any desired command line arguments to be used by the Enterprise Manager JVM.
 
   # WebView Install Settings
