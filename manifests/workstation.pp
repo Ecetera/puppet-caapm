@@ -38,8 +38,8 @@ define caapm::workstation (
 
   $osgi_eula_file = 'eula.txt'
   $osgi_pkg_name  = $::operatingsystem ? {
-    'windows' => "osgiPackages.v${::version}.windows.zip",
-    default   => "osgiPackages.v${::version}.unix.tar",
+    'windows' => "osgiPackages.v${version}.windows.zip",
+    default   => "osgiPackages.v${version}.unix.tar",
   }
 
   caapm::osgi { $version:
@@ -48,15 +48,15 @@ define caapm::workstation (
   }
 
 
-  $pkg_name = "CA APM Introscope Workstation ${::version}"
+  $pkg_name = "CA APM Introscope Workstation ${version}"
   $eula_file = 'ca-eula.txt'
   $resp_file = 'Workstation.ResponseFile.txt'
   $failed_log = 'silent.install.failed.txt'
 
   # determine the executable package
   $pkg_bin = $::operatingsystem ? {
-    'windows' => "IntroscopeWorkstation${::version}windows.exe",
-    default   => "IntroscopeWorkstation${::version}unix.bin",
+    'windows' => "IntroscopeWorkstation${version}windows.exe",
+    default   => "IntroscopeWorkstation${version}unix.bin",
 
   }
 
@@ -65,7 +65,7 @@ define caapm::workstation (
     ensure => present,
     force  => true,
     path   => "${staging_path}/${staging_subdir}/${eula_file}",
-    source => "${puppet_src}/${::version}/${eula_file}",
+    source => "${puppet_src}/${version}/${eula_file}",
     owner  => $owner,
     group  => $group,
     mode   => $mode,
@@ -73,7 +73,7 @@ define caapm::workstation (
 
   # download the Workstation installer
   staging::file { $pkg_bin:
-    source => "${puppet_src}/${::version}/${pkg_bin}",
+    source => "${puppet_src}/${version}/${pkg_bin}",
     subdir => $staging_subdir,
   }
 
@@ -82,7 +82,7 @@ define caapm::workstation (
     ensure  => present,
     force   => true,
     path    => "${staging_path}/${staging_subdir}/${resp_file}",
-    content => template("${module_name}/${::version}/${resp_file}"),
+    content => template("${module_name}/${version}/${resp_file}"),
     owner   => $owner,
     group   => $group,
     mode    => $mode,

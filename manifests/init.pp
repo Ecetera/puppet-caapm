@@ -302,7 +302,7 @@ class caapm (
     default => undef,
   }
 
-  $pkg_name                    = "CA APM Introscope ${::version}"
+  $pkg_name                    = "CA APM Introscope ${version}"
 
 
   case $::operatingsystem {
