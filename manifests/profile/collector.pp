@@ -8,7 +8,7 @@ class caapm::profile::collector {
 
 
   $version                     = '9.7.1.16'
-  $em_home                     = "/opt/caapm/Introscope${version}/"
+  $em_home                     = "/opt/caapm/Introscope${::version}/"
   $db_host                     = 'win28r2.diamond.org'
   $cluster_role                = 'Collector'
   $em_service_name             = 'introscope'

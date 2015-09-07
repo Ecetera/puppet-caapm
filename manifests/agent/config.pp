@@ -1,12 +1,11 @@
 
-class caapm::em::config inherits caapm {
+class caapm::agent::config inherits caapm {
 
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-#  notify {"Running with em::config em_as_service = $em_as_service":}
-#  notify {"Running with em::config wv_as_service = $wv_as_service":}
+#  notify {"Running with agent::config":}
 
 
   if $em_as_service {

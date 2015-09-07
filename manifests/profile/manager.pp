@@ -11,7 +11,7 @@ class caapm::profile::manager {
  *
 
   $version                     = '9.7.1.16'
-  $em_home                     = "/opt/caapm/Introscope${version}/"
+  $em_home                     = "/opt/caapm/Introscope${::version}/"
   $owner                       = 'root'
   $group                       = 'root'
   $cluster_role                = 'MOM'

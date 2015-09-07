@@ -1,11 +1,9 @@
 
-class caapm::em::install inherits caapm {
+class caapm::agent::install inherits caapm {
 
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
-
-  include caapm::osgi
 
   # download the eula.txt
   file { $eula_file:

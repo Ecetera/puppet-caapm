@@ -15,7 +15,7 @@ class caapm::profile::workstation {
 
   caapm::workstation {'apmws':
     version          => $version,
-    user_install_dir => "D:/Apps/CA/APM/Introscope${version}/",
+    user_install_dir => "D:/Apps/CA/APM/Introscope${::version}/",
   }
 
 

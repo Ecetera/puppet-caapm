@@ -41,44 +41,6 @@ class caapm::db::service inherits caapm {
           group   =>  $group,
           mode    =>  $mode,
         }
-/*
-        exec { "change_postgres_user":
-          onlyif  => "/bin/grep \'su - postgres -c\' /etc/init.d/${pg_service_name}",
-          command => "/bin/awk \'{gsub(/su - postgres -c/, \"su - ${owner} -c\"); print;}\' ${postgres_dir}/${pg_service_name} > /etc/init.d/${pg_service_name}",
-          creates => "/etc/init.d/${pg_service_name}",
-        }
-
-        exec { 'change_postgres_user':
-          onlyif  => "/bin/grep \'su - postgres -c\' ${postgres_dir}/${pg_service_name}",
-          command => "/bin/awk \'{gsub(/su - postgres -c/, \"su - ${owner} -c\"); print;}\' ${postgres_dir}/${pg_service_name} > ${postgres_dir}/${pg_service_name}",
-        }
-*/
-        # preferred symlink syntax
-/*
-        file { "/etc/init.d/${pg_service_name}":
-          ensure => link,
-#          target => "${postgres_dir}/${pg_service_name}",
-          owner   =>  'root',
-          group   =>  'root',
-          mode    =>  '0755',
-          notify  => Service[$pg_service_name],
- #         require => Exec['change_postgres_user']
-        }
-        file_line { 'change_postgres_user':
-          path => "/etc/init.d/${pg_service_name}",
-          line => "su - ${owner} -c(.*)$",
-          match => 'su - (.*) -c(.*)',
-          multiple => true,
-#          replace => true,
-        }
-
-        exec { "change_postgres_user":
-          onlyif  => "/bin/grep \'su - postgres -c\' /etc/init.d/${pg_service_name}",
-          command => "/bin/awk \'{gsub(/su - postgres -c/, \"su - ${owner} -c\"); print;}\' ${postgres_dir}/${pg_service_name} > /etc/init.d/${pg_service_name}",
-        }
- */
-
-
       }
     }
     windows: {

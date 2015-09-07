@@ -45,18 +45,18 @@ The expected directory structure is:
 ```puppet
 -- caapm
     |-- files
-    |   |-- ${version}
+    |   |-- ${::version}
     |   |   |-- ca-eula.txt
     |   |   |-- eula.txt
-    |   |   |-- introscope${version}linuxAMD64.bin
-    |   |   |-- introscope${version}windowsAMD64.exe
-    |   |   |-- IntroscopeWorkstation${version}windows.exe
-    |   |   |-- osgiPackages.v${version}.unix.tar
-    |   |   `-- osgiPackages.v${version}.windows.zip
+    |   |   |-- introscope${::version}linuxAMD64.bin
+    |   |   |-- introscope${::version}windowsAMD64.exe
+    |   |   |-- IntroscopeWorkstation${::version}windows.exe
+    |   |   |-- osgiPackages.v${::version}.unix.tar
+    |   |   `-- osgiPackages.v${::version}.windows.zip
     |   `-- license
     |       `-- ${ipaddress}.em.lic
     `-- templates
-        `-- ${version}
+        `-- ${::version}
             `-- EnterpriseManager.ResponseFile.txt
             `-- Workstation.ResponseFile.txt
 ```
@@ -66,18 +66,18 @@ The expected directory structure is:
 To install the CA APM Workstation:
 ```puppet
 caapm::workstation {'apmws':
-  version          => "${version}",
-  user_install_dir => "D:/Apps/CA/APM/Introscope${version}/",
+  version          => "${::version}",
+  user_install_dir => "D:/Apps/CA/APM/Introscope${::version}/",
 }
 ```
 
 To install the CA APM Enterprise Manager (Standalone) with default settings:
 ```puppet
 caapm::em {'win_standalone':
-  version                     => "${version}",
+  version                     => "${::version}",
   features                    => 'Enterprise Manager,WebView,Database',
   clusterEM                   => false,
-  user_install_dir            => "C:/Ecetera/Introscope${version}/",
+  user_install_dir            => "C:/Ecetera/Introscope${::version}/",
   txnTraceDir                 => 'C:/Ecetera/traces',
   smartstor_dir               => 'C:/Ecetera/smartstor',
   threaddump_dir              => 'C:/Ecetera/threaddumps',
@@ -94,8 +94,8 @@ caapm::em {'win_standalone':
 To install the CA APM Database (PostgreSQL) on Windows:
 ```puppet
 caapm::database { 'apmdb':
-  version          => "${version}",
-  user_install_dir => "/opt/caapm/Introscope${version}/",
+  version          => "${::version}",
+  user_install_dir => "/opt/caapm/Introscope${::version}/",
   database         => 'postgres',
   postgres_dir     => '/opt/caapm/PostgreSQL/',
   owner            => 'postgres',
