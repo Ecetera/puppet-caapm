@@ -32,7 +32,7 @@ class caapm::em::install inherits caapm {
     ensure  => present,
     force   => true,
     path    => "${stage_dir}/${resp_file}",
-    content => template("${module_name}/${::version}/${resp_file}"),
+    content => template("${module_name}/${version}/${resp_file}"),
     owner   =>  $owner,
     group   =>  $group,
     mode    =>  $mode,
