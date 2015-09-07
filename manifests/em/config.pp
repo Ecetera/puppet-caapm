@@ -62,7 +62,7 @@ class caapm::em::config inherits caapm {
 
     file { "${em_home}/config/tess-db-cfg.ppmanaged":
       ensure =>  present,
-      content => template("${module_name}/${::version}/tess-db-cfg.xml"),
+      content => template("${module_name}/${version}/tess-db-cfg.xml"),
       owner  => $owner,
       group  => $group,
       mode   => $mode,
@@ -78,7 +78,7 @@ class caapm::em::config inherits caapm {
 
     file { "${em_home}/config/loadbalancing.xml":
       ensure  =>  present,
-      content => template("${module_name}/${::version}/loadbalancing.xml"),
+      content => template("${module_name}/${version}/loadbalancing.xml"),
       owner   => $owner,
       group   => $group,
       mode    => $mode,
@@ -102,7 +102,7 @@ class caapm::em::config inherits caapm {
         file { "${em_home}/webapps/IntroscopeHelp.war":
           ensure  => present,
           force   => true,
-          source  => "${puppet_src}/${::version}/IntroscopeHelp.war",
+          source  => "${puppet_src}/${version}/IntroscopeHelp.war",
           owner   => $owner,
           group   => $group,
         }
@@ -110,7 +110,7 @@ class caapm::em::config inherits caapm {
         file { "${webserver_dir}/IntroscopeHelp.war":
           ensure  => present,
           force   => true,
-          source  => "${puppet_src}/${::version}/IntroscopeHelp.war",
+          source  => "${puppet_src}/${version}/IntroscopeHelp.war",
           owner   => $owner,
           group   => $group,
           require => File[$webserver_dir],
@@ -133,7 +133,7 @@ class caapm::em::config inherits caapm {
           'webapps' => "${em_home}/webapps/IntroscopeHelp.war",
           default   => "${webserver_dir}/IntroscopeHelp.war",
         },
-        source  => "${puppet_src}/${::version}/IntroscopeHelp.war",
+        source  => "${puppet_src}/${version}/IntroscopeHelp.war",
         owner   => $owner,
         group   => $group,
         require => $webserver_dir ? {
@@ -225,7 +225,7 @@ class caapm::em::config inherits caapm {
 
     file { "${em_home}/config/IntroscopeWebView.properties":
       ensure  => present,
-      content => template("${module_name}/${::version}/IntroscopeWebView.properties"),
+      content => template("${module_name}/${version}/IntroscopeWebView.properties"),
       owner   => $owner,
       group   => $group,
       mode    => $mode,
@@ -233,7 +233,7 @@ class caapm::em::config inherits caapm {
 
     file {  "${em_home}/bin/Introscope_WebView.lax.lax":
       ensure  =>  present,
-      content => template("${module_name}/${::version}/Introscope_WebView.lax"),
+      content => template("${module_name}/${version}/Introscope_WebView.lax"),
       owner   => $owner,
       group   => $group,
       mode    => $mode,
