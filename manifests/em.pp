@@ -246,6 +246,7 @@ class caapm::em (
 # inherits caapm::defaults
 {
 
+  notify {"Running caapm:em with version = $version":}
 
   include caapm::em::install
   include caapm::em::config
