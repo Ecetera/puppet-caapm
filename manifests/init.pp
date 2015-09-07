@@ -80,10 +80,7 @@ class caapm (
   $start_em_as_service     = $caapm::defaults::start_em_as_service,
 
   # Enterprise Manager Advanced JVM Settings
-  $emLaxNlCurrentVm            = $::operatingsystem ? {
-      'windows' => 'jre\\bin\\java.exe',
-      default  => 'jre/bin/java',
-    },
+  $emLaxNlCurrentVm            = $caapm::defaults::emLaxNlCurrentVm,
   $emLaxNlJavaOptionAdditional = $caapm::defaults::emLaxNlJavaOptionAdditional,  # Specify any desired command line arguments to be used by the Enterprise Manager JVM.
 
   # WebView Install Settings
@@ -310,33 +307,12 @@ class caapm (
 
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
-      $stage_dir       = '/tmp'
       $osgi_pkg_name   = "osgiPackages.v${::version}.unix.tar"
       $pkg_bin         =  "introscope${::version}linuxAMD64.bin"
-#      $emLaxNlCurrentVm = 'jre/bin/java'
-      $em_service_name = 'introscope'
-      $em_display_name = undef
-      $wv_service_name = 'webview'
-      $wv_display_name = undef
-      $owner           = 'caapm'
-      $group           = 'apm'
     }
     windows: {
-      $stage_dir       = 'C:\\Windows\\Temp'
       $osgi_pkg_name   = "osgiPackages.v${::version}.windows.zip"
       $pkg_bin         = "introscope${::version}${::operatingsystem}AMD64.exe"
-#      $emLaxNlCurrentVm = 'jre\\bin\\java.exe'
-      $em_service_name = 'IScopeEM'
-      $em_display_name = 'Introscope Enterprise Manager'
-      $wv_service_name = 'IScopeWV'
-      $wv_display_name = 'Introscope WebView'
-      $owner           = 'Administrator'
-      $group           = 'Users'
-    }
-    default: {
-      $stage_dir = undef
-      $owner     = 'default_user'
-      $group     = 'default_group'
     }
   }
 

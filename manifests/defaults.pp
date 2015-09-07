@@ -269,6 +269,34 @@ class caapm::defaults {
   $puppet_src = "puppet:///modules/${module_name}"
 
 
+  case $::operatingsystem {
+    CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
+      $stage_dir       = '/tmp'
+      $emLaxNlCurrentVm = 'jre/bin/java'
+      $em_service_name = 'introscope'
+      $em_display_name = undef
+      $wv_service_name = 'webview'
+      $wv_display_name = undef
+      $owner           = 'caapm'
+      $group           = 'apm'
+    }
+    windows: {
+      $stage_dir       = 'C:\\Windows\\Temp'
+      $emLaxNlCurrentVm = 'jre\\bin\\java.exe'
+      $em_service_name = 'IScopeEM'
+      $em_display_name = 'Introscope Enterprise Manager'
+      $wv_service_name = 'IScopeWV'
+      $wv_display_name = 'Introscope WebView'
+      $owner           = 'Administrator'
+      $group           = 'Users'
+    }
+    default: {
+      $stage_dir = undef
+      $owner     = 'default_user'
+      $group     = 'default_group'
+    }
+  }
+
 
 
 }
