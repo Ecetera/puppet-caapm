@@ -3,7 +3,7 @@ class caapm::defaults {
   $version                 = '9.7.1.16'
 
 # defaults for EnterpriseManager.ResponseFile.txt
-  $user_install_dir        = "/app/caapm/Introscope${::version}/"
+  $user_install_dir        = "/app/caapm/Introscope${version}/"
 #  $features                = 'Enterprise Manager,WebView'
   $features                = ''
 
@@ -96,7 +96,7 @@ class caapm::defaults {
 # end of defaults for EnterpriseManager.ResponseFile.txt
 
   $osgi_eula_file              = 'eula.txt'
-  $pkg_name                    = "CA APM Introscope ${::version}"
+  $pkg_name                    = "CA APM Introscope ${version}"
   $eula_file                   = 'ca-eula.txt'
   $resp_file                   = 'EnterpriseManager.ResponseFile.txt'
   $lic_file                    = "${::ipaddress}.em.lic"
@@ -307,8 +307,8 @@ class caapm::defaults {
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       $stage_dir       = '/tmp'
-      $osgi_pkg_name   = "osgiPackages.v${::version}.unix.tar"
-      $pkg_bin         =  "introscope${::version}linuxAMD64.bin"
+      $osgi_pkg_name   = "osgiPackages.v${version}.unix.tar"
+      $pkg_bin         =  "introscope${version}linuxAMD64.bin"
       $emLaxNlCurrentVm = 'jre/bin/java'
       $em_service_name = 'introscope'
       $em_display_name = undef
@@ -319,8 +319,8 @@ class caapm::defaults {
     }
     windows: {
       $stage_dir       = 'C:\\Windows\\Temp'
-      $osgi_pkg_name   = "osgiPackages.v${::version}.windows.zip"
-      $pkg_bin         = "introscope${::version}${::operatingsystem}AMD64.exe"
+      $osgi_pkg_name   = "osgiPackages.v${version}.windows.zip"
+      $pkg_bin         = "introscope${version}${::operatingsystem}AMD64.exe"
       $emLaxNlCurrentVm = 'jre\\bin\\java.exe'
       $em_service_name = 'IScopeEM'
       $em_display_name = 'Introscope Enterprise Manager'
