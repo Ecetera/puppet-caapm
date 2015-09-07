@@ -36,4 +36,4 @@
 # LGPL: 
 # Do you accept or reject the terms of the Lesser GNU Public License? 
 # The set of valid values for LGPL is: {accept, reject}. 
-LGPL=reject
+LGPL=accept
