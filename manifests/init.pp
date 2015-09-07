@@ -307,12 +307,12 @@ class caapm (
 
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
-      $osgi_pkg_name   = "osgiPackages.v${::version}.unix.tar"
-      $pkg_bin         =  "introscope${::version}linuxAMD64.bin"
+      $osgi_pkg_name   = "osgiPackages.v${version}.unix.tar"
+      $pkg_bin         =  "introscope${version}linuxAMD64.bin"
     }
     windows: {
-      $osgi_pkg_name   = "osgiPackages.v${::version}.windows.zip"
-      $pkg_bin         = "introscope${::version}${::operatingsystem}AMD64.exe"
+      $osgi_pkg_name   = "osgiPackages.v${version}.windows.zip"
+      $pkg_bin         = "introscope${version}${::operatingsystem}AMD64.exe"
     }
   }
 
