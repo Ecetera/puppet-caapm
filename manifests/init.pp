@@ -313,7 +313,7 @@ class caapm (
       $stage_dir       = '/tmp'
       $osgi_pkg_name   = "osgiPackages.v${::version}.unix.tar"
       $pkg_bin         =  "introscope${::version}linuxAMD64.bin"
-      $emLaxNlCurrentVm = 'jre/bin/java'
+#      $emLaxNlCurrentVm = 'jre/bin/java'
       $em_service_name = 'introscope'
       $em_display_name = undef
       $wv_service_name = 'webview'
@@ -325,7 +325,7 @@ class caapm (
       $stage_dir       = 'C:\\Windows\\Temp'
       $osgi_pkg_name   = "osgiPackages.v${::version}.windows.zip"
       $pkg_bin         = "introscope${::version}${::operatingsystem}AMD64.exe"
-      $emLaxNlCurrentVm = 'jre\\bin\\java.exe'
+#      $emLaxNlCurrentVm = 'jre\\bin\\java.exe'
       $em_service_name = 'IScopeEM'
       $em_display_name = 'Introscope Enterprise Manager'
       $wv_service_name = 'IScopeWV'
