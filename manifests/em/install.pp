@@ -12,7 +12,7 @@ class caapm::em::install inherits caapm {
     ensure => present,
     force  => true,
     path   => "${stage_dir}/${eula_file}",
-    source => "${puppet_src}/${::version}/${eula_file}",
+    source => "${puppet_src}/${version}/${eula_file}",
     owner  => $owner,
     group  => $group,
     mode   => $mode,
@@ -21,7 +21,7 @@ class caapm::em::install inherits caapm {
   # download the Enterprise Manager installer
   file { $pkg_bin:
     path   => "${stage_dir}/${pkg_bin}",
-    source => "${puppet_src}/${::version}/${pkg_bin}",
+    source => "${puppet_src}/${version}/${pkg_bin}",
     owner   =>  $owner,
     group   =>  $group,
     mode    =>  '0744',

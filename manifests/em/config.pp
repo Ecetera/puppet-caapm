@@ -22,7 +22,7 @@ class caapm::em::config inherits caapm {
 
     file {  "${em_home}/bin/Introscope_Enterprise_Manager.lax":
       ensure  =>  present,
-      content => template("${module_name}/${::version}/Introscope_Enterprise_Manager.lax"),
+      content => template("${module_name}/${version}/Introscope_Enterprise_Manager.lax"),
       owner   => $owner,
       group   => $group,
       mode    => $mode,
@@ -31,7 +31,7 @@ class caapm::em::config inherits caapm {
 # may need to manage an interim file.  copy over if there are major changes beyond plaintextpassword=true
     file { "${em_home}/config/IntroscopeEnterpriseManager.ppmanaged":
       ensure  => present,
-      content => template("${module_name}/${::version}/IntroscopeEnterpriseManager.properties"),
+      content => template("${module_name}/${version}/IntroscopeEnterpriseManager.properties"),
       owner   => $owner,
       group   => $group,
       mode    => $mode,
@@ -46,7 +46,7 @@ class caapm::em::config inherits caapm {
 
     file { "${em_home}/config/apm-events-thresholds-config.xml":
       ensure =>  present,
-      content => template("${module_name}/${::version}/apm-events-thresholds-config.xml"),
+      content => template("${module_name}/${version}/apm-events-thresholds-config.xml"),
       owner  => $owner,
       group  => $group,
       mode   => $mode,
@@ -54,7 +54,7 @@ class caapm::em::config inherits caapm {
 
     file { "${em_home}/config/domains.xml":
       ensure =>  present,
-      content => template("${module_name}/${::version}/domains.xml"),
+      content => template("${module_name}/${version}/domains.xml"),
       owner  => $owner,
       group  => $group,
       mode   => $mode,
