@@ -32,7 +32,7 @@ class caapm::osgi (
     ensure => present,
     force  => true,
     path   => "${stage_dir}/${osgi_eula_file}",
-    source => "${puppet_src}/${::version}/${osgi_eula_file}",
+    source => "${puppet_src}/${version}/${osgi_eula_file}",
     owner  => $owner,
     group  => $group,
     mode   => $mode,
@@ -41,7 +41,7 @@ class caapm::osgi (
   # download the osgi package
   file { $osgi_pkg_name:
     path   => "${stage_dir}/${osgi_pkg_name}",
-    source => "${puppet_src}/${::version}/${osgi_pkg_name}",
+    source => "${puppet_src}/${version}/${osgi_pkg_name}",
     owner   =>  $owner,
     group   =>  $group,
     mode    =>  $mode,

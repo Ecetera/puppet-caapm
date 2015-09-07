@@ -96,7 +96,6 @@ class caapm::defaults {
 # end of defaults for EnterpriseManager.ResponseFile.txt
 
   $osgi_eula_file              = 'eula.txt'
-  $pkg_name                    = "CA APM Introscope ${::version}"
   $eula_file                   = 'ca-eula.txt'
   $resp_file                   = 'EnterpriseManager.ResponseFile.txt'
   $lic_file                    = "${::ipaddress}.em.lic"
@@ -269,70 +268,7 @@ class caapm::defaults {
 
   $puppet_src = "puppet:///modules/${module_name}"
 
-  $user_install_dir_em = $::operatingsystem ? {
-    'windows' => to_windows_escaped($user_install_dir),
-    default  => $user_install_dir,
-  }
-
-  $em_home = $upgradeEM ? {
-    false => $user_install_dir_em,
-    true  => $::operatingsystem ? {
-      'windows' => to_windows_escaped($upgraded_install_dir),
-      default  => $upgraded_install_dir,
-    },
-    default => $user_install_dir_em
-  }
-
-  $pg_service_name = $version ? {
-    '9.1.4.0' => $::operatingsystem ? {
-        'windows' => 'pgsql-8.4',
-        default  => 'postgresql-8.4',
-      },
-    '9.6.0.0' => $::operatingsystem ? {
-        'windows' => 'pgsql-9.2',
-        default  => 'postgresql-8.4',
-      },
-    '9.7.0.27' => $::operatingsystem ? {
-        'windows' => 'pgsql-9.2',
-        default  => 'postgresql-9.2',
-      },
-    '9.7.1.16' => $::operatingsystem ? {
-        'windows' => 'pgsql-9.2',
-        default  => 'postgresql-9.2.4',
-      },
-    default => undef,
-  }
 
 
-  case $::operatingsystem {
-    CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
-      $stage_dir       = '/tmp'
-      $osgi_pkg_name   = "osgiPackages.v${::version}.unix.tar"
-      $pkg_bin         =  "introscope${::version}linuxAMD64.bin"
-      $emLaxNlCurrentVm = 'jre/bin/java'
-      $em_service_name = 'introscope'
-      $em_display_name = undef
-      $wv_service_name = 'webview'
-      $wv_display_name = undef
-      $owner           = 'caapm'
-      $group           = 'apm'
-    }
-    windows: {
-      $stage_dir       = 'C:\\Windows\\Temp'
-      $osgi_pkg_name   = "osgiPackages.v${::version}.windows.zip"
-      $pkg_bin         = "introscope${::version}${::operatingsystem}AMD64.exe"
-      $emLaxNlCurrentVm = 'jre\\bin\\java.exe'
-      $em_service_name = 'IScopeEM'
-      $em_display_name = 'Introscope Enterprise Manager'
-      $wv_service_name = 'IScopeWV'
-      $wv_display_name = 'Introscope WebView'
-      $owner           = 'Administrator'
-      $group           = 'Users'
-    }
-    default: {
-      $stage_dir = undef
-      $owner     = 'default_user'
-      $group     = 'default_group'
-    }
-  }
+
 }
