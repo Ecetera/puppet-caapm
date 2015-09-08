@@ -253,17 +253,19 @@ class caapm (
   $em_max_transaction_user_groups                         = $caapm::defaults::em_max_transaction_user_groups,
   $em_max_application_user_rows                           = $caapm::defaults::em_max_application_user_rows,
 
-  $owner                       = $caapm::defaults::owner,
-  $group                       = $caapm::defaults::group,
-  $mode                        = $caapm::defaults::mode,
+  $owner           = $caapm::defaults::owner,
+  $group           = $caapm::defaults::group,
+  $mode            = $caapm::defaults::mode,
 
-  $puppet_src = "puppet:///modules/${module_name}",
-
+  $puppet_src      = "puppet:///modules/${module_name}",
+  $notify_enabled  = $caapm::defaults::notify_enabled,
 
 
 ) inherits caapm::defaults {
 
-  notify {"Running init with features = $features":}
+  if $notify_enabled {
+    notify {"Running init with features = $features":}
+  }
   $em_as_service = ('Enterprise Manager' in $features) or $config_em_as_service
   $wv_as_service = ('WebView' in $features) or $config_wv_as_service
   $pg_as_service = ('Database' in $features) or $config_pg_as_service

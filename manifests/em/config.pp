@@ -5,9 +5,10 @@ class caapm::em::config inherits caapm {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-#  notify {"Running with em::config em_as_service = $em_as_service":}
-#  notify {"Running with em::config wv_as_service = $wv_as_service":}
-
+  if $notify_enabled {
+    notify {"Running with em::config em_as_service = $em_as_service":}
+    notify {"Running with em::config wv_as_service = $wv_as_service":}
+  }
 
   if $em_as_service {
 

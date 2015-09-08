@@ -59,7 +59,6 @@ class caapm::em::install inherits caapm {
       exec { $pkg_name :
 #        command     => "$staging_path/$staging_subdir/$pkg_bin -f $install_options;cat $staging_path/$staging_subdir/silent.install.failed.txt;true",
         command   => "${stage_dir}/${pkg_bin} -f ${install_options}",
-#        creates   => "${em_home}launcher.jar",
         creates => $features ? {
           'Database' => $postgres_dir,
           default  => "${em_home}launcher.jar",

@@ -5,7 +5,9 @@ class caapm::db::service inherits caapm {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-#  notify {"Running with db::service pg_as_service = $pg_as_service":}
+  if $notify_enabled {
+    notify {"Running with db::service pg_as_service = $pg_as_service":}
+  }
 
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {

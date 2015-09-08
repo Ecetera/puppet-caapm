@@ -267,7 +267,7 @@ class caapm::defaults {
   $mode   = '0644'
 
   $puppet_src = "puppet:///modules/${module_name}"
-
+  $notify_enabled  = false
 
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {

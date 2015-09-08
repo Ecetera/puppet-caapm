@@ -31,7 +31,9 @@ class caapm::database (
   $group                   = $::caapm::group,
   $mode                    = $::caapm::mode,
 
-  $puppet_src = "puppet:///modules/${module_name}"
+  $puppet_src              = "puppet:///modules/${module_name}",
+  $notify_enabled          = $::caapm::notify_enabled,
+
 
 ){
 
@@ -42,7 +44,6 @@ class caapm::database (
 
   Class['caapm::em::install'] ->
   Class['caapm::db::config']  ->
-#  Class['caapm::em::plugins']  ->
   Class['caapm::db::service']
 
   anchor {

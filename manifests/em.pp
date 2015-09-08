@@ -235,26 +235,26 @@ class caapm::em (
   $em_max_transaction_user_groups                         = $::caapm::em_max_transaction_user_groups,
   $em_max_application_user_rows                           = $::caapm::em_max_application_user_rows,
 
-  $owner                       = $::caapm::owner,
-  $group                       = $::caapm::group,
-  $mode                        = $::caapm::mode,
+  $owner          = $::caapm::owner,
+  $group          = $::caapm::group,
+  $mode           = $::caapm::mode,
 
-  $puppet_src = "puppet:///modules/${module_name}"
-
+  $puppet_src     = "puppet:///modules/${module_name}",
+  $notify_enabled = $::caapm::notify_enabled,
 
 )
 # inherits caapm::defaults
 {
 
-  notify {"Running caapm:em with version = $version":}
-
+  if $notify_enabled {
+    notify {"Running caapm:em with version = $version":}
+  }
   include caapm::em::install
   include caapm::em::config
   include caapm::em::service
 
   Class['caapm::em::install'] ->
   Class['caapm::em::config']  ->
-#  Class['caapm::em::plugins']  ->
   Class['caapm::em::service']
 
   anchor {

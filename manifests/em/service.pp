@@ -5,8 +5,10 @@ class caapm::em::service inherits caapm {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-#  notify {"Running with em::service em_as_service = $em_as_service":}
-#  notify {"Running with em::service wv_as_service = $wv_as_service":}
+  if $notify_enabled {
+    notify {"Running with em::service em_as_service = $em_as_service":}
+    notify {"Running with em::service wv_as_service = $wv_as_service":}
+  }
 
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
