@@ -301,6 +301,10 @@ class caapm (
         'windows' => 'pgsql-9.2',
         default  => 'postgresql-9.2.4',
       },
+    '10.0.0.12' => $::operatingsystem ? {
+        'windows' => 'pgsql-9.2',
+        default  => 'postgresql-9.2',
+      },
     default => undef,
   }
 
