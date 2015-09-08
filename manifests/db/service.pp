@@ -13,23 +13,17 @@ class caapm::db::service inherits caapm {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
 
       if $pg_as_service {
-        exec { "set_pg_service_user":
 
-# these conditions were attempts to check before executing a replacement.
-#          onlyif  => "/usr/bin/test ! (-f /etc/init.d/${pg_service_name})",
-#          onlyif  => "/bin/awk \'/su - ${owner} -c/ {print;}\' /etc/init.d/${pg_service_name}",
-
-          command => "/bin/awk \'{gsub(/su - postgres -c/, \"su - ${owner} -c\"); print;}\' ${postgres_dir}/${pg_service_name} > /etc/init.d/${pg_service_name}",
-          creates => "/etc/init.d/${pg_service_name}",
-        }
-
-        file { "/etc/init.d/${pg_service_name}":
-          ensure => present,
+        # generate the SystemV init script
+        file { $pg_service_name:
+          ensure  => present,
+          force   => true,
+          path    => "/etc/init.d/${pg_service_name}",
+          content => template("${module_name}/init.d/postgresql"),
           owner   =>  'root',
           group   =>  'root',
           mode    =>  '0755',
           notify  => Service[$pg_service_name],
-          require => Exec['set_pg_service_user']
         }
 
         file { "${postgres_dir}/data/postgresql.conf":
