@@ -37,7 +37,7 @@ class caapm::em::config inherits caapm {
       owner   => $owner,
       group   => $group,
       mode    => $mode,
-      notify  => Exec['update_em_properties'],
+      notify  => [Exec['update_em_properties'],Service[$em_service_name]],
     }
 
     exec { 'update_em_properties':
