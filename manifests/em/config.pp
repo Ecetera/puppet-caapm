@@ -85,19 +85,7 @@ class caapm::em::config inherits caapm {
       mode    => $mode,
     }
 
-/*
-  file_line { 'set_db_passwd':
-    path  => "${em_home}/config/tess-db-cfg.xml",
-    line  => "<property name=\"hibernate\.connection\.password\">${db_user_passwd}</property>",
-    match => "<property name=\"hibernate\.connection\.password\">.*</property>",
-  } ->
 
-  file_line { 'reset_db_plaintextpasswords':
-    path  => "${em_home}/config/tess-db-cfg.xml",
-    line  => "<property name=\"plainTextPasswords\">true</property>",
-    match => "<property name=\"plainTextPasswords\">false</property>",
-  }
- */
     if $cluster_role == 'MOM' {
       if $webserver_dir == 'webapps' {
         file { "${em_home}/webapps/IntroscopeHelp.war":
@@ -124,34 +112,7 @@ class caapm::em::config inherits caapm {
         }
       }
     }
-    /*
-    if $cluster_role == 'MOM' {
-      file { 'IntroscopeHelp.war':
-        ensure  => present,
-        force   => true,
-#        path    => "${em_home}/webapps/IntroscopeHelp.war",
-        path    => $webserver_dir ? {
-          'webapps' => "${em_home}/webapps/IntroscopeHelp.war",
-          default   => "${webserver_dir}/IntroscopeHelp.war",
-        },
-        source  => "${puppet_src}/${version}/IntroscopeHelp.war",
-        owner   => $owner,
-        group   => $group,
-        require => $webserver_dir ? {
-          'webapps' => File["${em_home}/webapps"],
-          default   => File[$webserver_dir],
-        },
-      }
 
-      file {"${em_home}/webapps":
-        ensure => 'directory',
-        owner   => $owner,
-        group   => $group,
-        mode    => $mode,
-      }
-
-    }
- */
 # if channel2 enabled
 #{
    # enable this section for keystore and truststore configuration management

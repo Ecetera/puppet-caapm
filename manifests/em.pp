@@ -250,7 +250,9 @@ class caapm::em (
 
   if $notify_enabled {
     notify {"Running caapm:em with version = $version":}
+    notify {"Running caapm:em with domains = $domains":}
   }
+
   include caapm::em::install
   include caapm::em::config
   include caapm::em::service
