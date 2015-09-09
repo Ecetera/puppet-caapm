@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <domains xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="domains0.3.xsd" version="0.3">
+<%# -%>
+<%# Refer to the following blog for tips on looping -%>
+<%# http://sanjivblogs.blogspot.com.au/2012/08/puppet-template-loop-with-multiple.html -%>
 <% if @domains -%>
   <% @domains.each do |domain| %>
     <domain name="<%= domain['name'] %>" description="<%= domain['description'] %>"><% domain['agent_map'].each do |agent_regex| %>
       <agent mapping="<%= agent_regex %>"/><% end %>
     </domain>
-
   <% end %>
 <% end -%>
 
