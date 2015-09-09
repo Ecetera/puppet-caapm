@@ -8,6 +8,7 @@ class caapm::em::config inherits caapm {
   if $notify_enabled {
     notify {"Running with em::config em_as_service = $em_as_service":}
     notify {"Running with em::config wv_as_service = $wv_as_service":}
+    notify {"Running with em::config collectors = $collectors":}
   }
 
   if $em_as_service {

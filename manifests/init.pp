@@ -254,6 +254,7 @@ class caapm (
   $em_max_application_user_rows                           = $caapm::defaults::em_max_application_user_rows,
 
   $domains         = $caapm::defaults::domains,
+  $collectors      = $caapm::defaults::collectors,
   $owner           = $caapm::defaults::owner,
   $group           = $caapm::defaults::group,
   $mode            = $caapm::defaults::mode,
