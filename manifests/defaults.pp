@@ -264,6 +264,7 @@ class caapm::defaults {
 #  $clustering.login.em1.publickey=internal/server/EM.public
 #  $clustering.login.em1.weight=
 
+  $domains = undef
   $mode   = '0644'
 
   $puppet_src = "puppet:///modules/${module_name}"

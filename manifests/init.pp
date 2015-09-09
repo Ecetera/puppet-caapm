@@ -253,6 +253,7 @@ class caapm (
   $em_max_transaction_user_groups                         = $caapm::defaults::em_max_transaction_user_groups,
   $em_max_application_user_rows                           = $caapm::defaults::em_max_application_user_rows,
 
+  $domains         = $caapm::defaults::domains,
   $owner           = $caapm::defaults::owner,
   $group           = $caapm::defaults::group,
   $mode            = $caapm::defaults::mode,
