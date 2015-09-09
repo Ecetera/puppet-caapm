@@ -54,7 +54,7 @@ class caapm::em::config inherits caapm {
       group  => $group,
       mode   => $mode,
     }
-/*
+
     file { "${em_home}/config/domains.xml":
       ensure =>  present,
       content => template("${module_name}/${version}/domains.xml"),
@@ -62,7 +62,7 @@ class caapm::em::config inherits caapm {
       group  => $group,
       mode   => $mode,
     }
- */
+
     file { "${em_home}/config/tess-db-cfg.ppmanaged":
       ensure =>  present,
       content => template("${module_name}/${version}/tess-db-cfg.xml"),
