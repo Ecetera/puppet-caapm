@@ -6,9 +6,8 @@
 #
 
 class caapm::agent (
-
-
   $version                 = $::caapm::version,
+  $agents_dir              = $::caapm::agents_dir,
 
   $owner                   = $::caapm::owner,
   $group                   = $::caapm::group,

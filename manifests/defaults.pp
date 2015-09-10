@@ -232,7 +232,7 @@ class caapm::defaults {
   $soa_deviation_enabled               = false
 
   # APM Help URL
-  $apm_help_url                        = 'https://wiki.ca.com/display/APMDEVOPS97/CA+Application+Performance+Management'
+  $apm_help_url                        = 'https://wiki.ca.com/display/APMDEVOPS98/CA+Application+Performance+Management'
 
 # end of defaults for IntroscopeEnterpriseManager.properties
 
@@ -266,6 +266,9 @@ class caapm::defaults {
 
   $domains = undef
   $collectors = undef
+  $agents          = 'EPAgent'
+  $agents_dir      = undef
+
   $mode   = '0554'
 
   $puppet_src = "puppet:///modules/${module_name}"

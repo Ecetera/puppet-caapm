@@ -255,6 +255,10 @@ class caapm (
 
   $domains         = $caapm::defaults::domains,
   $collectors      = $caapm::defaults::collectors,
+
+  $agents          = $caapm::defaults::agents,
+  $agents_dir      = $caapm::defaults::agents_dir,
+
   $owner           = $caapm::defaults::owner,
   $group           = $caapm::defaults::group,
   $mode            = $caapm::defaults::mode,
