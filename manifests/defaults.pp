@@ -266,7 +266,7 @@ class caapm::defaults {
 
   $domains = undef
   $collectors = undef
-  $mode   = '0644'
+  $mode   = '0554'
 
   $puppet_src = "puppet:///modules/${module_name}"
   $notify_enabled  = false

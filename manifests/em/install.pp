@@ -24,7 +24,7 @@ class caapm::em::install inherits caapm {
     source => "${puppet_src}/${version}/${pkg_bin}",
     owner   =>  $owner,
     group   =>  $group,
-    mode    =>  '0744',
+    mode    =>  '0544',
   }
 
   # generate the response file
