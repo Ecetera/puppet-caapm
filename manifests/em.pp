@@ -263,10 +263,10 @@ class caapm::em (
   Class['caapm::em::service']
 
   anchor {
-    'caapm::begin':
+    'caapm::em::begin':
        before  => Class['caapm::em::install','caapm::em::config'],
        notify  => Class['caapm::em::service'];
-    'caapm::end':
+    'caapm::em::end':
        require => Class['caapm::em::service'];
   }
 

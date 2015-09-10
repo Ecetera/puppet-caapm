@@ -47,10 +47,10 @@ class caapm::database (
   Class['caapm::db::service']
 
   anchor {
-    'caapm::begin':
+    'caapm::db::begin':
        before  => Class['caapm::em::install','caapm::db::config'],
        notify  => Class['caapm::db::service'];
-    'caapm::end':
+    'caapm::db::end':
        require => Class['caapm::db::service'];
   }
 

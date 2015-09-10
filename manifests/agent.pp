@@ -27,10 +27,10 @@ class caapm::agent (
   Class['caapm::agent::service']
 
   anchor {
-    'caapm::begin':
+    'caapm::agent::begin':
        before  => Class['caapm::agent::install','caapm::agent::config'],
        notify  => Class['caapm::agent::service'];
-    'caapm::end':
+    'caapm::agent::end':
        require => Class['caapm::agent::service'];
   }
 
