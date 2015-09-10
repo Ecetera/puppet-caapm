@@ -31,7 +31,7 @@ class caapm::agent::install inherits caapm {
         returns   => [0,1],
         timeout   => 0,
         user      => $owner,
-        require   => File["$agents"],
+        require   => File[$agents],
       }
 
     }
