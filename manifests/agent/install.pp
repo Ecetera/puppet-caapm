@@ -5,7 +5,7 @@ class caapm::agent::install inherits caapm {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  # download the agents required agents
+  # download the required agents
   $agents = ["EPAgent","JavaAgent","MQMonitor","PPOracleDB","PPWebServers","SiteMinder_SNMP","TibcoEMSMonitor","WilyWMBrokerMonitor"]
 
 
@@ -17,6 +17,7 @@ class caapm::agent::install inherits caapm {
     owner  => $owner,
     group  => $group,
     mode   => $mode,
+    before =>  Exec[$agents]
   }
 
 
@@ -25,13 +26,13 @@ class caapm::agent::install inherits caapm {
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       exec { $agents:
-        command   => "/bin/tar ${stage_dir}/${title}${version}${::operatingsystem}.tar ${stage_dir}/${pkg_bin} ${agents_dir}",
+        command   => "/bin/tar ${stage_dir}/${title}${version}${::operatingsystem}.tar -C ${agents_dir}",
         creates   => "${agents_dir}/${title}",
         logoutput => true,
         returns   => [0,1],
         timeout   => 0,
         user      => $owner,
-        require   => File[$agents],
+#        require   => File[$agents],
       }
 
     }
