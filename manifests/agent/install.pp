@@ -10,12 +10,12 @@ class caapm::agent::install inherits caapm {
 #  $agents = ["epagent","wily","ppwebserver","pporacledb","mqmonitor"]
 
 
-define myResource {
+define resource {
 
   file {"${stage_dir}/${name}":
     ensure => present,
     force  => true,
-    source => "${puppet_src}/${::version}/agents/${title}${version}${::operatingsystem}.tar",
+    source => "${puppet_src}/${::version}/agents/${name}${version}${::operatingsystem}.tar",
     owner  => $owner,
     group  => $group,
     mode   => $mode,
@@ -31,7 +31,7 @@ define myResource {
     user      => $owner,
   }
 }
-  myResource { $agents: }
+  resource { $agents: }
 
 
 }
