@@ -3,6 +3,7 @@
 	<name>caapm</name>
 	<comment></comment>
 	<projects>
+		<project>java_ks</project>
 		<project>openssl</project>
 		<project>stdlib</project>
 	</projects>

@@ -263,7 +263,7 @@ class caapm (
 
 ) inherits caapm::defaults {
 
-#  notify {"Running init with features = $features":}
+  notify {"Running init with features = $features":}
   $em_as_service = ('Enterprise Manager' in $features) or $config_em_as_service
   $wv_as_service = ('WebView' in $features) or $config_wv_as_service
   $pg_as_service = ('Database' in $features) or $config_pg_as_service
