@@ -7,42 +7,31 @@ class caapm::agent::install inherits caapm {
 
   # download the required agents
   $agents = ["EPAgent","JavaAgent","MQMonitor","PPOracleDB","PPWebServers","SiteMinder_SNMP","TibcoEMSMonitor","WilyWMBrokerMonitor"]
+#  $agents = ["epagent","wily","ppwebserver","pporacledb","mqmonitor"]
 
 
-  file { $agents:
+define myResource {
+
+  file {"${stage_dir}/${name}":
     ensure => present,
     force  => true,
-    path   => "${stage_dir}",
     source => "${puppet_src}/${::version}/agents/${title}${version}${::operatingsystem}.tar",
     owner  => $owner,
     group  => $group,
     mode   => $mode,
-    before =>  Exec[$agents]
+    notify =>  Exec[$name],
   }
 
-
-  validate_absolute_path($em_home)
-
-  case $::operatingsystem {
-    CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
-      exec { $agents:
-        command   => "/bin/tar ${stage_dir}/${title}${version}${::operatingsystem}.tar -C ${agents_dir}",
-        creates   => "${agents_dir}/${title}",
-        logoutput => true,
-        returns   => [0,1],
-        timeout   => 0,
-        user      => $owner,
-#        require   => File[$agents],
-      }
-
-    }
-
-    windows: {
-      # install the agents using windows package
-    }
-
-    default: {}
-
+  exec { $name:
+    command   => "/bin/tar ${stage_dir}/${name}${version}${::operatingsystem}.tar -C ${agents_dir}",
+    creates   => "${agents_dir}/${name}",
+    logoutput => true,
+    returns   => [0,1],
+    timeout   => 0,
+    user      => $owner,
   }
+}
+  myResource { $agents: }
+
 
 }
