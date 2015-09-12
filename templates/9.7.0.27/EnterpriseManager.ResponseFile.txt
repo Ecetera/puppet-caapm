@@ -414,19 +414,18 @@ emAsServiceDisplayName=<%= @em_service_display_name %>
 
 # The APM database can be on PostgreSQL or Oracle 10g/11g
 # Set one of the propeties to true depending on whether you choose Postgres or Oracle
-<% if @database != 'postgresql' %>
+<% if @database != 'Postgres' -%>
 chosenDatabaseIsPostgres=false
 chosenDatabaseIsOracle=true
-<% else %> 
+<% else -%> 
 chosenDatabaseIsPostgres=true
 chosenDatabaseIsOracle=false
-<% end %>
+<% end -%>
 
 # PostgreSQL properties (set these if you are using PostgreSQL database)
 # The APM database can be installed on Linux, Solaris and Windows platforms.
 # Set the following set of properties when pointing to an existing APM database
 # and when installing PostgreSQL database.
-
 dbHost=<%= @db_host %>
 dbPort=<%= @db_port %>
 dbName=<%= @db_name %>
@@ -448,7 +447,7 @@ dbInstallScriptTimeoutInMillis=<%= @pg_install_timeout %>
 
 # Set validateDatabase to true if you want to validate the existing APM database and
 # create new schema.
-<% if @validate_db != 'true' %>
+<% if @validate_db != 'true' -%>
 #validateDatabase=true
 <% else %> 
 validateDatabase=true

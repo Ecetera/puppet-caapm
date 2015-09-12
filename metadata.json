@@ -1,11 +1,10 @@
 {
   "author": "dimarra",
   "dependencies": [
-  	{ "name":"puppetlabs/stdlib", "version_requirement":">=4.3.2"},
-  	{ "name":"nanliu/staging", "version_requirement": ">= 1.0.3"}  
+  	{ "name":"puppetlabs/stdlib", "version_requirement":">=4.3.2"}
   ],
   "license": "Apache-2.0",
-  "name": "Ecetera-caapm",
+  "name": "dimarra-caapm",
   "operatingsystem_support": [
   	{ "operatingsystem":"RedHat", "operatingsystemrelease":[ "5.0", "6.0" ] },
   	{ "operatingsystem":"Windows Server", "operatingsystemrelease":[ "2003 SP2/R2", "2008 SP2", "2008 R2", "2008 R2 SP1" ] },
@@ -17,5 +16,5 @@
   "issues_url": "https://github.com/Ecetera/puppet-caapm/issues",
   "summary": "Collection of Puppet modules for managing CA Application Performance Management (APM)",
   "tags": ["windows", "redhat", "ca", "apm", "introscope", "wily"],
-  "version": "1.0.3"
+  "version": "2.0.0"
 }

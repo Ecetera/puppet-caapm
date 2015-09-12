@@ -4,7 +4,7 @@
 #   --------------------
 #   the default name of this executable -- do not edit
 
-lax.application.name=Introscope_Enterprise_Manager
+lax.application.name=Introscope_WebView
 
 
 #   LAX.CLASS.PATH
@@ -19,7 +19,7 @@ lax.class.path=launcher.jar:lax.jar
 #   ---------------------
 #   what will be passed to the main method -- be sure to quote arguments with spaces in them
 
-lax.command.line.args=$CMD_LINE_ARGUMENTS$ -consolelog -noExit -product com.wily.introscope.em.product -install "./product/enterprisemanager" -configuration "./product/enterprisemanager/configuration"
+lax.command.line.args=$CMD_LINE_ARGUMENTS$ -consolelog -noExit -product com.wily.introscope.webview.server.product -install "./product/webview" -configuration "./product/webview/configuration"
 
 
 #   LAX.DIR
@@ -66,30 +66,24 @@ lax.nl.java.launcher.main.method=main
 
 #   LAX.NL.JAVA.OPTION.ADDITIONAL
 #   -----------------------------
-#   place any optional Java arguments (such as heap size) here. 
-#   The following switches are recommended for 32-bit Sun JVMs: 
-#   -showversion -XX:CMSInitiatingOccupancyFraction=50 -Xss256k
-#   The following switches are recommended for 64-bit Sun JVMs: 
-#   -Xss512k
-#   If you are using both Hot Failover and the CEM UI, 
-#   add the following switch when starting the Secondary Introscope Enterprise Manager (or second Primary), 
-#   -Dosgi.clean=false 
-#   Set the lax java option additional values like: -Xms1024m -Xmx1024m -Djava.awt.headless=false -XX:MaxPermSize=256m -Dmail.mime.charset=UTF-8 -Dorg.owasp.esapi.resources=./config/esapi -XX:+UseConcMarkSweepGC -XX:+UseParNewGC
+#   place any optional Java arguments (such as heap size) here
+#   Introscope Java Agent Arguments for WebView Monitor
+#   BRTM Feature is not supported on the WebView Agent
+#   -XX:PermSize=128m -XX:MaxPermSize=256m -javaagent:./product/webview/agent/wily/Agent.jar -Dcom.wily.introscope.agentProfile=./product/webview/agent/wily/core/config/IntroscopeAgent.profile -Dcom.wily.introscope.wilyForWilyPrefix=com.wily -Djetty.home=./
 
-lax.nl.java.option.additional=<%= @emLaxNlJavaOptionAdditional %>
+lax.nl.java.option.additional=<%= @wvLaxNlJavaOptionAdditional %>
 
 
 #   LAX.NL.MESSAGE.VM.NOT.LOADED
 #   ----------------------------
-#   message displayed in a user dialog if NO VM from the lax.nl.valid.vm.list can be found. Note: This property is internal to the InstallAnywhere launcher. Introscope has separate Java requirements. For more information, consult the "System Requirements" section of Introscope's user documentation. 
+#   message displayed in a user dialog if NO VM from the lax.nl.valid.vm.list can be found. Note: This property is internal to the InstallAnywhere launcher. Introscope has separate Java requirements. For more information, consult the "System Requirements" section of Introscope's user documentation.
 
 lax.nl.message.vm.not.loaded=LaunchAnywhere either could not find a Java VM, or the Java VM on this system is too old. LaunchAnywhere requires a Java 2 VM in order to launch Introscope.
 
 
 #   LAX.NL.VALID.VM.LIST
 #   --------------------
-#   a string containing one or more of [ ALL JDK JRE J1 J2 JRE_J1 JDK_J1 JRE_J2 JDK_J2 MSJ ] delimited by spaces or commas.
-#   if the native launcher cannot find the current vm,
+#   a string containing one or more of [ ALL JDK JRE J1 J2 JRE_J1 JDK_J1 JRE_J2 JDK_J2 MSJ ] delimited by spaces or commas.  If the native launcher cannot find the current vm,
 #   it will search for ones in this list
 
 lax.nl.valid.vm.list=J2
@@ -97,7 +91,7 @@ lax.nl.valid.vm.list=J2
 
 #   LAX.NL.WIN32.MICROSOFTVM.MIN.VERSION
 #   ------------------------------------
-#   The minimum version of Microsoft's VM this launcher will run with
+#   The minimum version of Microsoft's VM this application will run against
 
 lax.nl.win32.microsoftvm.min.version=2750
 
@@ -120,13 +114,9 @@ lax.stderr.redirect=console
 #   LAX.STDIN.REDIRECT
 #   ------------------
 #   leave blank for no input, "console" to read from the console window,
-#   and any path to a file to read from that file. Note: If you are running
-#   the Enterprise Manager in nohup mode for Unix platforms, do NOT
-#   change this setting, or the EM may fail to start.  Should you choose 
-#   to change this setting to blank, you MUST disable Interactive Mode
-#   in the IntroscopeEnterpriseManager.properties file. 
+#   and any path to a file to read from that file
 
-lax.stdin.redirect=
+lax.stdin.redirect=console
 
 
 #   LAX.STDOUT.REDIRECT
@@ -151,6 +141,6 @@ lax.user.dir=./
 #   -----------
 #   version of LaunchAnywhere that created this properties file
 
-lax.version=14.0
+lax.version=16.5
 
 

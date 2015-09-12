@@ -5,6 +5,8 @@
 #
 class caapm::profile::collector {
 
+
+
   $version                     = '9.7.1.16'
   $em_home                     = "/opt/caapm/Introscope${version}/"
   $db_host                     = 'win28r2.diamond.org'
@@ -75,15 +77,6 @@ class caapm::profile::collector {
   class { 'caapm::config::apm_events_thresholds':
     version => $version,
     em_home => $em_home,
-    owner   => $owner,
-    group   => $group,
-  }
-
-  file { 'IntroscopeHelp.war':
-    ensure  => present,
-    force   => true,
-    path    => "${em_home}/webapps/IntroscopeHelp.war",
-    source  => "${puppet_src}/${version}/IntroscopeHelp.war",
     owner   => $owner,
     group   => $group,
   }
