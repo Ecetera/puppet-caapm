@@ -37,13 +37,14 @@ class caapm::em::config inherits caapm {
       owner   => $owner,
       group   => $group,
       mode    => $mode,
-      notify  => [Exec['update_em_properties'],Service[$em_service_name]],
+      notify  => Exec['update_em_properties'],
     }
 
     exec { 'update_em_properties':
       cwd         => "${em_home}/config",
       command     => '/bin/cp -p IntroscopeEnterpriseManager.ppmanaged IntroscopeEnterpriseManager.properties',
       refreshonly => true,
+      notify  => Service[$em_service_name],
     }
 
     file { "${em_home}/config/apm-events-thresholds-config.xml":
@@ -75,6 +76,7 @@ class caapm::em::config inherits caapm {
       cwd         => "${em_home}/config",
       command     => '/bin/cp -p tess-db-cfg.ppmanaged tess-db-cfg.xml',
       refreshonly => true,
+      notify  => Service[$em_service_name],
     }
 
 
