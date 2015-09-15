@@ -10,10 +10,15 @@ class caapm::agent::install inherits caapm {
       tempdir => $stage_dir,
   }
 
+  if $notify_enabled {
+    notify {"Running init with agent_pkg = $agent_pkg":}
+  }
+
+
   # Deploy Java tar file
   deploy::file { $agent_pkg:
     target  => '/app/caapm',
-    url     => "${puppet_src}/agents/${agent_pkg}",
+    url     => "${puppet_src}/agents",
     owner   => $owner,
     group   => $group,
     strip   => true,
