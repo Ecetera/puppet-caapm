@@ -334,5 +334,7 @@ class caapm (
     }
   }
 
+  $agent_pkg = "IntroscopeAgentANZ${version}.tar.gz"
+
 
 }

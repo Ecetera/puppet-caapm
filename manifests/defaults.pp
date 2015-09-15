@@ -302,6 +302,4 @@ class caapm::defaults {
     }
   }
 
-
-
 }
