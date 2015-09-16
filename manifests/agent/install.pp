@@ -46,14 +46,13 @@ class caapm::agent::install inherits caapm {
     notify =>  Exec["untar $agent_pkg"],
   }
 
-  exec { "untar_$agent_pkg":
+  exec { "untar $agent_pkg":
     command   => "/bin/tar xfz ${stage_dir}/${agent_pkg} -C ${agents_dir}",
     creates   => ["${agents_dir}/epagent", "${agents_dir}/wily", "${agents_dir}/ppwebserver"],
     logoutput => true,
     returns   => [0,1],
     timeout   => 0,
     user      => $owner,
-    owner     => $owner,
     group     => $group,
     mode      => $mode,
     require   => File[$agent_pkg],
