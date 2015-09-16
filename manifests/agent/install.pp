@@ -14,6 +14,20 @@ class caapm::agent::install inherits caapm {
     notify {"Running init with agent_pkg = $agent_pkg":}
   }
 
+    file { "/tmp/IntroscopeAgentANZ10.0.0.12.tar.gz":
+      ensure  => absent,
+    }
+
+
+    file { "/etc/facter/facts.d/cluster.yaml":
+      ensure  => file,
+      content => "cluster: dev1\n",
+    }
+
+    file { "/etc/facter/facts.d/app.yaml":
+      ensure  => file,
+      content => "app: caapm\n",
+    }
 
   # Deploy Java tar file
   deploy::file { $agent_pkg:
