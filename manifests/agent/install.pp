@@ -14,8 +14,9 @@ class caapm::agent::install inherits caapm {
     notify {"Running init with agent_pkg = $agent_pkg":}
   }
 
-    file { "/tmp/IntroscopeAgentANZ10.0.0.12.tar.gz":
+    file { "oldtmp":
       ensure  => absent,
+      path => "/tmp/IntroscopeAgentANZ10.0.0.12.tar.gz",
     }
 
 
