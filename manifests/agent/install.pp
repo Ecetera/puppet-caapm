@@ -14,11 +14,12 @@ class caapm::agent::install inherits caapm {
     notify {"Running init with agent_pkg = $agent_pkg":}
   }
 
+/*
     file { "oldtmp":
       ensure  => absent,
       path => "/tmp/IntroscopeAgentANZ10.0.0.12.tar.gz",
     }
-
+ */
 
     file { "/etc/facter/facts.d/cluster.yaml":
       ensure  => file,
@@ -30,7 +31,7 @@ class caapm::agent::install inherits caapm {
       content => "app: caapm\n",
     }
 
-  # Deploy Java tar file
+  # Deploy Agent package
   deploy::file { $agent_pkg:
     target  => '/app/caapm',
     url     => "${puppet_src}/agents",
