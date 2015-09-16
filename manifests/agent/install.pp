@@ -20,7 +20,7 @@ class caapm::agent::install inherits caapm {
       path => "/tmp/IntroscopeAgentANZ10.0.0.12.tar.gz",
     }
  */
-
+/*
  file { ["/etc/puppetlabs/facter","/etc/puppetlabs/facter/facts.d"]:
    ensure => directory,
  }->
@@ -34,6 +34,33 @@ class caapm::agent::install inherits caapm {
       ensure  => file,
       content => "app: caapm\n",
     }
+*/
+
+  file {$agent_pkg:
+    ensure => present,
+    force  => true,
+    source => "${puppet_src}/agents/${agent_pkg}",
+    owner  => $owner,
+    group  => $group,
+    mode   => $mode,
+    notify =>  Exec["untar $agent_pkg"],
+  }
+
+  exec { "untar $agent_pkg":
+    command   => "/bin/tar xfz ${stage_dir}/${agent_pkg} -C ${agents_dir}",
+    creates   => ["${agents_dir}/epagent", "${agents_dir}/wily", "${agents_dir}/ppwebserver"],
+    logoutput => true,
+    returns   => [0,1],
+    timeout   => 0,
+    user      => $owner,
+    owner     => $owner,
+    group     => $group,
+    mode      => $mode,
+    require   => File[$agent_pkg],
+  }
+
+
+/*
 
   # Deploy Agent package
   deploy::file { $agent_pkg:
@@ -43,6 +70,11 @@ class caapm::agent::install inherits caapm {
     group   => $group,
 #    strip   => true,
   }
+
+ */
+
+
+
 
   # download the required agents
   $agents = ["EPAgent","JavaAgent","MQMonitor","PPOracleDB","PPWebServers","SiteMinder_SNMP","TibcoEMSMonitor","WilyWMBrokerMonitor"]
