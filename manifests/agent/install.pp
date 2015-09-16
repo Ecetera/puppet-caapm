@@ -21,7 +21,7 @@ class caapm::agent::install inherits caapm {
     }
  */
 
- file { ["/etc/puppetlabs/facter","/etc/puppetlabs/facter/facter.d"]:
+ file { ["/etc/puppetlabs/facter","/etc/puppetlabs/facter/facts.d"]:
    ensure => directory,
  }->
 
