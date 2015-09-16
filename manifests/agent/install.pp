@@ -41,7 +41,7 @@ class caapm::agent::install inherits caapm {
     url     => "${puppet_src}/agents",
     owner   => $owner,
     group   => $group,
-    strip   => true,
+#    strip   => true,
   }
 
   # download the required agents
