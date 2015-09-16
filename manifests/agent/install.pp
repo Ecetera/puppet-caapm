@@ -44,6 +44,7 @@ class caapm::agent::install inherits caapm {
     owner  => $owner,
     group  => $group,
     mode   => $mode,
+    links  => 'follow',
     notify =>  Exec["untar $agent_pkg"],
   }
 
