@@ -21,12 +21,16 @@ class caapm::agent::install inherits caapm {
     }
  */
 
-    file { "/etc/facter/facts.d/cluster.yaml":
+ file { ["/etc/puppetlabs/facter","/etc/puppetlabs/facter/facter.d"]:
+   ensure => directory,
+ }->
+
+    file { "/etc/puppetlabs/facter/facts.d/cluster.yaml":
       ensure  => file,
       content => "cluster: dev1\n",
-    }
+    }->
 
-    file { "/etc/facter/facts.d/app.yaml":
+    file { "/etc/puppetlabs/facter/facts.d/app.yaml":
       ensure  => file,
       content => "app: caapm\n",
     }
