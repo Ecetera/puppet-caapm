@@ -39,6 +39,7 @@ class caapm::agent::install inherits caapm {
   file {$agent_pkg:
     ensure => present,
     force  => true,
+    path   => "${stage_dir}/${agent_pkg}",
     source => "${puppet_src}/agents/${agent_pkg}",
     owner  => $owner,
     group  => $group,
