@@ -5,21 +5,10 @@ class caapm::agent::install inherits caapm {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-
-  class { 'deploy':
-      tempdir => $stage_dir,
-  }
-
   if $notify_enabled {
     notify {"Running init with agent_pkg = $agent_pkg":}
   }
 
-/*
-    file { "oldtmp":
-      ensure  => absent,
-      path => "/tmp/IntroscopeAgentANZ10.0.0.12.tar.gz",
-    }
- */
 /*
  file { ["/etc/puppetlabs/facter","/etc/puppetlabs/facter/facts.d"]:
    ensure => directory,
@@ -50,7 +39,7 @@ class caapm::agent::install inherits caapm {
 
   exec { "untar $agent_pkg":
     command   => "/bin/tar xfpz ${stage_dir}/${agent_pkg} -C ${agents_dir}",
-    creates   => ["${agents_dir}/epagent", "${agents_dir}/wily", "${agents_dir}/ppwebserver", "${agents_dir}/APMCommandCenterController"],
+#    creates   => ["${agents_dir}/epagent", "${agents_dir}/wily", "${agents_dir}/ppwebserver", "${agents_dir}/APMCommandCenterController"],
     logoutput => true,
     returns   => [0,1],
     timeout   => 0,
@@ -82,25 +71,6 @@ class caapm::agent::install inherits caapm {
 #  $agents = ["epagent","wily","ppwebserver","pporacledb","mqmonitor"]
 
 /*
-  file {"${stage_dir}/IntroscopeAgentANZ${::version}-${build}.${::operatingsystem}.tar":
-    ensure => present,
-    force  => true,
-    source => "${puppet_src}/${::version}/agents/${name}${version}${::operatingsystem}.tar",
-    owner  => $owner,
-    group  => $group,
-    mode   => $mode,
-    notify =>  Exec["${stage_dir}/IntroscopeAgentANZ${::version}-${build}.${::operatingsystem}.tar"],
-  }
-
-  exec { "${stage_dir}/IntroscopeAgentANZ${::version}-${build}.${::operatingsystem}.tar":
-    command   => "/bin/tar xf ${stage_dir}/IntroscopeAgentANZ${::version}-${build}.${::operatingsystem}.tar -C ${agents_dir}",
-    creates   => ["${agents_dir}/epagent", "${agents_dir}/wily", "${agents_dir}/ppwebserver"],
-    logoutput => true,
-    returns   => [0,1],
-    timeout   => 0,
-    user      => $owner,
-  }
-
 
 define resource {
 
@@ -124,6 +94,7 @@ define resource {
   }
 }
   resource { $agents: }
+
  */
 
 }
