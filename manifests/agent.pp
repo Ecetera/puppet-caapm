@@ -331,6 +331,9 @@ class caapm::agent (
 #inherits caapm::agent::defaults
 {
 
+  if $notify_enabled {
+    notify {"Running agent with agents_dir = $agents_dir":}
+  }
 
   include caapm::agent::install
   include caapm::agent::config
