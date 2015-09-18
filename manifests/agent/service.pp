@@ -9,4 +9,22 @@ class caapm::agent::service inherits caapm {
 #  notify {"Running with em::service wv_as_service = $wv_as_service":}
 
 
+  file { 'epagent':
+      ensure  => present,
+      force   => true,
+      path    => "/etc/init.d/epagent",
+      content => template("${module_name}/init.d/epagent"),
+      owner   =>  'root',
+      group   =>  'root',
+      mode    =>  '0755',
+      notify  => Service['epagent']
+  }
+
+  service { 'epagent':
+    ensure => present,
+    enable => true,
+  }
+
+
+
 }

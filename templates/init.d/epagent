@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# EPAgent <summary>
+#
+# chkconfig:   5 85 20
+# description: "Starts and stops the CA APM EPAgent"
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+#export WILYHOME=<%= @user_install_dir_em %>
+#export WILYPARENT=${WILYHOME}
+
+cd ${WILYHOME}/bin
+
+su -c "cd /app/caapm/epagent/bin;./EPACtrl.sh $*" -m <%= @owner %>
+
+

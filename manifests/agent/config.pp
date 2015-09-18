@@ -20,10 +20,10 @@ class caapm::agent::config inherits caapm {
       owner   => $owner,
       group   => $group,
       mode    => $mode,
-#      notify  => Exec['update_em_properties'],
+      notify  => Exec['update_epagent_properties'],
     }
 
-    exec { 'update_em_properties':
+    exec { 'update_epagent_properties':
       cwd         => "${agent_home}/epagent/config",
       command     => '/bin/cp -p IntroscopeEPAgent.ppmanaged IntroscopeEPAgent.properties',
       refreshonly => true,
