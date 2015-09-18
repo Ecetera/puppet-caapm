@@ -1,7 +1,16 @@
+com.puppetlabs.geppetto.pp.dsl.PP.formatter.align.useProjectSettings=true
 com.puppetlabs.geppetto.pp.dsl.PP.saveactions.useProjectSettings=true
 com.puppetlabs.geppetto.pp.dsl.PP.useProjectSettings=true
 eclipse.preferences.version=1
 ensureEndsWithNewLine=true
+formatAlignAssigments=true
+formatAlignCases=true
+formatAlignDefinitionParams=OnOverflow
+formatAlignHashes=OnOverflow
+formatAlignLists=OnOverflow
+formatClusterWidth=20
+formatCompactCases=true
+formatCompactResources=true
 formatOnSave=false
 formatterIndentSize=2
 formatterPreferredWidth=132

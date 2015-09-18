@@ -3,6 +3,7 @@
 	<name>caapm</name>
 	<comment></comment>
 	<projects>
+		<project>deploy</project>
 		<project>openssl</project>
 		<project>stdlib</project>
 	</projects>

@@ -9,22 +9,6 @@ class caapm::agent::install inherits caapm {
     notify {"Running init with agent_pkg = $agent_pkg":}
   }
 
-/*
- file { ["/etc/puppetlabs/facter","/etc/puppetlabs/facter/facts.d"]:
-   ensure => directory,
- }->
-
-    file { "/etc/puppetlabs/facter/facts.d/cluster.yaml":
-      ensure  => file,
-      content => "cluster: dev1\n",
-    }->
-
-    file { "/etc/puppetlabs/facter/facts.d/app.yaml":
-      ensure  => file,
-      content => "app: caapm\n",
-    }
-*/
-
   file {$agent_pkg:
     ensure => present,
     force  => true,

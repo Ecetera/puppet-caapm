@@ -319,6 +319,12 @@ class caapm::agent (
   $brtm_js_funtion_metrics_enabled = false,
   $brtm_geolocation_enabled        = false,
 
+  $collector_groups = undef,
+  $assigned_collector_group = 'group2',
+  $notify_enabled  = true,
+
+
+
   $puppet_src = "puppet:///modules/${module_name}",
 
 )
