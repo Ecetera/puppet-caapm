@@ -14,7 +14,7 @@ class caapm::agent::config inherits caapm::agent {
 
 #  notify {"Running with agent::config":}
 
-    file { "${agent_home}/epagent/config/IntroscopeEPAgent.ppmanaged":
+    file { "${agents_dir}/epagent/config/IntroscopeEPAgent.ppmanaged":
       ensure  => present,
       content => template("${module_name}/${version}/agent/IntroscopeEPAgent.properties"),
       owner   => $owner,
@@ -24,7 +24,7 @@ class caapm::agent::config inherits caapm::agent {
     }
 
     exec { 'update_epagent_properties':
-      cwd         => "${agent_home}/epagent/config",
+      cwd         => "${agents_dir}/epagent/config",
       command     => '/bin/cp -p IntroscopeEPAgent.ppmanaged IntroscopeEPAgent.properties',
       refreshonly => true,
       notify  => Service['epagent'],
