@@ -331,6 +331,9 @@ class caapm::agent (
 #inherits caapm::agent::defaults
 {
 
+  $agent_pkg = "IntroscopeAgentANZ${version}.tar.gz"
+
+
   if $notify_enabled {
     notify {"Running agent with agents_dir = $agents_dir":}
     notify {"Running agent with logs_dir = $logs_dir":}
