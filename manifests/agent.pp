@@ -333,6 +333,8 @@ class caapm::agent (
 
   if $notify_enabled {
     notify {"Running agent with agents_dir = $agents_dir":}
+    notify {"Running agent with logs_dir = $logs_dir":}
+    notify {"Running agent with stage_dir = $stage_dir":}
   }
 
   include caapm::agent::install
