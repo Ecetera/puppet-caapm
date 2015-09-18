@@ -21,7 +21,7 @@ class caapm::agent::service inherits caapm {
   }
 
   service { 'epagent':
-    ensure => present,
+    ensure => true,
     enable => true,
   }
 
