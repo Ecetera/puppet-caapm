@@ -16,7 +16,7 @@ class caapm::agent (
   $stage_dir               = '/tmp',  # this class will need to inherit from defaults for os specific settings
 
   $autoprobe_enable        = true,
-  $logs_dir                = 'logs',
+  $logs_dir                = '../logs',
   $websphere_directivesFiles       = 'websphere-typical.pbl',
   $weblogic_directivesFile = 'weblogic-typical.pbl',
   $dns_lookup_type         = 'separateThread',

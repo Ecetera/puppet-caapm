@@ -1,5 +1,5 @@
 
-class caapm::agent::service inherits caapm {
+class caapm::agent::service inherits caapm::agent {
 
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
