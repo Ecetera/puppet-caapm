@@ -22,7 +22,7 @@ class caapm::agent::install inherits caapm::agent {
   }
 
   exec { "untar $agent_pkg":
-    command   => "/bin/tar xfpz ${stage_dir}/${agent_pkg} -C ${agents_dir}",
+    command   => "/bin/tar xfz ${stage_dir}/${agent_pkg} -C ${agents_dir}",
 #    creates   => ["${agents_dir}/epagent", "${agents_dir}/wily", "${agents_dir}/ppwebserver", "${agents_dir}/APMCommandCenterController"],
     logoutput => true,
     returns   => [0,1],
