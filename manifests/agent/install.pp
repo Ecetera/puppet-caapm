@@ -30,6 +30,7 @@ class caapm::agent::install inherits caapm::agent {
     user      => $owner,
     group     => $group,
     umask     => '0022',
+    refreshonly => true,
     require   => File[$agent_pkg],
   }
 
