@@ -269,7 +269,7 @@ class caapm::defaults {
   $agents          = 'EPAgent'
   $agents_dir      = undef
 
-  $mode   = '0554'
+  $mode   = '0644'
 
   $puppet_src = "puppet:///modules/${module_name}"
   $notify_enabled  = false
