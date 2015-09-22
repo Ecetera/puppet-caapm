@@ -111,11 +111,11 @@ log4j.appender.logfile.File=<%= @logs_dir>/IntroscopeAgent.log
 log4j.additivity.IntroscopeAgent=false
 log4j.appender.console=com.wily.org.apache.log4j.ConsoleAppender
 log4j.appender.console.layout=com.wily.org.apache.log4j.PatternLayout
-log4j.appender.console.layout.ConversionPattern=%d{M/dd/yy hh:mm:ss a z} [%-3p] [%c] %m%n
+log4j.appender.console.layout.ConversionPattern=%d{M\/dd\/yy hh:mm:ss a z} [%-3p] [%c] %m%n
 log4j.appender.console.target=System.err
 log4j.appender.logfile=com.wily.introscope.agent.AutoNamingRollingFileAppender
 log4j.appender.logfile.layout=com.wily.org.apache.log4j.PatternLayout
-log4j.appender.logfile.layout.ConversionPattern=%d{M/dd/yy hh:mm:ss a z} [%-3p] [%c] %m%n
+log4j.appender.logfile.layout.ConversionPattern=%d{M\/dd\/yy hh:mm:ss a z} [%-3p] [%c] %m%n
 log4j.appender.logfile.MaxBackupIndex=4
 log4j.appender.logfile.MaxFileSize=2MB
 #########################################
