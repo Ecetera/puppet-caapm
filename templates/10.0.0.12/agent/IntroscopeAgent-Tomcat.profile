@@ -70,7 +70,7 @@ introscope.autoprobe.logfile=<%= @logs_dir %>/AutoProbe.log
 # directives files from the specified directories without an app restart, 
 # as noted above.
 
-introscope.autoprobe.directivesFile=<%= @autoprobe_directivesFiles %>
+introscope.autoprobe.directivesFile=<%= @tomcat_directivesFiles %>
 
 
 #######################
@@ -151,7 +151,7 @@ introscope.agent.dns.lookup.max.wait.in.milliseconds=200
 # is disconnected from its Enterprise Manager.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.enterprisemanager.connectionorder=DEFAULT
+introscope.agent.enterprisemanager.connectionorder=<%= @connection_order %>
 
 
 #################################
@@ -216,10 +216,20 @@ introscope.agent.enterprisemanager.connectionorder=DEFAULT
 
 # To connect to the Enterprise Manager using SSL,
 # uncomment these properties and set the host and port to the EM's SSL server socket host and port.
-introscope.agent.enterprisemanager.transport.tcp.host.DEFAULT=<%= @transport_tcp_host %>
-introscope.agent.enterprisemanager.transport.tcp.port.DEFAULT=<%= @transport_tcp_port %>
-introscope.agent.enterprisemanager.transport.tcp.socketfactory.DEFAULT=<%= @transport_tcp_socketfactory %>
+#introscope.agent.enterprisemanager.transport.tcp.host.DEFAULT=localhost
+#introscope.agent.enterprisemanager.transport.tcp.port.DEFAULT=5443
+#introscope.agent.enterprisemanager.transport.tcp.socketfactory.DEFAULT=com.wily.isengard.postofficehub.link.net.SSLSocketFactory
 
+<% @collector_groups.each do |groupkey, group_data| -%>
+<%   if groupkey == @assigned_collector_group -%>
+<%     group_data.each do |key, fields| -%>
+<%       fields.each do |field, value| -%>
+introscope.agent.enterprisemanager.transport.tcp.<%= field %>.<%= key %>=<%= value %>
+<%       end -%>
+
+<%     end -%>
+<%   end -%>
+<% end -%>
 
 # Additional properties for connecting to the Enterprise Manager using SSL.
 #
