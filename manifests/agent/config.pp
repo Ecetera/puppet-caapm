@@ -26,10 +26,34 @@ class caapm::agent::config inherits caapm::agent {
     exec { 'update_epagent_properties':
       cwd         => "${agents_dir}/epagent/config",
       command     => '/bin/cp -p IntroscopeEPAgent.ppmanaged IntroscopeEPAgent.properties',
-#      refresh     => true,
       notify  => Service['epagent'],
     }
 
+
+  $profiles = ["BRTM","Default-OSGI","Default","HPJVM","Interstage","JBoss","SunOne","Tomcat-OSGI","Tomcat","WebLogic","WebSphere"]
+
+
+define profile {
+
+  file { "applying ${name} profile":
+    ensure => present,
+    path   => "${agents_dir}/wily/core/config/IntroscopeAgent-${name}.ppmanaged",
+    force  => true,
+    content => template("${module_name}/${version}/agent/IntroscopeAgent-${name}.profile"),
+    owner  => $owner,
+    group  => $group,
+    mode   => $mode,
+    notify =>  Exec["updating ${name} profile"],
+  }
+
+  exec { "updating ${name} profile":
+    cwd         => "${agents_dir}/wily/core/config",
+    command     => '/bin/cp -p IntroscopeAgent-${name}.ppmanaged IntroscopeAgent-${name}.profile',
+    user      => $owner,
+  }
+}
+
+  profile { $profiles: }
 
 
 
