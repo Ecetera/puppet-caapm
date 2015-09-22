@@ -6,6 +6,7 @@ class caapm::agent::config inherits caapm::agent {
   }
 
   if $notify_enabled {
+    notify {"Running agent::config with version = $version":}
     notify {"Running agent::config with collector_groups = $collector_groups":}
     notify {"Running agent::config with assigned_collector_group = $assigned_collector_group":}
   }
@@ -48,8 +49,8 @@ define profile {
 
   exec { "updating ${name} profile":
     cwd         => "${agents_dir}/wily/core/config",
-    command     => '/bin/cp -p IntroscopeAgent-${name}.ppmanaged IntroscopeAgent-${name}.profile',
-    user      => $owner,
+    command     => "/bin/cp -p IntroscopeAgent-${name}.ppmanaged IntroscopeAgent-${name}.profile",
+    user        => $owner,
   }
 }
 
