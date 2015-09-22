@@ -35,8 +35,12 @@ class caapm::agent::config inherits caapm::agent {
 
   $profiles = ["BRTM","Default-OSGI","Default","HPJVM","Interstage","JBoss","SunOne","Tomcat-OSGI","Tomcat","WebLogic","WebSphere"]
 
-/*
-define profile {
+define profile (
+  $version = undef
+){
+  if $version == undef {
+          fail('Valid version not provided')
+  }
 
   file { "applying ${name} profile":
     ensure => present,
@@ -56,8 +60,9 @@ define profile {
   }
 }
 
-  profile { $profiles: }
+  profile { $profiles: 
+    $version => $version,
+  }
 
- */
 
 }
