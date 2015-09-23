@@ -34,7 +34,7 @@ class caapm::agent::config inherits caapm::agent {
 
 
 #  $profiles = ["BRTM","Default-OSGI","Default","HPJVM","Interstage","JBoss","SunOne","Tomcat-OSGI","Tomcat","WebLogic","WebSphere"]
-  $profiles = ["WebSphere"]
+  $profiles = ["Websphere"]
 
 define profile (
   $version = "${caapm::agent::version}",
