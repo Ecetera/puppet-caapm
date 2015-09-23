@@ -306,7 +306,7 @@ introscope.agent.defaultProcessName=WebSphere
 # Use this property if you want to specify the Agent
 # Name using the value of a Java System Property.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.agentNameSystemPropertyKey=
+introscope.agent.agentNameSystemPropertyKey=<%= @agentNameSystemPropertyKey %>
 
 # This enables/disables auto naming of the agent using
 # an Application Server custom service.
@@ -1214,7 +1214,7 @@ introscope.agent.metricAging.metricExclude.ignore.0=<%= @metricAging_metricExclu
 
 
 # To ignore ChangeDetector.AgentID  metric from metric aging.
-introscope.agent.metricAging.metricExclude.ignore.1=<%= @ metricAging_metricExclude_ignore_1 %>
+introscope.agent.metricAging.metricExclude.ignore.1=<%= @metricAging_metricExclude_ignore_1 %>
 
 
 #########################################
