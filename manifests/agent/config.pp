@@ -60,9 +60,9 @@ define profile (
     user        => $owner,
   }
 }
- */
-  profile { $profiles: }
 
+  profile { $profiles: }
+*/
 
 
 }
