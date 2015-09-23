@@ -290,7 +290,7 @@ introscope.agent.customProcessName=<%= @customProcessName %>
 # used for the process name.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.defaultProcessName=<%= @defaultProcessName %>
+introscope.agent.defaultProcessName=BRTM
 
 
 #######################
