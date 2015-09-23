@@ -5,8 +5,6 @@ class caapm::agent::config inherits caapm::agent {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-    notify {"Running agent::config with notify_enabled = $notify_enabled":}
-
   if $notify_enabled {
     notify {"Running agent::config with version = $version":}
     notify {"Running agent::config with collector_groups = $collector_groups":}
