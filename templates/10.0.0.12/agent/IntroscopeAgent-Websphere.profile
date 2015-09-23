@@ -988,7 +988,7 @@ introscope.agent.non.synthetic.node.name=<%= @non_synthetic_node_name %>
 # Configuration settings for Error Detector
 
 # Please include errors.pbd in your pbl (or in introscope.autoprobe.directivesFile)
-
+hiso
 # The error snapshot feature captures transaction details about serious errors
 # and enables recording of error count metrics.
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
@@ -1325,7 +1325,7 @@ introscope.agent.appmap.metrics.enabled=<%= @appmap_metrics_enabled%>
 
 #Enable/disable sending additional information for integration with catalyst
 #default value is false
-#introscope.agent.appmap.catalystIntegration.enabled=<%= @$appmap_catalystIntegration_enabled%>
+#introscope.agent.appmap.catalystIntegration.enabled=<%= @appmap_catalystIntegration_enabled%>
 
 #Set the buffer size for app map data
 #default value is 1000. Must be a positive integer. If the value is set to 0, the buffer is 
