@@ -27,6 +27,10 @@ class caapm::agent (
   $keystore                = undef,
   $keypassword             = undef,
   $ciphersuites            = undef,
+  # Agent Naming
+  $agentNameSystemPropertyKey = undef,
+  $agentAutoNamingEnabled = false,
+  $disableLogFileAutoNaming = false,
 
   # Enterprise Manager Failback Retry Interval
   $failback_retry_interval = 120,
