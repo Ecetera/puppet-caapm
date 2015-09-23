@@ -326,7 +326,7 @@ class caapm::agent (
   $collector_groups = undef,
   $connection_order = 'DEFAULT',
   $assigned_collector_group = 'group2',
-  $notify_enabled  = true,
+  $notify_enabled  = false,
 
 
 
