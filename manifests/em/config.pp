@@ -89,7 +89,7 @@ class caapm::em::config inherits caapm {
     #new
 
     file { "remove ${em_home}/logs":
-      path    => ${em_home}/logs
+      path    => "${em_home}/logs",
       ensure  => 'absent',
     }
 
