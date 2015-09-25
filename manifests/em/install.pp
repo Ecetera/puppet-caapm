@@ -55,6 +55,21 @@ class caapm::em::install inherits caapm {
 
   validate_absolute_path($em_home)
 
+    #new
+/*
+    file { "remove ${em_home}/logs":
+      path    => "${em_home}/logs",
+      ensure  => 'absent',
+    }
+*/
+  file { $logs_dir:
+    ensure  => 'directory',
+    owner   => $owner,
+    group   => $group,
+    mode    => $mode,
+  }
+
+
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       exec { $pkg_name :
@@ -71,6 +86,14 @@ class caapm::em::install inherits caapm {
         user      => $owner,
 #        before    => File[$lic_file],
       }
+
+      file { "${em_home}/logs":
+        ensure  => 'link',
+        target  => $logs_dir,
+#      before  => File["remove ${em_home}/logs"],
+        require => File[$logs_dir],
+      }
+
     }
 
     windows: {
@@ -90,28 +113,6 @@ class caapm::em::install inherits caapm {
     default: {}
 
   }
-
-    file { "${em_home}/logs":
-      ensure  => 'link',
-      target  => $logs_dir,
-#      before  => File["remove ${em_home}/logs"],
-      require => File[$logs_dir],
-    }
-
-    #new
-/*
-    file { "remove ${em_home}/logs":
-      path    => "${em_home}/logs",
-      ensure  => 'absent',
-    }
-*/
-    file { $logs_dir:
-      ensure  => 'directory',
-      owner   => $owner,
-      group   => $group,
-      mode    => $mode,
-    }
-
 
 
 }
