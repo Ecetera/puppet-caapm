@@ -83,7 +83,11 @@ class caapm::em::config inherits caapm {
     file { "${em_home}/logs":
       ensure  => 'link',
       target  => $logs_dir,
-      require => File[$logs_dir],
+      require => [File[$logs_dir],File['remove_em_logs_dir']]
+    }
+
+    file { "remove ${em_home}/logs":
+      ensure  => 'absent',
     }
 
     file { $logs_dir:
