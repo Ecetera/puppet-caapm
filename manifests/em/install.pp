@@ -38,6 +38,7 @@ class caapm::em::install inherits caapm {
     mode    =>  $mode,
   }
 
+
   $install_options = $::operatingsystem ? {
     'windows' => "${stage_dir}\\${resp_file}",
     default   => "${stage_dir}/${resp_file}",
@@ -89,5 +90,28 @@ class caapm::em::install inherits caapm {
     default: {}
 
   }
+
+    file { "${em_home}/logs":
+      ensure  => 'link',
+      target  => $logs_dir,
+#      before  => File["remove ${em_home}/logs"],
+      require => File[$logs_dir],
+    }
+
+    #new
+/*
+    file { "remove ${em_home}/logs":
+      path    => "${em_home}/logs",
+      ensure  => 'absent',
+    }
+*/
+    file { $logs_dir:
+      ensure  => 'directory',
+      owner   => $owner,
+      group   => $group,
+      mode    => $mode,
+    }
+
+
 
 }

@@ -80,27 +80,6 @@ class caapm::em::config inherits caapm {
     }
 
 
-    file { "${em_home}/logs":
-      ensure  => 'link',
-      target  => $logs_dir,
-      before  => File["remove ${em_home}/logs"],
-      require => File[$logs_dir],
-    }
-
-    #new
-
-    file { "remove ${em_home}/logs":
-      path    => "${em_home}/logs",
-      ensure  => 'absent',
-    }
-
-    file { $logs_dir:
-      ensure  => 'directory',
-      owner   => $owner,
-      group   => $group,
-      mode    => $mode,
-    }
-
     if $cluster_role == 'MOM' {
       if $webserver_dir == 'webapps' {
         file { "${em_home}/webapps/IntroscopeHelp.war":
