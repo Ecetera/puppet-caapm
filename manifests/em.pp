@@ -104,6 +104,7 @@ class caapm::em (
   $smartstor_tier3_frequency             = $::caapm::smartstor_tier3_frequency,
   $memoryCache_elements                  = $::caapm::memoryCache_elements,
   $baselines_dir                         = $::caapm::baselines_dir,
+  $logs_dir                              = $::caapm::logs_dir,
 
   # Enterprise Manager Thread Dump Settings
   $threaddump_enable                     = $::caapm::threaddump_enable,
@@ -236,7 +237,7 @@ class caapm::em (
   $em_max_application_user_rows                           = $::caapm::em_max_application_user_rows,
 
   $domains        = $::caapm::domains,
-  $collectors        = $::caapm::collectors,
+  $collectors     = $::caapm::collectors,
 
   $owner          = $::caapm::owner,
   $group          = $::caapm::group,

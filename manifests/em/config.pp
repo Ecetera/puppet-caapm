@@ -80,14 +80,18 @@ class caapm::em::config inherits caapm {
     }
 
 
-    file { "${em_home}/config/loadbalancing.xml":
-      ensure  =>  present,
-      content => template("${module_name}/${version}/loadbalancing.xml"),
+    file { "${em_home}/logs":
+      ensure  => 'link',
+      target  => $logs_dir,
+      requires => File[$logs_dir],
+    }
+
+    file { $logs_dir:
+      ensure  => 'directory',
       owner   => $owner,
       group   => $group,
       mode    => $mode,
     }
-
 
     if $cluster_role == 'MOM' {
       if $webserver_dir == 'webapps' {
