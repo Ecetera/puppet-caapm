@@ -105,6 +105,7 @@ class caapm::em (
   $memoryCache_elements                  = $::caapm::memoryCache_elements,
   $baselines_dir                         = $::caapm::baselines_dir,
   $logs_dir                              = $::caapm::logs_dir,
+  $stage_dir                             = $::caapm::stage_dir,
 
   # Enterprise Manager Thread Dump Settings
   $threaddump_enable                     = $::caapm::threaddump_enable,
