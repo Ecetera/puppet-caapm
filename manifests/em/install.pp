@@ -89,6 +89,7 @@ class caapm::em::install inherits caapm {
 
       file { "${em_home}/logs":
         ensure  => 'link',
+        force   => true,
         target  => $logs_dir,
 #      before  => File["remove ${em_home}/logs"],
         require => File[$logs_dir],
