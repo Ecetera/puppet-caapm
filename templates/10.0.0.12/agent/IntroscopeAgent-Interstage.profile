@@ -771,7 +771,7 @@ introscope.agent.transactiontrace.componentCountClamp=<%= @transactiontrace_comp
 # as such, garbage collection behavior may be affected, which will have an application-wide
 # performance impact.
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.transactiontrace.headFilterClamp=<%= @ transactiontrace_headFilterClamp%>
+introscope.agent.transactiontrace.headFilterClamp=<%= @transactiontrace_headFilterClamp %>
 
 # Uncomment the following property to disable Transaction Tracer Sampling
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
