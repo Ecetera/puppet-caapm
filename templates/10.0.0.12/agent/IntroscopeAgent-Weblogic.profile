@@ -1306,7 +1306,7 @@ introscope.agent.appmap.enabled=<%= @appmap_enabled %>
 
 #Enable/disable tracking of metrics for app map nodes. 
 #Default value is false
-introscope.agent.appmap.metrics.enabled=<%= @ appmap_metrics_enabled%>
+introscope.agent.appmap.metrics.enabled=<%= @appmap_metrics_enabled %>
 
 #Enable/disable sending additional information for integration with catalyst
 #default value is false
