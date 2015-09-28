@@ -1142,7 +1142,7 @@ introscope.autoprobe.deepinheritance.auto.turnoff.maxtime.total=<%= @autoprobe_d
   
 # Enable/disable the hierarchy support instrumentation feature. 
 # You must restart the managed application before changes to this property take effect.
-introscope.autoprobe.hierarchysupport.enabled=<%= @autoprobe_hierarchysupport_enabled =>
+introscope.autoprobe.hierarchysupport.enabled=<%= @autoprobe_hierarchysupport_enabled %>
   
 # Since most cases have the applications already deployed, the behavior needs to run only once 
 # to detect uninstrumented classes. Unless new applications are deployed after this behavior runs, 
