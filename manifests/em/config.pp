@@ -61,6 +61,7 @@ class caapm::em::config inherits caapm {
       owner  => $owner,
       group  => $group,
       mode   => $mode,
+      notify  => Service[$em_service_name],
     }
 
     file { "${em_home}/config/tess-db-cfg.ppmanaged":
