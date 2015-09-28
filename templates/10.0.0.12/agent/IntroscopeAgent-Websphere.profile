@@ -103,7 +103,7 @@ log4j.logger.IntroscopeAgent=INFO, logfile
 # is expanded to:
 # "log4j.appender.logfile.File=../../logs/Introscope-Server1.log".
 
-log4j.appender.logfile.File=<%= @logs_dir>/IntroscopeAgent.log
+log4j.appender.logfile.File=<%= @logs_dir %>/IntroscopeAgent.log
  
 ########## See Warning below ##########
 # You must restart the managed application before changes to this property take effect.

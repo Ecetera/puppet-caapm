@@ -103,7 +103,7 @@ log4j.logger.IntroscopeAgent=INFO, logfile
 # is expanded to:
 # "log4j.appender.logfile.File=../../logs/Introscope-Server1.log".
 
-log4j.appender.logfile.File=<%= @logs_dir>/IntroscopeAgent.log
+log4j.appender.logfile.File=<%= @logs_dir %>>/IntroscopeAgent.log
  
 ########## See Warning below ##########
 # Warning: The following properties should not be modified for normal use.
@@ -804,7 +804,7 @@ introscope.agent.transactiontracer.userid.key=<%= @transactiontracer_userid_key 
 
 introscope.agent.transactiontracer.parameter.httprequest.headers=<%= @transactiontracer_parameter_httprequest_headers%>
 #Uncomment to enable the x-apm-bt request header as an option for transaction trace session criteria.  
-#See “How to Monitor End User Endpoints�? in the APM documentation for use
+#See “How to Monitor End User Endpoints�? in the APM documentation for use
 #introscope.agent.transactiontracer.parameter.httprequest.headers=x-apm-bt
 introscope.agent.transactiontracer.parameter.httprequest.parameters=<%= @transactiontracer_parameter_httprequest_parameters %>
 introscope.agent.transactiontracer.parameter.httpsession.attributes=<%= @transactiontracer_parameter_httprequest_attributes %>
