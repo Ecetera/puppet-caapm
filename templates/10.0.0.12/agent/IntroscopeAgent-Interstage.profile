@@ -1019,7 +1019,7 @@ introscope.autoprobe.deepinheritance.auto.turnoff.maxtime.total=<%= @autoprobe_d
 #log4j.appender.pbdlog.File=pbdupdate.log 
 #log4j.appender.pbdlog=com.wily.introscope.agent.AutoNamingRollingFileAppender 
 #log4j.appender.pbdlog.layout=com.wily.org.apache.log4j.PatternLayout 
-#log4j.appender.pbdlog.layout.ConversionPattern=%d{M/dd/yy hh:mm:ss a z} [%-3p] [%c] %m%n_ 
+#log4j.appender.pbdlog.layout.ConversionPattern=%d{M\/dd\/yy hh:mm:ss a z} [%-3p] [%c] %m%n_ 
 
 
 ################################
