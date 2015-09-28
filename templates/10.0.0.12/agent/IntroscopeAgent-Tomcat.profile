@@ -1119,7 +1119,7 @@ introscope.agent.metricAging.turnOn=<%= @metricAging_turnOn %>
 #
 # The time interval in seconds when metrics are checked for removal
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.metricAging.heartbeatInterval=<%= @ metricAging_heartbeatInterval %>
+introscope.agent.metricAging.heartbeatInterval=<%= @metricAging_heartbeatInterval %>
 #
 # During each interval, the number of metrics that are checked for metric removal
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
@@ -1136,7 +1136,7 @@ introscope.agent.metricAging.metricExclude.ignore.0=<%= @metricAging_metricExclu
 
 
 # To ignore ChangeDetector.AgentID  metric from metric aging.
-introscope.agent.metricAging.metricExclude.ignore.1=<%= @ metricAging_metricExclude_ignore_1 %>
+introscope.agent.metricAging.metricExclude.ignore.1=<%= @metricAging_metricExclude_ignore_1 %>
 
 
 #########################################

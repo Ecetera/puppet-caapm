@@ -1174,7 +1174,7 @@ introscope.agent.metricAging.metricExclude.ignore.0=<%= @metricAging_metricExclu
 
 
 # To ignore ChangeDetector.AgentID  metric from metric aging.
-introscope.agent.metricAging.metricExclude.ignore.1=<%= @ metricAging_metricExclude_ignore_1 %>
+introscope.agent.metricAging.metricExclude.ignore.1=<%= @metricAging_metricExclude_ignore_1 %>
 
 
 #########################################
