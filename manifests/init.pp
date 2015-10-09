@@ -35,8 +35,8 @@ class caapm (
   $trustpassword           = $caapm::defaults::trustpassword,
   $trustpassword_plaintext = $caapm::defaults::trustpassword_plaintext,
 
-  $needclientauth          = $caapm::defaults::$needclientauth,
-  $ciphersuites            = $caapm::defaults::$ciphersuites,
+  $needclientauth          = $caapm::defaults::needclientauth,
+  $ciphersuites            = $caapm::defaults::ciphersuites,
 
   # Enterprise Manager User Password Settings
   $admin_passwd            = $caapm::defaults::admin_passwd,
