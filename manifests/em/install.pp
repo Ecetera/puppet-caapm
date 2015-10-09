@@ -85,7 +85,7 @@ class caapm::em::install inherits caapm {
         timeout   => 0,
         user      => $owner,
 #        before    => File[$lic_file],
-      }
+      }->
 
       file { "${em_home}/logs":
         ensure  => 'link',
