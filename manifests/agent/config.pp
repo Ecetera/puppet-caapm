@@ -41,6 +41,8 @@ define profile (
           fail('Valid version not provided')
   }
 
+  notify {"Running agent::config with ${name} profile":}
+
   file { "applying ${name} profile":
     ensure => present,
     path   => "${agents_dir}/wily/core/config/IntroscopeAgent-${name}.ppmanaged",
