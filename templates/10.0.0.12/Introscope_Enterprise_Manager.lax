@@ -126,7 +126,7 @@ lax.stderr.redirect=console
 #   to change this setting to blank, you MUST disable Interactive Mode
 #   in the IntroscopeEnterpriseManager.properties file. 
 
-lax.stdin.redirect=
+lax.stdin.redirect=console
 
 
 #   LAX.STDOUT.REDIRECT

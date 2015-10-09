@@ -189,7 +189,7 @@ class caapm::em::config inherits caapm {
     }
 
 
-    file {  "${em_home}/Introscope_WebView.lax.lax":
+    file {  "${em_home}/Introscope_WebView.lax":
       ensure  =>  present,
       content => template("${module_name}/${version}/Introscope_WebView.lax"),
       owner   => $owner,
