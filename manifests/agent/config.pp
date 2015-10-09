@@ -36,6 +36,7 @@ class caapm::agent::config inherits caapm::agent {
 
 define profile (
   $version = "${caapm::agent::version}",
+  $agents_dir = "${caapm::agent::agents_dir}",
 ){
   if $version == undef {
           fail('Valid version not provided')
