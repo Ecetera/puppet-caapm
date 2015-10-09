@@ -188,6 +188,7 @@ class caapm::em::config inherits caapm {
       mode    => $mode,
     }
 
+##### Why is this here? - DN 09/10/15 #####
     file {  "${em_home}/bin/Introscope_WebView.lax.lax":
       ensure  =>  present,
       content => template("${module_name}/${version}/Introscope_WebView.lax"),

@@ -2,6 +2,7 @@ class caapm::config::wv_lax (
 
   $em_home = undef,
 
+   
   $wv_java_opts_addtl = 'Xms128m -Xmx512m -Djava.awt.headless=true -Dorg.owasp.esapi.resources=./config/esapi',
 
   $owner  = $caapm::params::owner,

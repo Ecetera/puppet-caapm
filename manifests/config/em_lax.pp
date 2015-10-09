@@ -1,7 +1,7 @@
 class caapm::config::em_lax (
 
   $em_home = undef,
-
+  
   $em_java_opts_addtl = '-Xms1024m -Xmx1024m -XX:MaxPermSize=256m -Dorg.owasp.esapi.resources=./config/esapi',
 
   $owner  = $caapm::params::owner,
