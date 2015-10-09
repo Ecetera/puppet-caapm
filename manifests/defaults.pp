@@ -17,12 +17,17 @@ class caapm::defaults {
   $ssl_port                = 5443
   $web_port                = 8081
 
-  $keystore_file           = 'internal/server/keystore'
-  $keystore_passwd         = 'password'
+  $keystore                = 'internal/server/keystore'
+  $keypassword             = 'password'
+  $keypassword_plaintext   = true
 
-  $truststore_file         = 'internal/server/truststore'
-  $truststore_passwd       = 'password'
-  $require_client_auth     = false
+  $truststore              = 'internal/server/keystore'
+  $trustpassword           = 'password'
+  $trustpassword_plaintext = true
+
+  $needclientauth          = false
+  $ciphersuites            = undef
+
 
   # Enterprise Manager User Password Settings
   $admin_passwd            = undef

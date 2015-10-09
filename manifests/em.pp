@@ -15,9 +15,16 @@ class caapm::em (
   $ssl_port                = $::caapm::secure_port,
   $web_port                = $::caapm::web_port,
 
-  $keystore_file           = $::caapm::keystore_file,
-  $keystore_passwd         = $::caapm::keystore_passwd,
+  $keystore                = $::caapm::keystore,
+  $keypassword             = $::caapm::keypassword,
+  $keypassword_plaintext   = $::caapm::keypassword_plaintext,
 
+  $truststore              = $::caapm::truststore,
+  $trustpassword           = $::caapm::trustpassword,
+  $trustpassword_plaintext = $::caapm::trustpassword_plaintext,
+
+  $needclientauth          = $::caapm::needclientauth,
+  $ciphersuites            = $::caapm::ciphersuites,
 
   # Enterprise Manager User Password Settings
   $admin_passwd            = $::caapm::admin_passwd,
