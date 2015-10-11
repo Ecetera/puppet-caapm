@@ -203,26 +203,14 @@ emClusterRole=<%= @cluster_role %>
 # The host can consist of a hostname or an IP address.
 # Example value for host: myManagedEm.mydomain.com
 # Example value for port: 5001
-emCollectorHost.1=
-emCollectorPort.1=
-emCollectorHost.2=
-emCollectorPort.2=
-emCollectorHost.3=
-emCollectorPort.3=
-emCollectorHost.4=
-emCollectorPort.4=
-emCollectorHost.5=
-emCollectorPort.5=
-emCollectorHost.6=
-emCollectorPort.6=
-emCollectorHost.7=
-emCollectorPort.7=
-emCollectorHost.8=
-emCollectorPort.8=
-emCollectorHost.9=
-emCollectorPort.9=
-emCollectorHost.10=
-emCollectorPort.10=
+<% if @cluster_role == 'MOM' and @collectors -%>
+  <% @seqno = 1 %>
+  <% @collectors.each do |key, server| %>
+emCollectorHost.<%= @seqno %>=<%= server %>
+emCollectorPort.<%= @seqno %>=<%= @default_port %>
+  <% @seqno += 1 %>
+  <% end -%>
+<% end -%>
 
 
 #####################################################
