@@ -13,13 +13,15 @@ class caapm::em::config inherits caapm {
 
   if $em_as_service {
 
-    file { $lic_file:
-      ensure =>  present,
-      source => "${puppet_src}/license/${lic_file}",
-      path   => "${em_home}license/${lic_file}",
-      owner  => $owner,
-      group  => $group,
-      mode   => $mode,
+    if versioncmp($version, '9.6.0.0', ) < 0 {
+      file { $lic_file:
+        ensure =>  present,
+        source => "${puppet_src}/license/${lic_file}",
+        path   => "${em_home}license/${lic_file}",
+        owner  => $owner,
+        group  => $group,
+        mode   => $mode,
+      }
     }
 
     file {  "${em_home}/Introscope_Enterprise_Manager.lax":
