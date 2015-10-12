@@ -343,4 +343,11 @@ class caapm (
     }
   }
 
+  file { $stage_dir:
+    ensure  => 'directory',
+    owner   => $owner,
+    group   => $group,
+    mode    => $mode,
+  }
+
 }

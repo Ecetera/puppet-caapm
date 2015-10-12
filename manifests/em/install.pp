@@ -16,6 +16,7 @@ class caapm::em::install inherits caapm {
     owner  => $owner,
     group  => $group,
     mode   => $mode,
+    require => File [$stage_dir],
   }
 
   # download the Enterprise Manager installer
@@ -25,6 +26,7 @@ class caapm::em::install inherits caapm {
     owner   =>  $owner,
     group   =>  $group,
     mode    =>  '0544',
+    require => File [$stage_dir],
   }
 
   # generate the response file
@@ -36,6 +38,7 @@ class caapm::em::install inherits caapm {
     owner   =>  $owner,
     group   =>  $group,
     mode    =>  $mode,
+    require => File [$stage_dir],
   }
 
 
@@ -50,6 +53,7 @@ class caapm::em::install inherits caapm {
     owner   =>  $owner,
     group   =>  $group,
     mode    =>  $mode,
+    require => File [$stage_dir],
   }
 
 
