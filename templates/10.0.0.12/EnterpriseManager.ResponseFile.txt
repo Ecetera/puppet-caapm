@@ -204,11 +204,11 @@ emClusterRole=<%= @cluster_role %>
 # Example value for host: myManagedEm.mydomain.com
 # Example value for port: 5001
 <% if @cluster_role == 'MOM' and @collectors -%>
-  <% @seqno = 1 %>
-  <% @collectors.each do |key, server| %>
+  <% @seqno = 1 -%>
+  <% @collectors.each do |key, server| -%>
 emCollectorHost.<%= @seqno %>=<%= server %>
 emCollectorPort.<%= @seqno %>=<%= @default_port %>
-  <% @seqno += 1 %>
+  <% @seqno += 1 -%>
   <% end -%>
 <% end -%>
 
