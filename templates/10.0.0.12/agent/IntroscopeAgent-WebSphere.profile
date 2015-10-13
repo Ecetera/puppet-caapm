@@ -91,7 +91,7 @@ introscope.autoprobe.directivesFile=<%= @websphere_directivesFiles %>
 # To send output to the logfile only, set the property to:
 # log4j.logger.IntroscopeAgent=INFO, logfile
 
-log4j.logger.IntroscopeAgent=<%= @$logConfig %>
+log4j.logger.IntroscopeAgent=<%= @logConfig %>
  
 # If "logfile" is specified in "log4j.logger.IntroscopeAgent",
 # the location of the log file is configured using the
