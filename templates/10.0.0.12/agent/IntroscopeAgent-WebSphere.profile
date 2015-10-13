@@ -91,7 +91,7 @@ introscope.autoprobe.directivesFile=<%= @websphere_directivesFiles %>
 # To send output to the logfile only, set the property to:
 # log4j.logger.IntroscopeAgent=INFO, logfile
 
-log4j.logger.IntroscopeAgent=INFO, logfile
+log4j.logger.IntroscopeAgent=<%= @$logConfig %>
  
 # If "logfile" is specified in "log4j.logger.IntroscopeAgent",
 # the location of the log file is configured using the
@@ -135,12 +135,12 @@ log4j.appender.logfile.MaxFileSize=2MB
 #
 # You must restart the managed application before change to this property takes effect.
 #introscope.agent.dns.lookup.type=direct
-introscope.agent.dns.lookup.type=separateThread
+introscope.agent.dns.lookup.type=<%= @dnsLookupType %>
 #
 # Maximum time in milliseconds separateThread implementation waits to lookup a host name or IP address. 
 # It is ignored by direct implementation.  Default value is 200.
 # Change to this property takes effect immediately and does not require the managed application to be restarted.
-introscope.agent.dns.lookup.max.wait.in.milliseconds=200
+introscope.agent.dns.lookup.max.wait.in.milliseconds=<%= @$dnsLookupMaxWait %>
 
 
 #################################
@@ -151,7 +151,7 @@ introscope.agent.dns.lookup.max.wait.in.milliseconds=200
 # is disconnected from its Enterprise Manager.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.enterprisemanager.connectionorder=<%= @connection_order %>
+introscope.agent.enterprisemanager.connectionorder=<%= @connectionOrder %>
 
 
 #################################
@@ -988,7 +988,7 @@ introscope.agent.non.synthetic.node.name=<%= @non_synthetic_node_name %>
 # Configuration settings for Error Detector
 
 # Please include errors.pbd in your pbl (or in introscope.autoprobe.directivesFile)
-hiso
+
 # The error snapshot feature captures transaction details about serious errors
 # and enables recording of error count metrics.
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
