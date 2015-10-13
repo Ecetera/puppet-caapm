@@ -140,7 +140,7 @@ introscope.agent.dns.lookup.type=<%= @dnsLookupType %>
 # Maximum time in milliseconds separateThread implementation waits to lookup a host name or IP address. 
 # It is ignored by direct implementation.  Default value is 200.
 # Change to this property takes effect immediately and does not require the managed application to be restarted.
-introscope.agent.dns.lookup.max.wait.in.milliseconds=<%= @$dnsLookupMaxWait %>
+introscope.agent.dns.lookup.max.wait.in.milliseconds=<%= @dnsLookupMaxWait %>
 
 
 #################################
