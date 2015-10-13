@@ -13,7 +13,7 @@ class caapm::em::config inherits caapm {
 
   if $em_as_service {
 
-    if versioncmp($version, '9.6.0.0', ) < 0 {
+    if versioncmp($version, '9.6.0.0', ) > 0 {
       file { $lic_file:
         ensure =>  present,
         source => "${puppet_src}/license/${lic_file}",
