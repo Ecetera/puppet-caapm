@@ -668,20 +668,24 @@ introscope.agent.leakhunter.timeoutInMinutes=<%= @leakhunter_timeout_minutes %>
 introscope.agent.leakhunter.collectAllocationStackTraces=<%= @leakhunter_collect_allocation_stack_traces %>
 
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.leakhunter.ignore.0=<%= @leakhunter_ignore_on_websphere[0] %>
-introscope.agent.leakhunter.ignore.1=<%= @leakhunter_ignore_on_websphere[1] %>
-introscope.agent.leakhunter.ignore.2=<%= @leakhunter_ignore_on_websphere[2] %>
-introscope.agent.leakhunter.ignore.3=<%= @leakhunter_ignore_on_websphere[3] %>
-introscope.agent.leakhunter.ignore.4=<%= @leakhunter_ignore_on_websphere[4] %>
-introscope.agent.leakhunter.ignore.5=<%= @leakhunter_ignore_on_websphere[5] %>
-introscope.agent.leakhunter.ignore.6=<%= @leakhunter_ignore_on_websphere[6] %>
-introscope.agent.leakhunter.ignore.7=<%= @leakhunter_ignore_on_websphere[7] %>
-introscope.agent.leakhunter.ignore.8=<%= @leakhunter_ignore_on_websphere[8] %>
-introscope.agent.leakhunter.ignore.9=<%= @leakhunter_ignore_on_websphere[9] %>
-introscope.agent.leakhunter.ignore.10=<%= @leakhunter_ignore_on_websphere[10] %>
-introscope.agent.leakhunter.ignore.11=<%= @leakhunter_ignore_on_websphere[11] %>
+#introscope.agent.leakhunter.ignore.0=<%= @leakhunter_ignore_on_websphere[0] %>
+#introscope.agent.leakhunter.ignore.1=<%= @leakhunter_ignore_on_websphere[1] %>
+#introscope.agent.leakhunter.ignore.2=<%= @leakhunter_ignore_on_websphere[2] %>
+#introscope.agent.leakhunter.ignore.3=<%= @leakhunter_ignore_on_websphere[3] %>
+#introscope.agent.leakhunter.ignore.4=<%= @leakhunter_ignore_on_websphere[4] %>
+#introscope.agent.leakhunter.ignore.5=<%= @leakhunter_ignore_on_websphere[5] %>
+#introscope.agent.leakhunter.ignore.6=<%= @leakhunter_ignore_on_websphere[6] %>
+#introscope.agent.leakhunter.ignore.7=<%= @leakhunter_ignore_on_websphere[7] %>
+#introscope.agent.leakhunter.ignore.8=<%= @leakhunter_ignore_on_websphere[8] %>
+#introscope.agent.leakhunter.ignore.9=<%= @leakhunter_ignore_on_websphere[9] %>
+#introscope.agent.leakhunter.ignore.10=<%= @leakhunter_ignore_on_websphere[10] %>
+#introscope.agent.leakhunter.ignore.11=<%= @leakhunter_ignore_on_websphere[11] %>
 
-
+<% $count = 0 %>
+<% @leakhunter_ignore_on_websphere.each do |value| -%>
+introscope.agent.leakhunter.ignore.<%= @count %>=<%= @value %>
+<% count += 1 %>
+<% end -%>
 
 #######################
 # SQL Agent Configuration
@@ -744,7 +748,7 @@ introscope.agent.sqlagent.normalizer.extension=<%= @sqlagent_normalizer_extensio
 # Changes to this property take effect immediately and do not require 
 # the managed application to be restarted.
 # Default value is 'false'
-introscope.agent.sqlagent.normalizer.regex.matchFallThrough=<%= @sqlagent_normalizer_matchFallThrough %>
+introscope.agent.sqlagent.normalizer.regex.matchFallThrough=<%= @sqlagent_normalizer_regex_matchFallThrough %>
 
 # This property specifies the regex group keys. They are evaluated in order
 # Changes to this property take effect immediately and do not 
@@ -790,7 +794,7 @@ introscope.agent.sqlagent.normalizer.regex.key1.caseSensitive=<%= @sqlagent_norm
 # ================
 # The following property enables cross jvm tracing
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.websphere.crossjvm=<%= @crossjvm %>
+introscope.agent.websphere.crossjvm=<%= @crossjvm_enable %>
 
 
 
@@ -822,14 +826,14 @@ introscope.agent.metricClamp=<%= @agent_metric_clamp %>
 # Uncomment the following property if the user ID is accessed through HttpServletRequest.getRemoteUser.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.transactiontracer.userid.method=<%= @transactiontracer_userid_method %>
+#introscope.agent.transactiontracer.userid.method=<%= @transactiontracer_userid_method %>
 
 # Uncomment the following properties if the user ID is accessed through HttpServletRequest.getHeader.
 # Make sure to set the key that is used by your application.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.transactiontracer.userid.method=<%= @transactiontracer_userid_method%>
-introscope.agent.transactiontracer.userid.key=<%= @transactiontracer_userid_key %>
+#introscope.agent.transactiontracer.userid.method=<%= @transactiontracer_userid_method%>
+#introscope.agent.transactiontracer.userid.key=<%= @transactiontracer_userid_key %>
 
 # Uncomment the following properties if the user ID is accessed through HttpSession.getValue.
 # Make sure to set the key that is used by your application.
@@ -842,7 +846,7 @@ introscope.agent.transactiontracer.userid.key=<%= @transactiontracer_userid_key 
 #  attributes in the Transaction Tracer data.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.transactiontracer.parameter.httprequest.headers=<%= @tt_httprequest_headers%>
+introscope.agent.transactiontracer.parameter.httprequest.headers=<%= @tt_httprequest_headers %>
 #Uncomment to enable the x-apm-bt request header as an option for transaction trace session criteria.  
 #See “How to Monitor End User Endpoints�? in the APM documentation for use
 #introscope.agent.transactiontracer.parameter.httprequest.headers=<%= @tt_httprequest_headers %>
@@ -903,7 +907,7 @@ introscope.agent.transactiontracer.sampling.enabled=<%= @tt_sampling_enabled %>
 # The following property limits the number of transactions that are reported by the agent 
 # per reporting cycle. The default value if the property is not set is 200.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.ttClamp=<%= @ttClamp %>
+introscope.agent.ttClamp=<%= @tt_clamp %>
 
 
 #################################
@@ -938,8 +942,9 @@ introscope.agent.urlgroup.keys=<%= @urlgroup_keys %>
 introscope.agent.urlgroup.group.default.pathprefix=<%= @urlgroup_default_pathprefix %>
 introscope.agent.urlgroup.group.default.format=<%= @urlgroup_default_format %>
 
-<%= @introscope_agent_urlgroup_key_pathprefix %>=<%= @urlgroup_default_pathprefix %>
-<%= @introscope_agent_urlgroup_key_format %>=<%= @urlgroup_default_format %>
+# chuahm - whats this for???; comment out for now
+#<%= @introscope_agent_urlgroup_key_pathprefix %>=<%= @urlgroup_default_pathprefix %>
+#<%= @introscope_agent_urlgroup_key_format %>=<%= @urlgroup_default_format %>
 
 #######################
 # Synthetic Transaction Configuration
@@ -1005,8 +1010,8 @@ introscope.agent.errorsnapshots.throttle=<%= @errorsnapshots_throttle %>
 # as many as you like (using .0, .1, .2 ...). You may use wildcards (*).  
 # The following are examples only.
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-#introscope.agent.errorsnapshots.ignore.0=*com.company.HarmlessException*
-#introscope.agent.errorsnapshots.ignore.1=*HTTP Error Code: 404*
+#introscope.agent.errorsnapshots.ignore.0=<%= @errorsnapshots_ignore[0] %>
+#introscope.agent.errorsnapshots.ignore.1=<%= @errorsnapshots_ignore[1] %>
 
 # Minimum threshold for stall event duration
 # Changes to this property take effect immediately and do not require the managed application to be restarted.

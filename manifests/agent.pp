@@ -129,7 +129,7 @@ class caapm::agent (
   $leakhunter_timeout_minutes                 = '120',
   $leakhunter_collect_allocation_stack_traces = false,
 
-  $leakhunter_ignore_on_websphere  = [
+  $leakhunter_ignore_on_websphere = [
     'org.apache.taglibs.standard.lang.jstl.*',
     'net.sf.hibernate.collection.*',
     'org.jnp.interfaces.FastNamingProperties',
@@ -144,6 +144,7 @@ class caapm::agent (
     'org.hibernate.collection.PersistentSet'
     ],
 
+  # chuahm - weblogic not validated
   $leakhunter_ignore_on_weblogic   = [
     "org.apache.taglibs.standard.lang.jstl.*",
     "com.bea.medrec.entities.RecordEJB_xwcp6o__WebLogic_CMP_RDBMS",
@@ -177,52 +178,56 @@ class caapm::agent (
   # Cross JVM Tracing
   $crossjvm_enable         = true,
 
+  # chuahm - whats this for???
   # SOA Performance Management Agent Settings
   $agent_httpheaderinsertion_enabled             = true,
   $agent_httpheaderread_enabled    = true,
   $agent_soapheaderinsertion_enabled             = true,
   $agent_soapheaderread_enabled    = true,
 
-  $agent_metric_clamp      = 50000,
+  $agent_metric_clamp      = '50000',
 
-  $tt_userid_method        = "HttpServletRequest.getRemoteUser",
-  $tt_userid_key           = '\<application defined key string\>',
-  $tt_httprequest_headers  = "User-Agent",
-  $tt_httprequest_parameters       = "parameter1,parameter2",
-  $tt_httpsession_attributes       = "attribute1,attribute2",
-  $tt_capture_sessionid    = true,
-  $tt_component_count_clamp        = 5000,
-  $tt_head_filter_clamp    = 30,
+  $transactiontracer_userid_method  = 'HttpServletRequest.getRemoteUser',
+  $transactiontracer_userid_key     = '<application defined key string>',
+
+  $tt_httprequest_headers           = 'User-Agent',
+  $tt_httprequest_parameters        = 'parameter1,parameter2',
+  $tt_httpsession_attributes        = 'attribute1,attribute2',
+  $tt_capture_sessionid             = true,
+  $tt_component_count_clamp         = '5000',
+  $tt_head_filter_clamp             = '30',
 
   # Cross Process Transaction Trace
-  $crossprocess_compression        = 'lzma',
-  $crossprocess_compression_minlimit             = 1500,
-  $crossprocess_correlationid_maxlimit           = 4096,
+  $crossprocess_compression             = 'lzma',
+  $crossprocess_compression_minlimit    = '1500',
+  $crossprocess_correlationid_maxlimit  = '4096',
 
-  $tt_tail_filter_propagate_enable = true,
+  # TT Sampling
+  $tt_sampling_enabled              = true,
+  $tt_clamp                         = '50',
+  $tt_tail_filter_propagate_enable  = true,
+  $tt_perinterval_count    = '1',             # chuahm - not validated
+  $tt_interval_seconds     = '120',            # chuahm - not validated
 
   # URL Grouping Configuration
-  $urlgroup_keys           = [{
-    }
-    ],
+  $urlgroup_keys                = 'default',
+  $urlgroup_default_pathprefix  = '*',
+  $urlgroup_default_format      = 'Default',
 
   # Synthetic Transaction Configuration
-  $synthetic_tt_enable     = false,
-  $synthetic_header_names  = "Synthetic_Transaction,x-wtg-info,lisaframeid",
-  $synthetic_user_name     = "Synthetic_Trace_By_Vuser",
-  $synthetic_node_name     = "Synthetic Users",
-  $non_synthetic_node_name = "Real Users",
+  $synthetic_tt_enable     = false,             # chuahm - not validated
+  $synthetic_header_names  = 'Synthetic_Transaction,x-wtg-info,lisaframeid',
+  $synthetic_user_name     = 'Synthetic_Trace_By_Vuser',
+  $synthetic_node_name     = 'Synthetic Users',
+  $non_synthetic_node_name = 'Real Users',
 
   # Error Detector Configuration
   $errorsnapshots_enable   = true,
-  $errorsnapshots_throttle = 10,
-  $errorsnapshots_ignore   = ["*com.company.HarmlessException*", "*HTTP Error Code: 404*",],
-
-  # TT Sampling
-  $tt_sampling_enabled     = true,
-  $tt_clamp                = 50,
-  $tt_perinterval_count    = 1,
-  $tt_interval_seconds     = 120,
+  $errorsnapshots_throttle = '10',
+  $errorsnapshots_ignore   = [
+    '*com.company.HarmlessException*',
+    '*HTTP Error Code: 404*',
+    ],
 
   # Remote Configuration Settings
   $remoteagent_configuration_enabled             = true,
