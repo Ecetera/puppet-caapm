@@ -15,6 +15,7 @@
         <agent mapping="(.*)"/>
         <grant group="Admin" permission="full"/>
         <grant user="Guest" permission="read"/>
+        <grant user="CMIS" permission="read"/>
     </SuperDomain>
 
 </domains>
