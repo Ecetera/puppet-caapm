@@ -133,14 +133,15 @@ class caapm::agent (
     'org.apache.taglibs.standard.lang.jstl.*',
     'net.sf.hibernate.collection.*',
     'org.jnp.interfaces.FastNamingProperties',
-    'com.ibm.wps.state.accessors.collections.MapOnNode\$EntrySet',
+    'java.util.SubList',
+    'com.ibm.wps.state.accessors.collections.MapOnNode$EntrySet',
     'com.ibm.ws.ejbpersistence.dataaccess.*',
     'com.ibm.ws.rsadapter.cci.*',
-    'com.sun.faces.context.BaseContextMap\$EntrySet',
-    'com.sun.faces.context.BaseContextMap\$KeySet',
+    'com.sun.faces.context.BaseContextMap$EntrySet',
+    'com.sun.faces.context.BaseContextMap$KeySet',
     'com.sun.faces.context.SessionMap',
-    'java.util.Collections\$UnmodifiableMap',
-    'org.hibernate.collection.PersistentSet',
+    'java.util.Collections$UnmodifiableMap',
+    'org.hibernate.collection.PersistentSet'
     ],
 
   $leakhunter_ignore_on_weblogic   = [
