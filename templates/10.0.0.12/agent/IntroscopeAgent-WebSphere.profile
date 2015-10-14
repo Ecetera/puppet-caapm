@@ -237,20 +237,20 @@ introscope.agent.enterprisemanager.transport.tcp.<%= field %>.<%= key %>=<%= val
 # If no truststore is specified, the agent trusts all certificates.
 # Either an absolute path or a path relative to the agent's working directory.
 # On Windows, backslashes must be escaped.  For example: C:\\keystore
-introscope.agent.enterprisemanager.transport.tcp.truststore.DEFAULT=<%= @truststore %>
+#introscope.agent.enterprisemanager.transport.tcp.truststore.DEFAULT=<%= @truststore %>
 # The password for the truststore
-introscope.agent.enterprisemanager.transport.tcp.trustpassword.DEFAULT=<%= @trustpassword %>
+#introscope.agent.enterprisemanager.transport.tcp.trustpassword.DEFAULT=<%= @trustpassword %>
 # Location of a keystore containing the agent's certificate.
 # A keystore is needed if the EM requires client authentication.
 # Either an absolute path or a path relative to the agent's working directory.
 # On Windows, backslashes must be escaped.  For example: C:\\keystore
-introscope.agent.enterprisemanager.transport.tcp.keystore.DEFAULT=<%= @keystore %>
+#introscope.agent.enterprisemanager.transport.tcp.keystore.DEFAULT=<%= @keystore %>
 # The password for the keystore
-introscope.agent.enterprisemanager.transport.tcp.keypassword.DEFAULT=<%= @keypassword %>
+#introscope.agent.enterprisemanager.transport.tcp.keypassword.DEFAULT=<%= @keypassword %>
 # Set the enabled cipher suites.
 # A comma-separated list of cipher suites.
 # If not specified, use the default enabled cipher suites.
-introscope.agent.enterprisemanager.transport.tcp.ciphersuites.DEFAULT=<%= @ciphersuites %>
+#introscope.agent.enterprisemanager.transport.tcp.ciphersuites.DEFAULT=<%= @ciphersuites %>
 
 
 
@@ -268,7 +268,7 @@ introscope.agent.enterprisemanager.transport.tcp.ciphersuites.DEFAULT=<%= @ciphe
 # when this property is enabled.
 # You must restart the managed application before changes to this property take effect.
 
-#introscope.agent.enterprisemanager.failbackRetryIntervalInSeconds=<%= @failback_retry_interval %>
+#introscope.agent.enterprisemanager.failbackRetryIntervalInSeconds=<%= @failbackRetryInterval %>
 
 
 #######################
@@ -280,7 +280,7 @@ introscope.agent.enterprisemanager.transport.tcp.ciphersuites.DEFAULT=<%= @ciphe
 # Using \ in process name need to be escaped with \\.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.customProcessName=WebSphere
+introscope.agent.customProcessName=<%= @customProcessName %>
 
 
 #######################
@@ -293,7 +293,7 @@ introscope.agent.customProcessName=WebSphere
 # used for the process name.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.defaultProcessName=WebSphere
+introscope.agent.defaultProcessName=<%= @defaultProcessName %>
 
 
 #######################
@@ -316,12 +316,12 @@ introscope.agent.agentAutoNamingEnabled=<%= @agentAutoNamingEnabled %>
 # The amount of time to delay connecting to the Introscope Enterprise
 # Manager while Agent Auto Naming is attempted.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.agentAutoNamingMaximumConnectionDelayInSeconds=120
+introscope.agent.agentAutoNamingMaximumConnectionDelayInSeconds=<%= @agentAutoNamingMaximumConnectionDelay %>
 
 # When Agent Auto Naming is enabled, the Agent will check for 
 # a new Application Server determined name on the specified interval.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.agentAutoRenamingIntervalInMinutes=10
+introscope.agent.agentAutoRenamingIntervalInMinutes=<%= @agentAutoRenamingInterval %>
 
 # Auto name of log files (Agent, AutoProbe and LeakHunter) with
 # the Agent name or a timestamp can be disabled by setting the 
@@ -333,13 +333,13 @@ introscope.agent.disableLogFileAutoNaming=<%= @disableLogFileAutoNaming %>
 
 # This Agent Name is used if the other methods are disabled or fail.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.agentName=WebSphere Agent
+introscope.agent.agentName=<%= @agentName %>
 
 # Fully Qualified Domain Name (FQDN) can be enabled by setting this property  
 # value to 'true'. By Default (false) it will display HostName.
 # Set to 'true' when integrating with Catalyst.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.display.hostName.as.fqdn=false
+introscope.agent.display.hostName.as.fqdn=<%= @displayHostnameAsFqdn %>
 
 
 #######################
@@ -350,7 +350,7 @@ introscope.agent.display.hostName.as.fqdn=false
 # output bandwidth rate metrics for individual sockets.   NOTE: this parameter is only
 # used if PDB flag ManagedSocketTracing is 'on'.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.sockets.reportRateMetrics=<%= @report_rate_metrics %>
+introscope.agent.sockets.reportRateMetrics=<%= @reportRateMetrics %>
 
 ############################### 
 #Agent Memory Overhead Setting 
@@ -363,7 +363,7 @@ introscope.agent.sockets.reportRateMetrics=<%= @report_rate_metrics %>
 # This property is set to false by default and out of the box is commented out. This is not a hot property 
 # and the managed application needs to be restarted for this flag to take effect. 
      
-introscope.agent.reduceAgentMemoryOverhead=<%= @reduce_agent_memory_overhead %>
+introscope.agent.reduceAgentMemoryOverhead=<%= @reduceAgentMemoryOverhead %>
 
 #######################
 # Agent I/O Socket Metrics
@@ -375,11 +375,11 @@ introscope.agent.reduceAgentMemoryOverhead=<%= @reduce_agent_memory_overhead %>
 # changed value is used.
 #
 # Restrict socket client connections instrumented to those with specified remote hosts
-introscope.agent.io.socket.client.hosts=<%= @io_socket_client_hosts %>
+introscope.agent.io.socket.client.hosts=<%= @ioSocketClientHosts %>
 # Restrict socket client connections instrumented to those with specified remote ports
-introscope.agent.io.socket.client.ports=<%= @io_socket_client_ports %>
+introscope.agent.io.socket.client.ports=<%= @ioSocketClientPorts %>
 # Restrict socket client connections instrumented to those using specified local ports.
-introscope.agent.io.socket.server.ports=<%= @io_socket_server_ports %>
+introscope.agent.io.socket.server.ports=<%= @ioSocketServerPorts %>
 
 
 #######################
@@ -392,17 +392,17 @@ introscope.agent.io.socket.server.ports=<%= @io_socket_server_ports %>
 # changed value is used.
 #
 # Restrict datagram client connections instrumented to those with specified remote hosts
-introscope.agent.nio.datagram.client.hosts=<%= @nio_datagram_client_hosts %>
+introscope.agent.nio.datagram.client.hosts=<%= @nioDatagramClientHosts %>
 # Restrict datagram client connections instrumented to those with specified remote ports
-introscope.agent.nio.datagram.client.ports=<%= @nio_datagram_client_ports %>
+introscope.agent.nio.datagram.client.ports=<%= @nioDatagramClientPorts %>
 # Restrict datagram client connections instrumented to those using specified local ports.
-introscope.agent.nio.datagram.server.ports=<%= @nio_datagram_server_ports %>
+introscope.agent.nio.datagram.server.ports=<%= @nioDatagramServerPorts %>
 # Restrict socket client connections instrumented to those with specified remote hosts
-introscope.agent.nio.socket.client.hosts=<%= @nio_socket_client_hosts %>
+introscope.agent.nio.socket.client.hosts=<%= @nioSocketClientHosts %>
 # Restrict socket client connections instrumented to those with specified remote ports
-introscope.agent.nio.socket.client.ports=<%= @nio_socket_client_ports %>
+introscope.agent.nio.socket.client.ports=<%= @nioSocketClientPorts %>
 # Restrict socket client connections instrumented to those using specified local ports.
-introscope.agent.nio.socket.server.ports=<%= @nio_socket_server_ports %>
+introscope.agent.nio.socket.server.ports=<%= @nioSocketServerPorts %>
 
 
 #######################
@@ -414,7 +414,7 @@ introscope.agent.nio.socket.server.ports=<%= @nio_socket_server_ports %>
 # to the location of this properties file.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.extensions.directory=../ext
+introscope.agent.extensions.directory=<% @agentExtensionsDirectory %>
 
 # Some extensions require classes to be pre-loaded at startup in order to avoid deadlocks
 # during instrumentation. This property controls the behavior of eager class loading of
@@ -435,7 +435,7 @@ introscope.agent.extensions.directory=../ext
 # to the location of this properties file.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.common.directory=../../common
+introscope.agent.common.directory=<% @agentCommonDirectory %>
 
 
 #######################
@@ -446,7 +446,7 @@ introscope.agent.common.directory=../../common
 # from 1 (low) to 10 (high). Default value if unspecified is Thread.NORM_PRIORITY (5)
 # You must restart the managed application before changes to this property take effect.
 
-#introscope.agent.thread.all.priority=5
+#introscope.agent.thread.all.priority=<% @agentThreadAllPriority %>
 
 
 #######################
@@ -456,7 +456,7 @@ introscope.agent.common.directory=../../common
 # Set to true when running identical copies of an application on the same machine.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.clonedAgent=false
+introscope.agent.clonedAgent=<% @agentClonedAgent %>
 
 
 #######################
@@ -640,7 +640,7 @@ introscope.agent.leakhunter.logfile.location=<%= @logs_dir %>/LeakHunter.log
 # Set the value to true to append to the log file.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.leakhunter.logfile.append=false
+introscope.agent.leakhunter.logfile.append=<% @leakhunter_logfile_append %>
 
 # Controls the sensitivity of the leak detection algorithm.
 # The value should be an integer from 1-10.  A higher
@@ -668,18 +668,18 @@ introscope.agent.leakhunter.timeoutInMinutes=<%= @leakhunter_timeout_minutes %>
 introscope.agent.leakhunter.collectAllocationStackTraces=<%= @leakhunter_collect_allocation_stack_traces %>
 
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.leakhunter.ignore.0=<%= @leakhunter_ignore_0 %>
-introscope.agent.leakhunter.ignore.1=<%= @leakhunter_ignore_1 %>
-introscope.agent.leakhunter.ignore.2=<%= @leakhunter_ignore_2 %>
-introscope.agent.leakhunter.ignore.3=<%= @leakhunter_ignore_3 %>
-introscope.agent.leakhunter.ignore.4=<%= @leakhunter_ignore_4 %>
-introscope.agent.leakhunter.ignore.5=<%= @leakhunter_ignore_5 %>
-introscope.agent.leakhunter.ignore.6=<%= @leakhunter_ignore_6 %>
-introscope.agent.leakhunter.ignore.7=<%= @leakhunter_ignore_7 %>
-introscope.agent.leakhunter.ignore.8=<%= @leakhunter_ignore_8 %>
-introscope.agent.leakhunter.ignore.9=<%= @leakhunter_ignore_9 %>
-introscope.agent.leakhunter.ignore.10=<%= @leakhunter_ignore_10 %>
-introscope.agent.leakhunter.ignore.11=<%= @leakhunter_ignore_11 %>
+introscope.agent.leakhunter.ignore.0=<%= @leakhunter_ignore_on_websphere[0] %>
+introscope.agent.leakhunter.ignore.1=<%= @leakhunter_ignore_on_websphere[1] %>
+introscope.agent.leakhunter.ignore.2=<%= @leakhunter_ignore_on_websphere[2] %>
+introscope.agent.leakhunter.ignore.3=<%= @leakhunter_ignore_on_websphere[3] %>
+introscope.agent.leakhunter.ignore.4=<%= @leakhunter_ignore_on_websphere[4] %>
+introscope.agent.leakhunter.ignore.5=<%= @leakhunter_ignore_on_websphere[5] %>
+introscope.agent.leakhunter.ignore.6=<%= @leakhunter_ignore_on_websphere[6] %>
+introscope.agent.leakhunter.ignore.7=<%= @leakhunter_ignore_on_websphere[7] %>
+introscope.agent.leakhunter.ignore.8=<%= @leakhunter_ignore_on_websphere[8] %>
+introscope.agent.leakhunter.ignore.9=<%= @leakhunter_ignore_on_websphere[9] %>
+introscope.agent.leakhunter.ignore.10=<%= @leakhunter_ignore_on_websphere[10] %>
+introscope.agent.leakhunter.ignore.11=<%= @leakhunter_ignore_on_websphere[11] %>
 
 
 

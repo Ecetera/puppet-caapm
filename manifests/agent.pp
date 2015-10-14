@@ -24,106 +24,123 @@ class caapm::agent (
   $weblogic_directivesFile    = 'weblogic-typical.pbl',
 
   $dnsLookupType              = 'separateThread',
-  $dnsLookupMaxWait           = '200',
+  $dnsLookupMaxWait           = '200',            # milliseconds
   $connectionOrder            = 'DEFAULT',
 
+  # commented out in template
   $truststore              = undef,
   $trustpassword           = undef,
   $keystore                = undef,
   $keypassword             = undef,
   $ciphersuites            = undef,
-  # Agent Naming
-  $agentNameSystemPropertyKey = undef,
-  $agentAutoNamingEnabled = false,
-  $disableLogFileAutoNaming = false,
 
-  # Enterprise Manager Failback Retry Interval
-  $failback_retry_interval = 120,
+  $failbackRetryInterval = '120',     # seconds
+
+  $customProcessName  = 'WebSphere',
+  $defaultProcessName = 'WebSphere',
+
+  # Agent Naming
+  $agentNameSystemPropertyKey             = undef,
+  $agentAutoNamingEnabled                 = false,
+  $agentAutoNamingMaximumConnectionDelay  = '120',  # seconds
+  $agentAutoRenamingInterval              = '10',   # minutes
+  $disableLogFileAutoNaming               = false,
+  $agentName  = 'WebSphere Agent',
+
+  $displayHostnameAsFqdn = false,
 
   # Agent Socket Rate Metrics
-  $report_rate_metrics     = false,
+  $reportRateMetrics  = false,
 
   # Agent Memory Overhead Setting
-  $reduce_agent_memory_overhead    = false,
+  $reduceAgentMemoryOverhead  = false,
 
   # Agent I/O Socket Metrics
-  $io_socket_client_hosts  = undef,
-  $io_socket_client_ports  = undef,
-  $io_socket_server_ports  = undef,
+  $ioSocketClientHosts  = undef,
+  $ioSocketClientPorts  = undef,
+  $ioSocketServerPorts  = undef,
 
   # Agent NIO Metrics
-  $nio_datagram_client_hosts       = undef,
-  $nio_datagram_client_ports       = undef,
-  $nio_datagram_server_ports       = undef,
-  $nio_socket_client_hosts = undef,
-  $nio_socket_client_ports = undef,
-  $nio_socket_server_ports = undef,
+  $nioDatagramClientHosts  = undef,
+  $nioDatagramClientPorts  = undef,
+  $nioDatagramServerPorts  = undef,
+  $nioSocketClientHosts    = undef,
+  $nioSocketClientPorts    = undef,
+  $nioSocketServerPorts    = undef,
 
-  $eager_loader            = 'enabled',  # Possible values are: disabled, enabled, cached.
+  $agentExtensionsDirectory = '../ext',
+  $eager_loader            = 'enabled',  # disabled/enabled/cached
+
+  $agentCommonDirectory = '../../common',
+
+  $agentThreadAllPriority  = '5',   # 1 (low) to 10 (high)
+
+  $agentClonedAgent  = false,
 
   # WebSphere PMI Configuration
-  $pmi_enable              = true,
-  $pmi_filter_object       = false,
-  $pmi_enable_threadPoolModule     = true,
-  $pmi_enable_servletSessionsModule              = true,
-  $pmi_enable_connectionPoolModule = true,
-  $pmi_enable_beanModule   = false,
-  $pmi_enable_transactionModule    = false,
-  $pmi_enable_webAppModule = false,
-  $pmi_enable_jvmRuntimeModule     = false,
-  $pmi_enable_systemModule = false,
-  $pmi_enable_cacheModule  = false,
-  $pmi_enable_orbPerfModule        = false,
-  $pmi_enable_j2cModule    = true,
-  $pmi_enable_webServicesModule    = false,
-  $pmi_enable_wlmModule    = false,
-  $pmi_enable_wsgwModule   = false,
-  $pmi_enable_alarmManagerModule   = false,
-  $pmi_enable_hamanagerModule      = false,
-  $pmi_enable_objectPoolModule     = false,
-  $pmi_enable_schedulerModule      = false,
-  $pmi_enable_jvmpiModule  = false,
-  $pmi_enable_SIB_Service  = false,
+  $pmi_enable                       = true,
+  $pmi_filter_object                = false,
+  $pmi_enable_threadPoolModule      = true,
+  $pmi_enable_servletSessionsModule = true,
+  $pmi_enable_connectionPoolModule  = true,
+  $pmi_enable_beanModule            = false,
+  $pmi_enable_transactionModule     = false,
+  $pmi_enable_webAppModule          = false,
+  $pmi_enable_jvmRuntimeModule      = false,
+  $pmi_enable_systemModule          = false,
+  $pmi_enable_cacheModule           = false,
+  $pmi_enable_orbPerfModule         = false,
+  $pmi_enable_j2cModule             = true,
+  $pmi_enable_webServicesModule     = false,
+  $pmi_enable_wlmModule             = false,
+  $pmi_enable_wsgwModule            = false,
+  $pmi_enable_alarmManagerModule    = false,
+  $pmi_enable_hamanagerModule       = false,
+  $pmi_enable_objectPoolModule      = false,
+  $pmi_enable_schedulerModule       = false,
+  $pmi_enable_jvmpiModule           = false,
+  $pmi_enable_SIB_Service           = false,
 
   # PMI properties for Websphere Process Server
   $pmi_enable_WBIStats_RootGroup   = true,
   $pmi_enable_SCAStats_RootGroup   = true,
 
   # JMX Configuration
-  $jmx_enable              = false,
-  $jmx_maxpollingduration_enable   = false,
-  $jmx_ratecounter_enable  = false,
-  $jmx_ratecounter_reset_enable    = false,
-  $jmx_compositedata_enable        = false,
+  $jmx_enable                     = false,
+  $jmx_maxpollingduration_enable  = false,
+  $jmx_ratecounter_enable         = false,
+  $jmx_ratecounter_reset_enable   = false,
+  $jmx_compositedata_enable       = false,
 
-  $jsr77_disable           = true,
-  $jmx_name_primarykeys_websphere  = 'J2EEServer,Application,j2eeType,JDBCProvider,name,mbeanIdentifier',
-  $jmx_name_primarykeys_weblogic   = 'Type,Name',
+  $jsr77_disable                  = true,
+  $jmx_name_primarykeys_websphere = 'J2EEServer,Application,j2eeType,JDBCProvider,name,mbeanIdentifier',
+  $jmx_name_primarykeys_weblogic  = 'Type,Name',
 
-  $jmx_name_filter_websphere       = undef,
-  $jmx_name_filter_weblogic        = 'ThreadPoolRuntime:ExecuteThreadIdleCount,ThreadPoolRuntime:ExecuteThreadTotalCount,ThreadPoolRuntime:HoggingThreadCount,ThreadPoolRuntime:PendingUserRequestCount,ThreadPoolRuntime:QueueLength,ThreadPoolRuntime:StandbyThreadCount,ThreadPoolRuntime:Throughput,JDBC*Runtime*:ActiveConnectionsCurrentCount,JDBC*Runtime*:ActiveConnectionsHighCount,JDBC*Runtime*:ConnectionDelayTime,JDBC*Runtime*:ConnectionsTotalCount,JDBC*Runtime*:CurrCapacity,JDBC*Runtime*:CurrCapacityHighCount,JDBC*Runtime*:FailedReserveRequestCount,JDBC*Runtime*:FailuresToReconnectCount,JDBC*Runtime*:HighestNumAvailable,JDBC*Runtime*:HighestNumUnavailable,JDBC*Runtime*:LeakedConnectionCount,JDBC*Runtime*:NumAvailable,JDBC*Runtime*:NumUnavailable,JDBC*Runtime*:WaitingForConnectionCurrentCount,JDBC*Runtime*:WaitingForConnectionFailureTotal,JDBC*Runtime*:WaitingForConnectionHighCount,JDBC*Runtime*:WaitingForConnectionSuccessTotal,JDBC*Runtime*:WaitingForConnectionTotal,JDBC*Runtime*:WaitSecondsHighCount,JMSDestinationRuntime*:BytesCurrentCount,JMSDestinationRuntime*:BytesHighCount,JMSDestinationRuntime*:BytesPendingCount,JMSDestinationRuntime*:BytesReceivedCount,JMSDestinationRuntime*:ConsumersCurrentCount,JMSDestinationRuntime*:ConsumersHighCount,JMSDestinationRuntime*:ConsumersTotalCount,JMSDestinationRuntime*:MessagesCurrentCount,JMSDestinationRuntime*:MessagesDeletedCurrentCount,JMSDestinationRuntime*:MessagesHighCount,JMSDestinationRuntime*:MessagesPendingCount,JMSDestinationRuntime*:MessagesReceivedCount,WorkManagerRuntime*:CompletedRequests,WorkManagerRuntime*:PendingRequests,WorkManagerRuntime*:StuckThreadCount,ExecuteQueueRuntime*:ExecuteThreadCurrentIdleCount,ExecuteQueueRuntime*:ExecuteThreadTotalCount,ExecuteQueueRuntime*:PendingRequestCurrentCount,ExecuteQueueRuntime*:ServicedRequestTotalCount,WebAppComponentRuntime*:OpenSessionsCurrentCount,WebAppComponentRuntime*:OpenSessionsHighCount,WebAppComponentRuntime*:SessionsOpenedTotalCount,WebAppComponentRuntime*:SessionTimeoutSecs,JDBC*Runtime*:PrepStmtCacheAccessCount,JDBC*Runtime*:PrepStmtCacheAddCount,JDBC*Runtime*:PrepStmtCacheCurrentSize,JDBC*Runtime*:PrepStmtCacheDeleteCount,JDBC*Runtime*:PrepStmtCacheHitCount,JDBC*Runtime*:PrepStmtCacheMissCount',
+  $jmx_name_filter_websphere      = undef,
+  $jmx_name_filter_weblogic       = 'ThreadPoolRuntime:ExecuteThreadIdleCount,ThreadPoolRuntime:ExecuteThreadTotalCount,ThreadPoolRuntime:HoggingThreadCount,ThreadPoolRuntime:PendingUserRequestCount,ThreadPoolRuntime:QueueLength,ThreadPoolRuntime:StandbyThreadCount,ThreadPoolRuntime:Throughput,JDBC*Runtime*:ActiveConnectionsCurrentCount,JDBC*Runtime*:ActiveConnectionsHighCount,JDBC*Runtime*:ConnectionDelayTime,JDBC*Runtime*:ConnectionsTotalCount,JDBC*Runtime*:CurrCapacity,JDBC*Runtime*:CurrCapacityHighCount,JDBC*Runtime*:FailedReserveRequestCount,JDBC*Runtime*:FailuresToReconnectCount,JDBC*Runtime*:HighestNumAvailable,JDBC*Runtime*:HighestNumUnavailable,JDBC*Runtime*:LeakedConnectionCount,JDBC*Runtime*:NumAvailable,JDBC*Runtime*:NumUnavailable,JDBC*Runtime*:WaitingForConnectionCurrentCount,JDBC*Runtime*:WaitingForConnectionFailureTotal,JDBC*Runtime*:WaitingForConnectionHighCount,JDBC*Runtime*:WaitingForConnectionSuccessTotal,JDBC*Runtime*:WaitingForConnectionTotal,JDBC*Runtime*:WaitSecondsHighCount,JMSDestinationRuntime*:BytesCurrentCount,JMSDestinationRuntime*:BytesHighCount,JMSDestinationRuntime*:BytesPendingCount,JMSDestinationRuntime*:BytesReceivedCount,JMSDestinationRuntime*:ConsumersCurrentCount,JMSDestinationRuntime*:ConsumersHighCount,JMSDestinationRuntime*:ConsumersTotalCount,JMSDestinationRuntime*:MessagesCurrentCount,JMSDestinationRuntime*:MessagesDeletedCurrentCount,JMSDestinationRuntime*:MessagesHighCount,JMSDestinationRuntime*:MessagesPendingCount,JMSDestinationRuntime*:MessagesReceivedCount,WorkManagerRuntime*:CompletedRequests,WorkManagerRuntime*:PendingRequests,WorkManagerRuntime*:StuckThreadCount,ExecuteQueueRuntime*:ExecuteThreadCurrentIdleCount,ExecuteQueueRuntime*:ExecuteThreadTotalCount,ExecuteQueueRuntime*:PendingRequestCurrentCount,ExecuteQueueRuntime*:ServicedRequestTotalCount,WebAppComponentRuntime*:OpenSessionsCurrentCount,WebAppComponentRuntime*:OpenSessionsHighCount,WebAppComponentRuntime*:SessionsOpenedTotalCount,WebAppComponentRuntime*:SessionTimeoutSecs,JDBC*Runtime*:PrepStmtCacheAccessCount,JDBC*Runtime*:PrepStmtCacheAddCount,JDBC*Runtime*:PrepStmtCacheCurrentSize,JDBC*Runtime*:PrepStmtCacheDeleteCount,JDBC*Runtime*:PrepStmtCacheHitCount,JDBC*Runtime*:PrepStmtCacheMissCount',
 
-  $jmx_ignore_attributes   = undef,
-  $jmx_exclude_string_metrics      = true,
+  $jmx_ignore_attributes          = undef,
+  $jmx_exclude_string_metrics     = true,
 
   # LeakHunter Configuration
-  $leakhunter_enable       = false,
-  $leakhunter_sensitivity  = 5,
-  $leakhunter_timeout_minutes      = 120,
-  $leakhunter_collect_allocation_stack_traces    = false,
+  $leakhunter_enable                          = false,
+  $leakhunter_logfile_append                  = false,
+  $leakhunter_sensitivity                     = '5',
+  $leakhunter_timeout_minutes                 = '120',
+  $leakhunter_collect_allocation_stack_traces = false,
 
   $leakhunter_ignore_on_websphere  = [
-    "org.apache.taglibs.standard.lang.jstl.*",
-    "net.sf.hibernate.collection.*",
-    "org.jnp.interfaces.FastNamingProperties",
-    "com.ibm.wps.state.accessors.collections.MapOnNode\$EntrySet",
-    "com.ibm.ws.ejbpersistence.dataaccess.*",
-    "com.ibm.ws.rsadapter.cci.*",
-    "com.sun.faces.context.BaseContextMap\$EntrySet",
-    "com.sun.faces.context.BaseContextMap\$KeySet",
-    "com.sun.faces.context.SessionMap",
-    "java.util.Collections\$UnmodifiableMap",
-    "org.hibernate.collection.PersistentSet",
+    'org.apache.taglibs.standard.lang.jstl.*',
+    'net.sf.hibernate.collection.*',
+    'org.jnp.interfaces.FastNamingProperties',
+    'com.ibm.wps.state.accessors.collections.MapOnNode\$EntrySet',
+    'com.ibm.ws.ejbpersistence.dataaccess.*',
+    'com.ibm.ws.rsadapter.cci.*',
+    'com.sun.faces.context.BaseContextMap\$EntrySet',
+    'com.sun.faces.context.BaseContextMap\$KeySet',
+    'com.sun.faces.context.SessionMap',
+    'java.util.Collections\$UnmodifiableMap',
+    'org.hibernate.collection.PersistentSet',
     ],
 
   $leakhunter_ignore_on_weblogic   = [
