@@ -684,7 +684,7 @@ introscope.agent.leakhunter.collectAllocationStackTraces=<%= @leakhunter_collect
 <% $count = 0 %>
 <% @leakhunter_ignore_on_websphere.each do |value| -%>
 introscope.agent.leakhunter.ignore.<%= @count %>=<%= @value %>
-<% count = count + 1 %>
+<% $count += 1 %>
 <% end -%>
 
 #######################
