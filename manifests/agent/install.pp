@@ -35,20 +35,6 @@ class caapm::agent::install inherits caapm::agent {
   }
 
 
-/*
-
-  # Deploy Agent package
-  deploy::file { $agent_pkg:
-    target  => '/app/caapm',
-    url     => "${puppet_src}/agents",
-    owner   => $owner,
-    group   => $group,
-#    strip   => true,
-  }
-
- */
-
-
 
 
   # download the required agents
