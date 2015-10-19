@@ -342,6 +342,9 @@ class caapm (
       $osgi_pkg_name   = "osgiPackages.v${version}.windows.zip"
       $pkg_bin         = "introscope${version}${::operatingsystem}AMD64.exe"
     }
+    default: { 
+      notify {"did not set osgi_pkg_bin and pkg_bin - ::operatingsystem is = $::operatingsystem":} 
+    }
   }
   if($osgi_pkg_name == undef) {
     fail('Unable to set osgi_pkg_name')
