@@ -347,9 +347,9 @@ class caapm (
     }
   }
   notify {"osgi_pkg_name = $osgi_pkg_name":}
-#  if($osgi_pkg_name == undef) {
-#    fail('Unable to set osgi_pkg_name')
-#  }
+  if($osgi_pkg_name == undef) {
+    fail('Unable to set osgi_pkg_name')
+  }
 
 
   file { $stage_dir:
