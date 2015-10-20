@@ -342,11 +342,6 @@ class caapm (
       $pkg_bin         = "introscope${version}${::operatingsystem}AMD64.exe"
     }
   }
-  if($osgi_pkg_name == undef) {
-    notify {"::operatingsystem is = $::operatingsystem":}
-    fail('Unable to set osgi_pkg_name')
-  }
-
 
   file { $stage_dir:
     ensure  => 'directory',
