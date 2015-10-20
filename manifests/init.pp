@@ -332,7 +332,6 @@ class caapm (
   $pkg_name                    = "CA APM Introscope ${version}"
 
 
-  notify {"::operatingsystem is = $::operatingsystem":}
   case $::operatingsystem {
     CentOS, RedHat, OracleLinux, Ubuntu, Debian, SLES, Solaris: {
       $osgi_pkg_name   = "osgiPackages.v${version}.unix.tar"
@@ -344,6 +343,7 @@ class caapm (
     }
   }
   if($osgi_pkg_name == undef) {
+    notify {"::operatingsystem is = $::operatingsystem":}
     fail('Unable to set osgi_pkg_name')
   }
 
