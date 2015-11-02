@@ -21,8 +21,13 @@ class caapm::agent::install inherits caapm::agent {
     notify =>  Exec["untar $agent_pkg"],
   }
 
+#  notify {"Install parameters = owner: $owner, agent_pkg: $agent_pkg, stage_dir: $stage_dir, agents_dir: $agents_dir":} ->
+
   exec { "untar $agent_pkg":
-    command   => "/bin/tar xfz ${stage_dir}/${agent_pkg} -C ${agents_dir}",
+    cwd       => "${agents_dir}",
+    creates   => "${agents_dir}/epagent",
+    command   => "tar -xfz ${stage_dir}/${agent_pkg}",
+    path      => '/bin:/usr/bin',
 #    creates   => ["${agents_dir}/epagent", "${agents_dir}/wily", "${agents_dir}/ppwebserver", "${agents_dir}/APMCommandCenterController"],
     logoutput => true,
     returns   => [0,1],
@@ -30,9 +35,23 @@ class caapm::agent::install inherits caapm::agent {
     user      => $owner,
     group     => $group,
     umask     => '0022',
-    refreshonly => true,
+#    refreshonly => true,
     require   => File[$agent_pkg],
   }
+
+
+/*
+
+  # Deploy Agent package
+  deploy::file { $agent_pkg:
+    target  => '/app/caapm',
+    url     => "${puppet_src}/agents",
+    owner   => $owner,
+    group   => $group,
+#    strip   => true,
+  }
+
+ */
 
 
 

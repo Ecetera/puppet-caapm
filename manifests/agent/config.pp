@@ -11,7 +11,7 @@ class caapm::agent::config inherits caapm::agent {
     notify {"Running agent::config with assigned_collector_group = $assigned_collector_group":}
   }
 
-
+  $profiles = ["WebSphere"]
 
 #  notify {"Running with agent::config":}
 
@@ -25,44 +25,58 @@ class caapm::agent::config inherits caapm::agent {
     }
 
     exec { 'update_epagent_properties':
-      cwd         => "${agents_dir}/epagent/config",
-      command     => '/bin/cp -p IntroscopeEPAgent.ppmanaged IntroscopeEPAgent.properties',
-      notify  => Service['epagent'],
+      cwd       => "${agents_dir}/epagent/config",
+      command   => '/bin/cp -p IntroscopeEPAgent.ppmanaged IntroscopeEPAgent.properties',
+      notify    => Exec['logs_folder']
     }
+
+    # ensure /var/caapm/logs exist; /app/caapm/epagent/logs links there
+    exec { 'logs_folder':
+      cwd     => "${agents_dir}",
+      creates => "${logs_dir}",
+      path    => '/bin:/usr/bin',
+      command => "mkdir ${logs_dir}",
+      user    => $owner,
+      umask   => '0022',
+      #notify  => Service['epagent']
+    }
+
+#    ->
+#    profile { $profiles: }
 
 
 #  $profiles = ["BRTM","Default-OSGI","Default","HPJVM","Interstage","JBoss","SunOne","Tomcat-OSGI","Tomcat","WebLogic","WebSphere"]
-  $profiles = ["WebSphere"]
 
-define profile (
-  $version = "${caapm::agent::version}",
-  $agents_dir = "${caapm::agent::agents_dir}",
-){
-  if $version == undef {
-          fail('Valid version not provided')
-  }
 
-  notify {"Running agent::config with ${name} profile":}
+#define profile (
+#  $version = "${caapm::agent::version}",
+#  $agents_dir = "${caapm::agent::agents_dir}",
+#){
+#  if $version == undef {
+#          fail('Valid version not provided')
+#  }
+#
+#  notify {"Running agent::config with ${name} profile":}
+#
+#  file { "applying ${name} profile":
+#    ensure => present,
+#    path   => "${agents_dir}/wily/core/config/IntroscopeAgent-${name}.ppmanaged",
+#    force  => true,
+#    content => template("${module_name}/${version}/agent/IntroscopeAgent-${name}.profile"),
+#    owner  => $owner,
+#    group  => $group,
+#    mode   => $mode,
+#    notify =>  Exec["updating ${name} profile"],
+#  }
+#
+#  exec { "updating ${name} profile":
+#    cwd         => "${agents_dir}/wily/core/config",
+#    command     => "/bin/cp -p IntroscopeAgent-${name}.ppmanaged IntroscopeAgent-${name}.profile",
+#    user        => $owner,
+#  }
+#}
 
-  file { "applying ${name} profile":
-    ensure => present,
-    path   => "${agents_dir}/wily/core/config/IntroscopeAgent-${name}.ppmanaged",
-    force  => true,
-    content => template("${module_name}/${version}/agent/IntroscopeAgent-${name}.profile"),
-    owner  => $owner,
-    group  => $group,
-    mode   => $mode,
-    notify =>  Exec["updating ${name} profile"],
-  }
 
-  exec { "updating ${name} profile":
-    cwd         => "${agents_dir}/wily/core/config",
-    command     => "/bin/cp -p IntroscopeAgent-${name}.ppmanaged IntroscopeAgent-${name}.profile",
-    user        => $owner,
-  }
-}
-
-  profile { $profiles: }
 
 
 
