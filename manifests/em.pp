@@ -254,6 +254,8 @@ class caapm::em (
   $puppet_src     = "puppet:///modules/${module_name}",
   $notify_enabled = $::caapm::notify_enabled,
 
+  $powerpacks     = $::caapm::powerpacks,
+
 )
 # inherits caapm::defaults
 {

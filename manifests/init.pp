@@ -275,6 +275,8 @@ class caapm (
   $puppet_src      = "puppet:///modules/${module_name}",
   $notify_enabled  = $caapm::defaults::notify_enabled,
 
+  $powerpacks      = undef
+
 
 ) inherits caapm::defaults {
 
