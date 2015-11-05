@@ -85,32 +85,14 @@ class caapm::em::config inherits caapm {
       notify  => Service[$em_service_name],
     }
 
+    if $pg_ssl {
 
-    if $cluster_role == 'MOM' {
-      if $webserver_dir == 'webapps' {
-        file { "${em_home}/webapps/IntroscopeHelp.war":
-          ensure  => present,
-          force   => true,
-          source  => "${puppet_src}/${version}/IntroscopeHelp.war",
-          owner   => $owner,
-          group   => $group,
-        }
-      } else {
-        file { "${webserver_dir}/IntroscopeHelp.war":
-          ensure  => present,
-          force   => true,
-          source  => "${puppet_src}/${version}/IntroscopeHelp.war",
-          owner   => $owner,
-          group   => $group,
-          require => File[$webserver_dir],
-        }
-        file { $webserver_dir:
-          ensure => 'directory',
-          owner   => $owner,
-          group   => $group,
-          mode    => $mode,
-        }
+      file_line { 'enable_https_introscope':
+        path    => "${em_home}/config/em-jetty-config.xml",
+        line    => "<Set name=\"port\">${default_port}</Set>",
+        match   => "<Set name=\"port\">8444</Set>",
       }
+
     }
 
   }
@@ -134,6 +116,15 @@ class caapm::em::config inherits caapm {
       mode    => $mode,
     }
 
+    if $pg_ssl {
+
+      file_line { 'enable_https_webview':
+        path    => "${em_home}/config/webview-jetty-config.xml",
+        line    => "<Set name=\"port\">${webview_port}</Set>",
+        match   => "<Set name=\"port\">8443</Set>",
+      }
+
+    }
   }
 
 }
