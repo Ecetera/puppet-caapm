@@ -506,7 +506,7 @@ inherits caapm
 
   anchor {
     'caapm::agent::begin':
-       before  => Class['caapm::agent::install','caapm::agent::config'],
+       before  => Class['caapm::agent::install','caapm::agent::config','caapm::agent::profile'],
        notify  => Class['caapm::agent::service'];
     'caapm::agent::end':
        require => Class['caapm::agent::service'];
