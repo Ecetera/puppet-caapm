@@ -345,6 +345,11 @@ class caapm::agent (
     "WebLogic|XML Subsystem|SAX Transformer:Creation Count",
     ],    # chuahm - not validated
 
+  $metricAging_exclude_for_default    = [
+    'Threads*',
+    'ChangeDetector.AgentID'
+  ],
+
   # Servlet Header Decorator
   $decorator_enabled       = false,
   $decorator_security      = 'encrypted',
@@ -381,11 +386,20 @@ class caapm::agent (
 
   # Business Recording
   $bizRecording_enabled       = true,
-  $bizdef_matchPost           = undef,
+  $bizdef_matchPost           = 'before',           # never/after/before
   $bizdef_matchPost_vetoedUri = undef,
 
   # Powerpack for SiteMinder Web Access Manager
   $siteMinder_webAgent_traceThreshold = '5000',
+
+  # SOA Extension For Tibco BW Properties
+  $metricAging_metricExclude_ignore_Xplus1                = undef,
+  $soaextension_tibcobw_hawkmonitor_enabled               = false,
+  $soaextension_tibcobw_hawkmointor_frequency             = '30000',
+  $soaextension_tibcobw_jobmonitor_enabled                = false,
+  $soaextension_tibcobw_jobmointor_frequency              = '30000',
+  $soaextension_tibcobw_mbbs_enabled                      = true,
+  $soaextension_tibcobw_correlationserialization_enabled  = true,
 
   # Garbage collection and Memory Monitoring
   $gcMonitor_enable = true,
