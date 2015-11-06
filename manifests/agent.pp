@@ -496,10 +496,12 @@ inherits caapm
 
   include caapm::agent::install
   include caapm::agent::config
+  include caapm::agent::profile
   include caapm::agent::service
 
   Class['caapm::agent::install'] ->
   Class['caapm::agent::config']  ->
+  Class['caapm::agent::profile']  ->
   Class['caapm::agent::service']
 
   anchor {
