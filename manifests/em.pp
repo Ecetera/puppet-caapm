@@ -255,6 +255,8 @@ class caapm::em (
   $notify_enabled = $::caapm::notify_enabled,
 
   $powerpacks     = $::caapm::powerpacks,
+  $web_ciphersuites = $::caapm::web_ciphersuites,
+
 
 )
 # inherits caapm::defaults

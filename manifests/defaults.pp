@@ -106,7 +106,7 @@ class caapm::defaults {
   $lic_file                    = "${::ipaddress}.em.lic"
   $failed_log                  = 'silent.install.failed.txt'
 
-
+  $web_ciphersuites            = '<Set name="cipherSuites"><Array type="java.lang.String"><Item>SSL_DH_anon_WITH_RC4_128_MD5</Item></Array></Set>'
 
 # defaults for IntroscopeEnterpriseManager.properties
   $webserver_dir               = 'webapps'

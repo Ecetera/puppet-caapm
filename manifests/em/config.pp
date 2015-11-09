@@ -89,7 +89,7 @@ class caapm::em::config inherits caapm {
 
       file_line { 'enable_https_introscope':
         path    => "${em_home}/config/em-jetty-config.xml",
-        line    => "<Set name=\"port\">${web_port}</Set>",
+        line    => "<Set name=\"port\">${web_port}</Set>${web_ciphersuites}",
         match   => "<Set name=\"port\">8444</Set>",
       }
 
@@ -120,7 +120,7 @@ class caapm::em::config inherits caapm {
 
       file_line { 'enable_https_webview':
         path    => "${em_home}/config/webview-jetty-config.xml",
-        line    => "<Set name=\"port\">${webview_port}</Set>",
+        line    => "<Set name=\"port\">${webview_port}</Set>${web_ciphersuites}",
         match   => "<Set name=\"port\">8443</Set>",
       }
 
