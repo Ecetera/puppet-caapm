@@ -11,7 +11,7 @@ class caapm::agent::config inherits caapm::agent {
     notify {"Running agent::config with assigned_collector_group = $assigned_collector_group":}
   }
 
-  $profiles = ["WebSphere"]
+  $profiles = ['WebSphere','Default']
 
 #  notify {"Running with agent::config":}
 

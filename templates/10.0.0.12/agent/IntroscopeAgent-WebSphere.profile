@@ -1335,7 +1335,7 @@ introscope.agent.appmap.metrics.enabled=<%= @appmap_metrics_enabled%>
 
 #Enable/disable sending additional information for integration with catalyst
 #default value is false
-#introscope.agent.appmap.catalystIntegration.enabled=<%= @appmap_catalystIntegration_enabled%>
+#introscope.agent.appmap.catalystIntegration.enabled=<%= @appmap_catalystIntegration_enabled %>
 
 #Set the buffer size for app map data
 #default value is 1000. Must be a positive integer. If the value is set to 0, the buffer is 
@@ -1416,7 +1416,7 @@ introscope.agent.bizRecording.enabled=<%= @bizRecording_enabled %>
 # This option may require to define which urls are using directly the input stream
 # or the reader of the request, and therefore must be vetoed to be matched against 
 # post parameters. 
-introscope.agent.bizdef.matchPost = before
+introscope.agent.bizdef.matchPost = <%= @bizdef_matchPost %>
 
 # Following is list of pre configured URLs (with out host part) that are excluded from post parameter
 # processing. Usually because it is known that they access servlet stream directly. 

@@ -345,6 +345,11 @@ class caapm::agent (
     "WebLogic|XML Subsystem|SAX Transformer:Creation Count",
     ],    # chuahm - not validated
 
+  $metricAging_exclude_for_default    = [
+    'Threads*',
+    'ChangeDetector.AgentID'
+  ],
+
   # Servlet Header Decorator
   $decorator_enabled       = false,
   $decorator_security      = 'encrypted',
@@ -381,11 +386,20 @@ class caapm::agent (
 
   # Business Recording
   $bizRecording_enabled       = true,
-  $bizdef_matchPost           = undef,
+  $bizdef_matchPost           = 'before',           # never/after/before
   $bizdef_matchPost_vetoedUri = undef,
 
   # Powerpack for SiteMinder Web Access Manager
   $siteMinder_webAgent_traceThreshold = '5000',
+
+  # SOA Extension For Tibco BW Properties
+  $metricAging_metricExclude_ignore_Xplus1                = undef,
+  $soaextension_tibcobw_hawkmonitor_enabled               = false,
+  $soaextension_tibcobw_hawkmointor_frequency             = '30000',
+  $soaextension_tibcobw_jobmonitor_enabled                = false,
+  $soaextension_tibcobw_jobmointor_frequency              = '30000',
+  $soaextension_tibcobw_mbbs_enabled                      = true,
+  $soaextension_tibcobw_correlationserialization_enabled  = true,
 
   # Garbage collection and Memory Monitoring
   $gcMonitor_enable = true,
@@ -482,15 +496,17 @@ inherits caapm
 
   include caapm::agent::install
   include caapm::agent::config
+  include caapm::agent::profile
   include caapm::agent::service
 
   Class['caapm::agent::install'] ->
   Class['caapm::agent::config']  ->
+  Class['caapm::agent::profile']  ->
   Class['caapm::agent::service']
 
   anchor {
     'caapm::agent::begin':
-       before  => Class['caapm::agent::install','caapm::agent::config'],
+       before  => Class['caapm::agent::install','caapm::agent::config','caapm::agent::profile'],
        notify  => Class['caapm::agent::service'];
     'caapm::agent::end':
        require => Class['caapm::agent::service'];
