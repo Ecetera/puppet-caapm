@@ -90,7 +90,7 @@ class caapm::em::config inherits caapm {
       file_line { 'enable_https_introscope':
         path    => "${em_home}/config/em-jetty-config.xml",
         line    => "<Set name=\"port\">${web_port}</Set>",
-        match   => "<Set name=\"port\">5001</Set>",
+        match   => "<Set name=\"port\">8444</Set>",
       }
 
     }
