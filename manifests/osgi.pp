@@ -38,13 +38,13 @@ class caapm::osgi (
     mode   => $mode,
   }
 
-    notify {"Running osgi.pp with osgi_pkg_name = $osgi_pkg_name":}
-    notify {"Running osgi.pp with ::caapm::osgi_pkg_name = $::caapm::osgi_pkg_name":}
-    notify {"Running osgi.pp with ::osgi_pkg_name = $::osgi_pkg_name":}
+#    notify {"Running osgi.pp with osgi_pkg_name = $osgi_pkg_name":}
+#    notify {"Running osgi.pp with ::caapm::osgi_pkg_name = $::caapm::osgi_pkg_name":}
+#    notify {"Running osgi.pp with ::osgi_pkg_name = $::osgi_pkg_name":}
 
 
   # download the osgi package
-/*
+
    file { $osgi_pkg_name:
     path   => "${stage_dir}/${osgi_pkg_name}",
     source => "${puppet_src}/${version}/${osgi_pkg_name}",
@@ -52,5 +52,4 @@ class caapm::osgi (
     group   =>  $group,
     mode    =>  $mode,
   }
-*/
 }
