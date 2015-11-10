@@ -39,8 +39,8 @@ class caapm::osgi (
   }
 
     notify {"Running osgi.pp with osgi_pkg_name = $osgi_pkg_name":}
-    notify {"Running osgi.pp with osgi_pkg_name = $::caapm::osgi_pkg_name":}
-    notify {"Running osgi.pp with osgi_pkg_name = $::osgi_pkg_name":}
+    notify {"Running osgi.pp with ::caapm::osgi_pkg_name = $::caapm::osgi_pkg_name":}
+    notify {"Running osgi.pp with ::osgi_pkg_name = $::osgi_pkg_name":}
 
 
   # download the osgi package
