@@ -39,7 +39,7 @@ class caapm::osgi (
   }
 
   # download the osgi package
-  file { $osgi_pkg_name:
+  file { $::caapm::osgi_pkg_name:
     path   => "${stage_dir}/${osgi_pkg_name}",
     source => "${puppet_src}/${version}/${osgi_pkg_name}",
     owner   =>  $owner,
