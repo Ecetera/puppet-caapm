@@ -1075,11 +1075,11 @@ introscope.agent.metricAging.numberTimeslices=<%= @metricAging_numberTimeslices 
 #
 # You can choose to ignore metrics from removal by adding the metric name or metric filter to the list below.  
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.metricAging.metricExclude.ignore.0=<%= @metricAging_metricExclude_ignore_0 %>
+#introscope.agent.metricAging.metricExclude.ignore.0=<%= @metricAging_metricExclude_ignore_0 %>
 
 
 # To ignore ChangeDetector.AgentID  metric from metric aging.
-introscope.agent.metricAging.metricExclude.ignore.1=<%= @metricAging_metricExclude_ignore_1 %>
+#introscope.agent.metricAging.metricExclude.ignore.1=<%= @metricAging_metricExclude_ignore_1 %>
 
 <% @metricAging_exclude_for_default.to_enum.each_with_index do |val, idx| -%>
 introscope.agent.metricAging.metricExclude.ignore.<%= idx %>=<%= val %>

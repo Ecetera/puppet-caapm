@@ -545,7 +545,7 @@ introscope.agent.jmx.name.jsr77.disable=<%= @jsr77_disable %>
 # Introscope uses default conversion method for WebLogic 9.x onwards since
 # it does not have universally available primary keys.
 # You must restart the managed application before changes to this property take effect.
-#introscope.agent.jmx.name.primarykeys=<%= @jmx_name_primarykeys_websphere %>
+#introscope.agent.jmx.name.primarykeys=<%= @jmx_name_primarykeys_weblogic %>
 
 # Controls which JMX data is gathered - a comma-separated
 # list of desired keywords  If the Introscope metric name contains 
@@ -1167,7 +1167,7 @@ introscope.autoprobe.deepinheritance.auto.turnoff.maxtime.total=<%= @autoprobe_d
 #
 # Enable/disable the metric agent aging feature. 
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.metricAging.turnOn=<%= @metricAging_turnOn %>
+introscope.agent.metricAging.turnOn=<%= @metricAging_enable %>
 #
 # The time interval in seconds when metrics are checked for removal
 # You must restart the managed application before changes to this property take effect.
@@ -1184,32 +1184,14 @@ introscope.agent.metricAging.numberTimeslices=<%= @metricAging_numberTimeslices 
 #
 # You can choose to ignore metrics from removal by adding the metric name or metric filter to the list below.  
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.metricAging.metricExclude.ignore.0=<%= @metricAging_metricExclude_ignore_0 %>
+#introscope.agent.metricAging.metricExclude.ignore.0=<%= @metricAging_metricExclude_ignore_0 %>
 
 # To ignore ChangeDetector.AgentID  metric from metric aging.
-introscope.agent.metricAging.metricExclude.ignore.1=<%= @metricAging_metricExclude_ignore_1 %>
+#introscope.agent.metricAging.metricExclude.ignore.1=<%= @metricAging_metricExclude_ignore_1 %>
 
-#WebLogic Server Power Pack exclude list.
-#Add the following metrics to the metric aging exclude list, 
-#to exclude metric involving increment and decrement counters from metric aging:
-
-#introscope.agent.metricAging.metricExclude.ignore.2=<%= @metricAging_metricExclude_ignore_2 %>
-#introscope.agent.metricAging.metricExclude.ignore.3=<%= @metricAging_metricExclude_ignore_3 %>
-#introscope.agent.metricAging.metricExclude.ignore.4=<%= @metricAging_metricExclude_ignore_4 %>
-#introscope.agent.metricAging.metricExclude.ignore.5=<%= @metricAging_metricExclude_ignore_5 %>
-#introscope.agent.metricAging.metricExclude.ignore.6=<%= @metricAging_metricExclude_ignore_6 %>
-#introscope.agent.metricAging.metricExclude.ignore.7=<%= @metricAging_metricExclude_ignore_7 %>
-#introscope.agent.metricAging.metricExclude.ignore.8=<%= @metricAging_metricExclude_ignore_8 %>
-#introscope.agent.metricAging.metricExclude.ignore.9=<%= @metricAging_metricExclude_ignore_9 %>
-#introscope.agent.metricAging.metricExclude.ignore.10=<%= @metricAging_metricExclude_ignore_10 %>
-#introscope.agent.metricAging.metricExclude.ignore.11=<%= @metricAging_metricExclude_ignore_11 %>
-#introscope.agent.metricAging.metricExclude.ignore.12=<%= @metricAging_metricExclude_ignore_12 %>
-#introscope.agent.metricAging.metricExclude.ignore.13=<%= @metricAging_metricExclude_ignore_13 %>
-#introscope.agent.metricAging.metricExclude.ignore.14=<%= @metricAging_metricExclude_ignore_14 %>
-#introscope.agent.metricAging.metricExclude.ignore.15=<%= @metricAging_metricExclude_ignore_15 %>
-#introscope.agent.metricAging.metricExclude.ignore.16=<%= @metricAging_metricExclude_ignore_16 %>
-
-
+<% @metricAging_exclude_for_weblogic.to_enum.each_with_index do |val, idx| -%>
+introscope.agent.metricAging.metricExclude.ignore.<%= idx %>=<%= val %>
+<% end -%>
 
 #########################################
 # Servlet Header Decorator
@@ -1222,7 +1204,7 @@ introscope.agent.metricAging.metricExclude.ignore.1=<%= @metricAging_metricExclu
 # headers.  ServletHeaderDecorator attaches the GUID to each transaction 
 # and inserts the GUID into an HTTP header, x-wily-info
 # This enables the correlation of transaction between Wily CEM and Wily Introscope
-introscope.agent.decorator.enabled=<%= @agent_decorator_enabled %>
+introscope.agent.decorator.enabled=<%= @decorator_enabled %>
 #######################
 # Security
 #
@@ -1231,7 +1213,7 @@ introscope.agent.decorator.enabled=<%= @agent_decorator_enabled %>
 # encrypted - header data is encrypted
 # default is encrypted
 #
-introscope.agent.decorator.security=<%= @agent_decorator_security %>
+introscope.agent.decorator.security=<%= @decorator_security %>
 
 
 #########################################
@@ -1251,25 +1233,25 @@ introscope.changeDetector.enable=<%= @changeDetector_enable %>
 # ================
 # The root directory is the folder where ChangeDetector creates its local cache files. 
 # Use a backslash to escape the backslash character, as in the example.   
-#introscope.changeDetector.rootDir=c:\\sw\\AppServer\\wily\\change_detector
+#introscope.changeDetector.rootDir=<%= @changeDetector_rootDir %>
 #######################
 # Startup wait time 
 #
 # ================
 # Time to wait after agent starts before trying to connect to the Enterprise manager
-#introscope.changeDetector.isengardStartupWaitTimeInSec=15
+#introscope.changeDetector.isengardStartupWaitTimeInSec=<%= @changeDetector_isengardStartupWaitTime %>
 #######################
 # Interval between connection attempts
 #
 # ================
 # Specify the number of seconds to wait before retrying connection to the Enterprise manager
-#introscope.changeDetector.waitTimeBetweenReconnectInSec=10
+#introscope.changeDetector.waitTimeBetweenReconnectInSec=<%= @changeDetector_waitTimeBetweenReconnect %>
 #######################
 # Agent ID
 #
 # ================
 # A string used by ChangeDetector to identify this agent
-#introscope.changeDetector.agentID=SampleApplicationName
+introscope.changeDetector.agentID=<%= @changeDetector_agentId %>
 #
 #######################
 # Data source configuration file path 
@@ -1277,7 +1259,7 @@ introscope.changeDetector.enable=<%= @changeDetector_enable %>
 # ================
 # The absolute or relative path to the ChangeDetector datasources configuration file.
 # Use a backslash to escape the backslash character.   
-#introscope.changeDetector.profile=../../common/ChangeDetector-config.xml
+introscope.changeDetector.profile=<%= @changeDetector_profile %>
 #
 #######################
 # Data source configuration file directory
@@ -1287,7 +1269,7 @@ introscope.changeDetector.enable=<%= @changeDetector_enable %>
 # Use a backslash to escape the backslash character.
 # All datasource configuration file(s) from this directory will be used in addition
 # to any file specified by introscope.changeDetector.profile property.
-#introscope.changeDetector.profileDir=changeDetector_profiles
+#introscope.changeDetector.profileDir=<%= @changeDetector_profileDir %>
 #
 #######################
 # Data Compression 
@@ -1299,11 +1281,11 @@ introscope.changeDetector.enable=<%= @changeDetector_enable %>
 # Default property value is "false"
 # You must restart the managed application before changes to this property take effect.
 #
-#introscope.changeDetector.compressEntries.enable=true
+#introscope.changeDetector.compressEntries.enable=<%= @changeDetector_compressEntries_enable %>
 #
 # The following property defines the batch size for the compression job
 # You must restart the managed application before changes to this property take effect.
-#introscope.changeDetector.compressEntries.batchSize=1000
+#introscope.changeDetector.compressEntries.batchSize=<%= @changeDetector_compressEntries_batchSize %>
 
 
 #######################
@@ -1319,7 +1301,7 @@ introscope.agent.appmap.metrics.enabled=<%= @appmap_metrics_enabled %>
 
 #Enable/disable sending additional information for integration with catalyst
 #default value is false
-#introscope.agent.appmap.catalystIntegration.enabled=true
+#introscope.agent.appmap.catalystIntegration.enabled=<%= @appmap_catalystIntegration_enabled %>
 
 #Set the buffer size for app map data
 #default value is 1000. Must be a positive integer. If the value is set to 0, the buffer is 
@@ -1335,7 +1317,7 @@ introscope.agent.appmap.queue.period=<%= @appmap_queue_period %>
 # backend nodes.
 #Default value is false.
 # Change to this property takes effect immediately and do not require the managed application to be restarted.
-#introscope.agent.appmap.intermediateNodes.enabled=true
+introscope.agent.appmap.intermediateNodes.enabled=<%= @appmap_intermediateNodes_enabled %>
 
 #For the AppMapMarkerTracers, we can set the properties that define if they sending
 # Class or MethodClass level information
@@ -1374,7 +1356,7 @@ introscope.agent.sockets.managed.reportMethodAppEdge=<%= @appmap_sockets_managed
 
 #Enables Managed sockets to report Class level Business Txn edge to Application map 
 #Default value false 
-introscope.agent.sockets.managed.reportClassBTEdge=<%= @appmap_sockets_managed_reportClassBTEdge %>
+introscope.agent.sockets.managed.reportClassBTEdge=<%= @appmap_sockets_managed_reportClassBtEdge %>
 
 #Enables Managed sockets to report Method level Business Txn edge to Application map 
 #Default value true
@@ -1401,13 +1383,13 @@ introscope.agent.bizRecording.enabled=<%= @bizRecording_enabled %>
 # This option may require to define which urls are using directly the input stream
 # or the reader of the request, and therefore must be vetoed to be matched against 
 # post parameters. 
-introscope.agent.bizdef.matchPost = before
+introscope.agent.bizdef.matchPost = <%= @bizdef_matchPost %>
 
 # Following is list of pre configured URLs (with out host part) that are excluded from post parameter
 # processing. Usually because it is known that they access servlet stream directly. 
 # This is a comma separated list, where each item can optionally end with '*' to denote
 # that it's a URL prefix. '*' is not allowed in any other position than end.
-introscope.agent.bizdef.matchPost.vetoedURI=
+introscope.agent.bizdef.matchPost.vetoedURI=<%= @bizdef_matchPost_vetoedUri %>
 
 #######################
 # Garbage collection and Memory Monitoring 
@@ -1416,26 +1398,27 @@ introscope.agent.bizdef.matchPost.vetoedURI=
 # Enable/disable Garbage Collection monitor
 # Changes to following property take effect immediately and do not require the managed application to be restarted.
 
-introscope.agent.gcmonitor.enable=<%= @gcmonitor_enable %>
+introscope.agent.gcmonitor.enable=<%= @gcMonitor_enable %>
+
 
 ######################################################
 # Thread Dump Collection
 ######################################################
 
 # Enable/disable Thread Dump Feature support.
-introscope.agent.threaddump.enable=<%= @threaddump_enable %>
+introscope.agent.threaddump.enable=<%= @threadDump_enable %>
 
 # Configure the maximum stack elements the Thread dump can have,
 # If the user configures the max stack elements beyond 25000,
 # The property is reset to the default value of 12000
 
-introscope.agent.threaddump.MaxStackElements=<%= @threaddump_MaxStackElements %>
+introscope.agent.threaddump.MaxStackElements=<%= @threadDump_maxStackElements %>
 
 # Enable/disable DeadLock poller Metric support.
-introscope.agent.threaddump.deadlockpoller.enable=<%= @threaddump_deadlockpoller_enable %>
+introscope.agent.threaddump.deadlockpoller.enable=<%= @threadDump_deadLockpoller_enable %>
 
 # The property determines the interval in which the Agent queries for any deadlock in the system.
-introscope.agent.threaddump.deadlockpollerinterval=<%= @threaddump_deadlockpollerinterval %>
+introscope.agent.threaddump.deadlockpollerinterval=<%= @threadDump_deadLockPollerInterval %>
 
 #######################
 # Primary network interface selector
@@ -1446,7 +1429,7 @@ introscope.agent.threaddump.deadlockpollerinterval=<%= @threaddump_deadlockpolle
 # interface identity.
 # Change to this property takes effect immediately and do not require the managed application to be restarted.
 #
-#introscope.agent.primary.net.interface.name=eth0.0
+#introscope.agent.primary.net.interface.name=<%= @primary_net_interface_name %>
 
 ###################
 # Default Backend Legacy
@@ -1457,7 +1440,7 @@ introscope.agent.threaddump.deadlockpollerinterval=<%= @threaddump_deadlockpolle
 # 9.0.x release. By default, the value of the property of false.
 # You must restart the managed application before changes to this property take effect.
 # 
-#introscope.agent.configuration.defaultbackends.legacy=false
+#introscope.agent.configuration.defaultbackends.legacy=<%= @configuration_defaultBackends_legacy %>
 
 
 #######################
@@ -1467,30 +1450,30 @@ introscope.agent.threaddump.deadlockpollerinterval=<%= @threaddump_deadlockpolle
 # This property is to evaluate the number of elements in the transaction structure at the period interval,
 # to determine if "emergency aging" is required.
 # Default value is "30000"
-# com.wily.introscope.agent.harvesting.transaction.creation.checkperiod=30000       
+# com.wily.introscope.agent.harvesting.transaction.creation.checkperiod=<%= @harvesting_transaction_creation_checkperiod %>
 
 # This property specifies the period in milliseconds that the aging for the transaction structure is checked, 
 # Default value is "30000"
-# com.wily.introscope.agent.harvesting.transaction.aging.checkperiod=30000
+# com.wily.introscope.agent.harvesting.transaction.aging.checkperiod=<%= @harvesting_transaction_aging_checkperiod %>
  
 # This property specifies the minimum amount in milliseconds that a tree in the transaction structure must be inactive before it is purged.
 # The inactivity does not imply that it will be aged out.
 # Default value is "60000"
-# com.wily.introscope.agent.harvesting.transaction.aging.period=60000 
+# com.wily.introscope.agent.harvesting.transaction.aging.period=<%= @harvesting_transaction_aging_period %>
              
 # This property sets the maximum percentage increment in the size of the structure that is allowed to happen before aging of the transaction structure is forced
 # If the change in the number of nodes between the aging periods is more than this percentage value, then checking for aging occurs
 # if set to a small value, the transaction structure will be aged more frequently, and the memory utilization of the agent will be therefore 
 # kept lower.
 # Default value is "5", i.e. 5%
-# com.wily.introscope.agent.harvesting.transaction.aging.attentionlevel.percentage=5        
+# com.wily.introscope.agent.harvesting.transaction.aging.attentionlevel.percentage=<%= @harvesting_transaction_aging_attentionLevel %>
  
 # This property sets the maximum absolute increment in the size of the structure that is allowed to happen before aging of the transaction structure is forced
 # If the change in the number of nodes between the aging periods is more than this percentage value, then checking for aging occurs
 # if set to a small value, the transaction structure will be aged more frequently, and the memory utilization of the agent will be therefore 
 # kept lower.
 # Default value is "100000"
-# com.wily.introscope.agent.harvesting.transaction.attentionlevel.absolute=100000
+# com.wily.introscope.agent.harvesting.transaction.attentionlevel.absolute=<%= @harvesting_transaction_attentionlevel_absolute %>
 
 # This property is used to avoid spikes in memory utilization of the transaction structure.
 # If there is an increase of elements at any time bigger than a third of this value,
@@ -1498,12 +1481,12 @@ introscope.agent.threaddump.deadlockpollerinterval=<%= @threaddump_deadlockpolle
 # value specified in com.wily.introscope.agent.harvesting.transaction.aging.period,  and will likely reduce the amount of data sent by the agent.
 # Only modify this value if the memory requirement are very strict. 
 # Default value is "100000"
-# com.wily.introscope.agent.harvesting.transaction.creation.attentionlevel.absolute=100000
+# com.wily.introscope.agent.harvesting.transaction.creation.attentionlevel.absolute=<%= @harvesting_transaction_creation_attentionLevel_absolute %>
 
 # This property specifies the maximum duration in milliseconds of the aging process. It is used to avoid long aging process when 
 # resources available are not sufficient. 
 # default value if 30000
-# com.wily.introscope.agent.harvesting.transaction.aging.duration.max=30000
+# com.wily.introscope.agent.harvesting.transaction.aging.duration.max=<%= @harvesting_transaction_aging_duration_max %>
  
 #######################
 #  Transaction Structure properties
@@ -1516,13 +1499,13 @@ com.wily.introscope.agent.blame.transaction.doTransactionTrace=<%= @blame_transa
 # Enable/disable high concurrency mode for all repositories.
 # Set to true, it will use more memory but may give more throughput
 # Default value is "false"
-# com.wily.introscope.agent.blame.highconcurrency.enabled=false
+# com.wily.introscope.agent.blame.highconcurrency.enabled=<%= @blame_highConcurrency_enabled %>
 
 # This property defines the number of stripes in the striped repositories
 # It works when the high concurrency mode is on,
 # which is "com.wily.introscope.agent.blame.highconcurrency.enabled=true"
 # Default value is "16"
-# com.wily.introscope.agent.blame.highconcurrency.stripes=16
+# com.wily.introscope.agent.blame.highconcurrency.stripes=<%= @blame_highConcurrency_stripes %>
 
 # Enable using the same accumulator for all Blame point metrics, independently 
 # from they position in the transaction structure. This is using less memory but also 
@@ -1530,16 +1513,16 @@ com.wily.introscope.agent.blame.transaction.doTransactionTrace=<%= @blame_transa
 # Default value is "true". Set to false only if you detect sever throughput degradation.
 # You will need to wait for the transaction structure and the metrics to age for this property
 # to have effect 
-# com.wily.introscope.agent.blame.com.wily.introscope.agent.blame.usesharedaccumulators.enabled=true
+# com.wily.introscope.agent.blame.com.wily.introscope.agent.blame.usesharedaccumulators.enabled=<%= @blame_useSharedAccumulators_enabled %>
  
 # Enable/disable to removes stalls from all traces, and remove stall feature altogether.
 # Default value is "true"
-# com.wily.introscope.agent.blame.stall.trace.enabled=true
+# com.wily.introscope.agent.blame.stall.trace.enabled=<%= @blame_stall_trace_enabled %>
 
 # Enable synchronized repositories instead of compare and swap repositories
 # The synchronized repository is not used in java5 because of overhead in locking.
 # the default value is true in java 6 and above, and false for java 5. In java 5, setting to false will cause overhead
-# com.wily.introscope.agent.blame.synchronized.enabled=true
+# com.wily.introscope.agent.blame.synchronized.enabled=<%= @blame_synchronized_enabled %>
 
  
 #######################
@@ -1553,15 +1536,15 @@ com.wily.introscope.agent.blame.transaction.doTransactionTrace=<%= @blame_transa
 # Enable/disable to generate globally sustainability debug metrics.
 # Set to true, it will generate globally sustainability debug metrics that can be used to evaluate the Transaction Structure
 # Default value is "false"
-# com.wily.introscope.agent.blame.transactions.debugmetrics.enabled=false           
+com.wily.introscope.agent.blame.transactions.debugmetrics.enabled=<%= @blame_transactions_debugMetrics_enabled %>    
 
 # Enable/disable to generate sustainability metrics on the harvesting process.
 # Default value is "false"
-# com.wily.introscope.agent.harvesting.debugmetrics.enabled=false
+com.wily.introscope.agent.harvesting.debugmetrics.enabled=<%= @harvesting_debugMetrics_enabled %>    
 
 # This property is to generate the metrics for the health of the data structures in the agent.
 # Default value is "false"
-# concurrentMapPolicy.generatemetrics=false   
+concurrentMapPolicy.generatemetrics=<%= @concurrentMapPolicy_generateMetrics %> 
 
 #######################
 # Socket Clamp level property
@@ -1574,7 +1557,7 @@ com.wily.introscope.agent.blame.transaction.doTransactionTrace=<%= @blame_transa
 # You must restart the managed application before changes to this property take effect.
 # Default value is 100.
 # Warning: Increasing the value of the default setting will cause significant memory overhead.
-# com.wily.introscope.agent.sockets.clamp.level=100
+# com.wily.introscope.agent.sockets.clamp.level=<%= @agent_sockets_clamp_level %>
 
 ##############################################
 # Smart Instrumentation properties
@@ -1638,12 +1621,12 @@ introscope.agent.deep.instrumentation.level.batch.interval=<%= @deep_instrumenta
 # This property enables and disables deep component visibility into error snapshots
 # Change to this property takes effect immediately and does not require the 
 # managed application to be restarted.
-introscope.agent.deep.errorsnapshot.enable=<%= @deep_errorsnapshot_enable %>
+introscope.agent.deep.errorsnapshot.enable=<%= @deep_errorSnapshot_enable %>
 
 # This property enables / disables the deep stall snapshots.
 # Change to this property takes effect immediately and does not require the 
 # managed application to be restarted.
-introscope.agent.deep.stallsnapshot.enabled=<%= @deep_stallsnapshot_enabled %>
+introscope.agent.deep.stallsnapshot.enabled=<%= @deep_stallSnapshot_enabled %>
 
 # This property limits the number of methods that the agent can automatically Instrument without PBD instrumentation
 # You must restart the managed application before changes to this property take effect
@@ -1670,12 +1653,12 @@ introscope.agent.deep.automatic.trace.enabled=<%= @deep_automatic_trace_enabled 
 
 # Package prefix for classes to be skipped  for consideration as entry points.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.deep.entrypoint.skip.pkgs=<%= @deep_entrypoint_skil_pkgs %>
+introscope.agent.deep.entrypoint.skip.pkgs=<%= @deep_entryPoint_skip_pkgs %>
 
 # Maximum number of traced entry points that can be persisted in the AutoPersist pbd.
 # Change to this property takes effect immediately and does not require the 
 # managed application to be restarted.
-introscope.agent.deep.entrypoint.count.max=<%= @deep_entrypoint_count_max %>
+introscope.agent.deep.entrypoint.count.max=<%= @deep_entryPoint_count_max %>
 introscope.agent.deep.automatic.trace.clamp=<%= @deep_automatic_trace_clamp %>
 #######################
 #  SOA property for 2.2.6 or later versions of JAXWS Jar
@@ -1683,19 +1666,19 @@ introscope.agent.deep.automatic.trace.clamp=<%= @deep_automatic_trace_clamp %>
 # ================
 # JAXWS jar has changed some methods in 2.2.6 and later versions 
 # Uncomment this property if JAXWS version is 2.2.6 or higher
-# com.wily.introscope.agent.soa.JAXWSHeadersClassName=com.sun.xml.ws.transport.Headers
+# com.wily.introscope.agent.soa.JAXWSHeadersClassName=<%= @soa_JAXWSHeadersClassName %>
 
 # Enables or disables introscope to automatically collect  transaction traces.
 # Note: does not apply to sampled transaction traces
 # Change to this property takes effect immediately and does not require the 
 # managed application to be restarted.
-introscope.agent.deep.entrypoint.enabled=<%= @deep_entrypoint_enabled %>
+introscope.agent.deep.entrypoint.enabled=<%= @deep_entryPoint_enabled %>
 
 # Clamps the number of automatic traces collected by Introscope per 1 minute interval. 
 # Note: does not apply to sampled transaction traces.
 # Change to this property takes effect immediately and does not require the 
 # managed application to be restarted.
-introscope.agent.deep.entrypoint.count.max=<%= @deep_entrypoint_count_max %>
+introscope.agent.deep.entrypoint.count.max=<%= @deep_entryPoint_count_max %>
 
 ##############################################
 # External Business Transaction Monitoring properties
@@ -1727,29 +1710,29 @@ introscope.agent.external.biz.bt.count.max=<%= @external_biz_bt_count_max %>
 # Changes to this property require the 
 # managed application to be restarted to toggle the agent functionality.
 # The default value is false.
-#introscope.agent.brtm.enabled=<%= @brtm_enabled %>
+introscope.agent.brtm.enabled=<%= @brtm_enabled %>
 
 # Turn on/off the BRTM Functionality to automatically insert JavaScript monitoring 
 # Changes to this property require the 
 # managed application to be restarted.
 # The default value is true.
-#introscope.agent.brtm.snippetInsertionEnabled=<%= @brtm_snippetInsertionEnabled %>
+introscope.agent.brtm.snippetInsertionEnabled=<%= @brtm_snippetInsertionEnabled %>
 
 # BRTM URL Exclude List
 # Changes to this property require the 
 # managed application to be restarted to update the agent functionality.
 # The default value is empty set of urls.
 # Format Example: ["/path1","/path2"]
-#introscope.agent.brtm.excludeURLList=<%= @brtm_excludeURLList %>
+introscope.agent.brtm.excludeURLList=<%= @brtm_excludeUrlList %>
 
 # Turn on/off the BRTM Functionality to send JS Function metrics
 # The default value is false
 # Changes to this property take effect immediately and do not require the 
 # managed application to be restarted.
-#introscope.agent.brtm.jsFunctionMetricsEnabled=<%= @brtm_jsFuntionMetricsEnabled %>
+introscope.agent.brtm.jsFunctionMetricsEnabled=<%= @brtm_jsFunctionMetricsEnabled %>
 
 # Turn on/off the BRTM Geo-Location logging to the agent events
 # The default value is false
 # Changes to this property take effect immediately and do not require the 
 # managed application to be restarted.
-#introscope.agent.brtm.geolocation.enabled=<%= @brtm_geolocation_enabled %>
+introscope.agent.brtm.geolocation.enabled=<%= @brtm_geolocation_enabled %>

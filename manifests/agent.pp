@@ -181,19 +181,19 @@ class caapm::agent (
 
   # chuahm - weblogic not validated
   $leakhunter_ignore_on_weblogic   = [
-	  "org.apache.taglibs.standard.lang.jstl.*",
-	  "com.bea.medrec.entities.RecordEJB_xwcp6o__WebLogic_CMP_RDBMS",
-	  "net.sf.hibernate.collection.*",
-	  "org.jnp.interfaces.FastNamingProperties",
-	  "java.util.SubList",
-	  "com.sun.faces.context.BaseContextMap\$EntrySet",
-	  "com.sun.faces.context.BaseContextMap\$KeySet",
-	  "com.sun.faces.context.SessionMap",
-	  "java.util.Collections\$UnmodifiableMap",
-	  "org.hibernate.collection.PersistentSet",
+    'org.apache.taglibs.standard.lang.jstl.*',
+    'com.bea.medrec.entities.RecordEJB_xwcp6o__WebLogic_CMP_RDBMS',
+		'net.sf.hibernate.collection.*',
+		'org.jnp.interfaces.FastNamingProperties',
+		'java.util.SubList',
+		'com.sun.faces.context.BaseContextMap$EntrySet',
+		'com.sun.faces.context.BaseContextMap$KeySet',
+		'com.sun.faces.context.SessionMap',
+		'java.util.Collections$UnmodifiableMap',
+		'org.hibernate.collection.PersistentSet'
 	  ],
 
-	# chuahm - weblogic not validated
+	# chuahm - default not validated
   $leakhunter_ignore_on_default  = [
 		'org.apache.taglibs.standard.lang.jstl.*',
 		'com.bea.medrec.entities.RecordEJB_xwcp6o__WebLogic_CMP_RDBMS',
@@ -325,30 +325,9 @@ class caapm::agent (
 
   $metricAging_exclude_for_websphere  = ['Threads*', 'ChangeDetector.AgentID'],
 
-  $metric_aging_exclude_for_weblogic  = [
-    "Threads*",
-    "ChangeDetector.AgentID",
-    "WebLogic|Servlet Subsystem:Error Response Count",
-    "WebLogic|HTTP Sessions Subsystem|All Sessions:Session Count",
-    "WebLogic|HTTP Sessions Subsystem|Cookie Sessions:Session Count",
-    "WebLogic|HTTP Sessions Subsystem|File Sessions:Session Count",
-    "WebLogic|HTTP Sessions Subsystem|JDBC Sessions:Session Count",
-    "WebLogic|HTTP Sessions Subsystem|Memory Sessions:Session Count",
-    "WebLogic|HTTP Sessions Subsystem|Replicated Sessions:Session Count",
-    "WebLogic|Clustering|Change Event:Count",
-    "WebLogic|Clustering|Full State Dump:Count",
-    "WebLogic|Clustering|Announce:Count",
-    "WebLogic|Clustering|Peer Gone Listeners:Count",
-    "WebLogic|Clustering|RJVM Remote Call:Error Count",
-    "WebLogic|XML Subsystem|SAX Parsers:Creation Count",
-    "WebLogic|XML Subsystem|Document Builder:Creation Count",
-    "WebLogic|XML Subsystem|SAX Transformer:Creation Count",
-    ],    # chuahm - not validated
+  $metricAging_exclude_for_weblogic   = ['Threads*', 'ChangeDetector.AgentID'],    # chuahm - not validated
 
-  $metricAging_exclude_for_default    = [
-    'Threads*',
-    'ChangeDetector.AgentID'
-  ],
+  $metricAging_exclude_for_default    = ['Threads*', 'ChangeDetector.AgentID'],    # chuahm - not validated
 
   # Servlet Header Decorator
   $decorator_enabled       = false,
@@ -458,6 +437,9 @@ class caapm::agent (
   $deep_entryPoint_enabled                    = true,
   $deep_entryPoint_skip_pkgs                  = undef,
   $deep_entryPoint_count_max                  = '100',
+
+  # SOA property for 2.2.6 or later versions of JAXWS Jar
+  $soa_JAXWSHeadersClassName                  = 'com.sun.xml.ws.transport.Headers',
 
   # External Business Transaction Monitoring properties
   $external_biz_enable          = true,
