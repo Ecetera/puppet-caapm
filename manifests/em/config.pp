@@ -115,7 +115,7 @@ class caapm::em::config inherits caapm {
       group   => $group,
       mode    => $mode,
     }
-
+/*
     if $pg_ssl {
 
       file_line { 'enable_https_webview':
@@ -123,7 +123,7 @@ class caapm::em::config inherits caapm {
         line    => "<Set name=\"port\">${webview_port}</Set>${web_ciphersuites}",
         match   => "<Set name=\"port\">8443</Set>(.*)",
       }
-
+ */
     }
   }
 
