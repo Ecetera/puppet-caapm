@@ -998,8 +998,8 @@ introscope.agent.stalls.resolutionseconds=<%= @stalls_resolutionseconds %>
 # them in the EM
 # You must restart the managed application before changes to this property take effect.
 #
-introscope.agent.transactiontracer.sampling.perinterval.count=<%= @transactiontracer_sampling_perinterval %>
-introscope.agent.transactiontracer.sampling.interval.seconds=<%= @transactiontracer_sampling_interval %>
+introscope.agent.transactiontracer.sampling.perinterval.count=<%= @tt_perinterval_count %>
+introscope.agent.transactiontracer.sampling.interval.seconds=<%= @tt_interval_seconds %>
 
 #######################
 # Remote Configuration Settings

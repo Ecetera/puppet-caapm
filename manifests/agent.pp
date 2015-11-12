@@ -26,7 +26,8 @@ class caapm::agent (
   # Directives Files
   $websphere_directivesFiles  = 'websphere-typical.pbl',
   $weblogic_directivesFile    = 'weblogic-typical.pbl',
-  $default_directivesFile    = 'default-typical.pbl',
+  $default_directivesFile     = 'default-typical.pbl',
+  $tomcat_directivesFiles     = 'tomcat-typical.pbl',
 
   # Logging Configuration
   $logConfig                  = 'INFO, logfile',
@@ -34,11 +35,11 @@ class caapm::agent (
   $additivity_introscopeAgent                 = false,
   $appender_console                           = 'com.wily.org.apache.log4j.ConsoleAppender',
   $appender_console_layout                    = 'com.wily.org.apache.log4j.PatternLayout',
-  $appender_console_layout_ConversionPattern  = '%d{M\/dd\/yy hh:mm:ss a z} [%-3p] [%c] %m%n',
+  $appender_console_layout_ConversionPattern  = '%d{M/dd/yy hh:mm:ss a z} [%-3p] [%c] %m%n',
   $appender_console_target                    = 'System.err',
   $appender_logfile                           = 'com.wily.introscope.agent.AutoNamingRollingFileAppender',
   $appender_logfile_layout                    = 'com.wily.org.apache.log4j.PatternLayout',
-  $appender_logfile_layout_conversionPattern  = '%d{M\/dd\/yy hh:mm:ss a z} [%-3p] [%c] %m%n',
+  $appender_logfile_layout_conversionPattern  = '%d{M/dd/yy hh:mm:ss a z} [%-3p] [%c] %m%n',
   $appender_logfile_maxBackupIndex            = '4',
   $appender_logfile_maxFileSize               = '2MB',
 
@@ -147,9 +148,11 @@ class caapm::agent (
   $jsr77_disable                  = true,
   $jmx_name_primarykeys_websphere = 'J2EEServer,Application,j2eeType,JDBCProvider,name,mbeanIdentifier',
   $jmx_name_primarykeys_weblogic  = 'Type,Name',
+  $jmx_name_primarykeys_tomcat    = undef,
 
   $jmx_name_filter_websphere      = undef,
   $jmx_name_filter_weblogic       = 'ThreadPoolRuntime:ExecuteThreadIdleCount,ThreadPoolRuntime:ExecuteThreadTotalCount,ThreadPoolRuntime:HoggingThreadCount,ThreadPoolRuntime:PendingUserRequestCount,ThreadPoolRuntime:QueueLength,ThreadPoolRuntime:StandbyThreadCount,ThreadPoolRuntime:Throughput,JDBC*Runtime*:ActiveConnectionsCurrentCount,JDBC*Runtime*:ActiveConnectionsHighCount,JDBC*Runtime*:ConnectionDelayTime,JDBC*Runtime*:ConnectionsTotalCount,JDBC*Runtime*:CurrCapacity,JDBC*Runtime*:CurrCapacityHighCount,JDBC*Runtime*:FailedReserveRequestCount,JDBC*Runtime*:FailuresToReconnectCount,JDBC*Runtime*:HighestNumAvailable,JDBC*Runtime*:HighestNumUnavailable,JDBC*Runtime*:LeakedConnectionCount,JDBC*Runtime*:NumAvailable,JDBC*Runtime*:NumUnavailable,JDBC*Runtime*:WaitingForConnectionCurrentCount,JDBC*Runtime*:WaitingForConnectionFailureTotal,JDBC*Runtime*:WaitingForConnectionHighCount,JDBC*Runtime*:WaitingForConnectionSuccessTotal,JDBC*Runtime*:WaitingForConnectionTotal,JDBC*Runtime*:WaitSecondsHighCount,JMSDestinationRuntime*:BytesCurrentCount,JMSDestinationRuntime*:BytesHighCount,JMSDestinationRuntime*:BytesPendingCount,JMSDestinationRuntime*:BytesReceivedCount,JMSDestinationRuntime*:ConsumersCurrentCount,JMSDestinationRuntime*:ConsumersHighCount,JMSDestinationRuntime*:ConsumersTotalCount,JMSDestinationRuntime*:MessagesCurrentCount,JMSDestinationRuntime*:MessagesDeletedCurrentCount,JMSDestinationRuntime*:MessagesHighCount,JMSDestinationRuntime*:MessagesPendingCount,JMSDestinationRuntime*:MessagesReceivedCount,WorkManagerRuntime*:CompletedRequests,WorkManagerRuntime*:PendingRequests,WorkManagerRuntime*:StuckThreadCount,ExecuteQueueRuntime*:ExecuteThreadCurrentIdleCount,ExecuteQueueRuntime*:ExecuteThreadTotalCount,ExecuteQueueRuntime*:PendingRequestCurrentCount,ExecuteQueueRuntime*:ServicedRequestTotalCount,WebAppComponentRuntime*:OpenSessionsCurrentCount,WebAppComponentRuntime*:OpenSessionsHighCount,WebAppComponentRuntime*:SessionsOpenedTotalCount,WebAppComponentRuntime*:SessionTimeoutSecs,JDBC*Runtime*:PrepStmtCacheAccessCount,JDBC*Runtime*:PrepStmtCacheAddCount,JDBC*Runtime*:PrepStmtCacheCurrentSize,JDBC*Runtime*:PrepStmtCacheDeleteCount,JDBC*Runtime*:PrepStmtCacheHitCount,JDBC*Runtime*:PrepStmtCacheMissCount',
+  $jmx_name_filter_tomcat         = undef,
 
   $jmx_ignore_attributes          = undef,
   $jmx_exclude_string_metrics     = true,
@@ -204,7 +207,19 @@ class caapm::agent (
 		'com.sun.faces.context.BaseContextMap$KeySet',
 		'com.sun.faces.context.SessionMap',
 		'java.util.Collections$UnmodifiableMap',
-		'org.hibernate.collection.PersistentSet',
+		'org.hibernate.collection.PersistentSet'
+	],
+
+	$leakhunter_ignore_on_tomcat   = [
+	  'org.apache.taglibs.standard.lang.jstl.*',
+		'net.sf.hibernate.collection.*',
+		'org.jnp.interfaces.FastNamingProperties',
+		'java.util.SubList',
+		'com.sun.faces.context.BaseContextMap$EntrySet',
+		'com.sun.faces.context.BaseContextMap$KeySet',
+		'com.sun.faces.context.SessionMap',
+		'java.util.Collections$UnmodifiableMap',
+		'org.hibernate.collection.PersistentSet'
 	],
 
   # SQL Agent Configuration
@@ -255,8 +270,8 @@ class caapm::agent (
   $tt_sampling_enabled              = true,
   $tt_clamp                         = '50',
   $tt_tail_filter_propagate_enable  = true,
-  $tt_perinterval_count    = '1',             # chuahm - not found in template
-  $tt_interval_seconds     = '120',            # chuahm - not found in template
+  $tt_perinterval_count    = '1',
+  $tt_interval_seconds     = '120',
 
   # URL Grouping Configuration
   $urlgroup_keys                = 'default',
@@ -276,7 +291,7 @@ class caapm::agent (
   $errorsnapshots_ignore    = [
 									              '*com.company.HarmlessException*',
 														    '*HTTP Error Code: 404*',
-														    ],       # chuahm - commented out in template
+														    ],
 
   $stalls_thresholdseconds  = '30',
   $stalls_resolutionseconds = '10',
