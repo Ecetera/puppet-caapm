@@ -91,8 +91,8 @@ introscope.autoprobe.directivesFile=<%= @tomcat_directivesFiles %>
 # To send output to the logfile only, set the property to:
 # log4j.logger.IntroscopeAgent=INFO, logfile
 
-log4j.logger.IntroscopeAgent=INFO, logfile
- 
+log4j.logger.IntroscopeAgent=<%= @logConfig %>
+
 # If "logfile" is specified in "log4j.logger.IntroscopeAgent",
 # the location of the log file is configured using the
 # "log4j.appender.logfile.File" property.
@@ -108,16 +108,16 @@ log4j.appender.logfile.File=<%= @logs_dir %>/IntroscopeAgent.log
 ########## See Warning below ##########
 # Warning: The following properties should not be modified for normal use.
 # You must restart the managed application before changes to this property take effect.
-log4j.additivity.IntroscopeAgent=false
-log4j.appender.console=com.wily.org.apache.log4j.ConsoleAppender
-log4j.appender.console.layout=com.wily.org.apache.log4j.PatternLayout
-log4j.appender.console.layout.ConversionPattern=%d{M\/dd\/yy hh:mm:ss a z} [%-3p] [%c] %m%n
-log4j.appender.console.target=System.err
-log4j.appender.logfile=com.wily.introscope.agent.AutoNamingRollingFileAppender
-log4j.appender.logfile.layout=com.wily.org.apache.log4j.PatternLayout
-log4j.appender.logfile.layout.ConversionPattern=%d{M\/dd\/yy hh:mm:ss a z} [%-3p] [%c] %m%n
-log4j.appender.logfile.MaxBackupIndex=4
-log4j.appender.logfile.MaxFileSize=2MB
+log4j.additivity.IntroscopeAgent=<%= @additivity_introscopeAgent %>
+log4j.appender.console=<%= @appender_console %>
+log4j.appender.console.layout=<%= @appender_console_layout %>
+log4j.appender.console.layout.ConversionPattern=<%= @appender_console_layout_ConversionPattern %>
+log4j.appender.console.target=<%= @appender_console_target %>
+log4j.appender.logfile=<%= @appender_logfile %>
+log4j.appender.logfile.layout=<%= @appender_logfile_layout %>
+log4j.appender.logfile.layout.ConversionPattern=<%= @appender_logfile_layout_conversionPattern %>
+log4j.appender.logfile.MaxBackupIndex=<%= @appender_logfile_maxBackupIndex %>
+log4j.appender.logfile.MaxFileSize=<%= @appender_logfile_maxFileSize %>
 #########################################
 
 #################################
@@ -135,12 +135,12 @@ log4j.appender.logfile.MaxFileSize=2MB
 #
 # You must restart the managed application before change to this property takes effect.
 #introscope.agent.dns.lookup.type=direct
-introscope.agent.dns.lookup.type=separateThread
+introscope.agent.dns.lookup.type=<%= @dns_lookup_type %>
 #
 # Maximum time in milliseconds separateThread implementation waits to lookup a host name or IP address. 
 # It is ignored by direct implementation.  Default value is 200.
 # Change to this property takes effect immediately and does not require the managed application to be restarted.
-introscope.agent.dns.lookup.max.wait.in.milliseconds=200
+introscope.agent.dns.lookup.max.wait.in.milliseconds=<%= @dns_lookup_max_wait %>
 
 
 #################################
@@ -151,7 +151,7 @@ introscope.agent.dns.lookup.max.wait.in.milliseconds=200
 # is disconnected from its Enterprise Manager.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.enterprisemanager.connectionorder=<%= @connection_order %>
+introscope.agent.enterprisemanager.connectionorder=<%= @connectionOrder %>
 
 
 #################################
@@ -237,20 +237,21 @@ introscope.agent.enterprisemanager.transport.tcp.<%= field %>.<%= key %>=<%= val
 # If no truststore is specified, the agent trusts all certificates.
 # Either an absolute path or a path relative to the agent's working directory.
 # On Windows, backslashes must be escaped.  For example: C:\\keystore
-introscope.agent.enterprisemanager.transport.tcp.truststore.DEFAULT=<%= @transport_tcp_truststore %>
+#introscope.agent.enterprisemanager.transport.tcp.truststore.DEFAULT=<%= @trustStore %>
 # The password for the truststore
-introscope.agent.enterprisemanager.transport.tcp.trustpassword.DEFAULT=<%= @transport_tcp_trustpassword %>
+#introscope.agent.enterprisemanager.transport.tcp.trustpassword.DEFAULT=<%= @trustPassword %>
 # Location of a keystore containing the agent's certificate.
 # A keystore is needed if the EM requires client authentication.
 # Either an absolute path or a path relative to the agent's working directory.
 # On Windows, backslashes must be escaped.  For example: C:\\keystore
-introscope.agent.enterprisemanager.transport.tcp.keystore.DEFAULT=<%= @transport_tcp_keystore %>
+#introscope.agent.enterprisemanager.transport.tcp.keystore.DEFAULT=<%= @keyStore %>
 # The password for the keystore
-introscope.agent.enterprisemanager.transport.tcp.keypassword.DEFAULT=<%= @transport_tcp_keypassword %>
+#introscope.agent.enterprisemanager.transport.tcp.keypassword.DEFAULT=<%= @keyPassword %>
 # Set the enabled cipher suites.
 # A comma-separated list of cipher suites.
 # If not specified, use the default enabled cipher suites.
-#introscope.agent.enterprisemanager.transport.tcp.ciphersuites.DEFAULT=
+#introscope.agent.enterprisemanager.transport.tcp.ciphersuites.DEFAULT=<%= @cipherSuites %>
+
 
 
 #################################
@@ -267,7 +268,7 @@ introscope.agent.enterprisemanager.transport.tcp.keypassword.DEFAULT=<%= @transp
 # when this property is enabled.
 # You must restart the managed application before changes to this property take effect.
 
-#introscope.agent.enterprisemanager.failbackRetryIntervalInSeconds=120
+#introscope.agent.enterprisemanager.failbackRetryIntervalInSeconds=<%= @failbackRetryInterval %>
 
 
 #######################
@@ -305,7 +306,7 @@ introscope.agent.defaultProcessName=<%= @defaultProcessName %>
 # Use this property if you want to specify the Agent
 # Name using the value of a Java System Property.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.agentNameSystemPropertyKey=
+introscope.agent.agentNameSystemPropertyKey=<%= @agentNameSystemPropertyKey %>
 
 # This enables/disables auto naming of the agent using
 # an Application Server custom service.
@@ -315,12 +316,12 @@ introscope.agent.agentAutoNamingEnabled=<%= @agentAutoNamingEnabled %>
 # The amount of time to delay connecting to the Introscope Enterprise
 # Manager while Agent Auto Naming is attempted.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.agentAutoNamingMaximumConnectionDelayInSeconds=120
+introscope.agent.agentAutoNamingMaximumConnectionDelayInSeconds=<%= @agentAutoNamingMaximumConnectionDelay %>
 
 # When Agent Auto Naming is enabled, the Agent will check for 
 # a new Application Server determined name on the specified interval.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.agentAutoRenamingIntervalInMinutes=10
+introscope.agent.agentAutoRenamingIntervalInMinutes=<%= @agentAutoRenamingInterval %>
 
 # Auto name of log files (Agent, AutoProbe and LeakHunter) with
 # the Agent name or a timestamp can be disabled by setting the 
@@ -338,7 +339,7 @@ introscope.agent.agentName=<%= @agentName %>
 # value to 'true'. By Default (false) it will display HostName.
 # Set to 'true' when integrating with Catalyst.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.display.hostName.as.fqdn=false
+introscope.agent.display.hostName.as.fqdn=<%= @displayHostnameAsFqdn %>
 
 
 #######################
@@ -349,7 +350,7 @@ introscope.agent.display.hostName.as.fqdn=false
 # output bandwidth rate metrics for individual sockets.   NOTE: this parameter is only
 # used if PDB flag ManagedSocketTracing is 'on'.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.sockets.reportRateMetrics=<%= @sockets_resportRateMetrics %>
+introscope.agent.sockets.reportRateMetrics=<%= @reportRateMetrics %>
 
 ############################### 
 #Agent Memory Overhead Setting 
@@ -362,7 +363,7 @@ introscope.agent.sockets.reportRateMetrics=<%= @sockets_resportRateMetrics %>
 # This property is set to false by default and out of the box is commented out. This is not a hot property 
 # and the managed application needs to be restarted for this flag to take effect. 
      
-#introscope.agent.reduceAgentMemoryOverhead=true 
+introscope.agent.reduceAgentMemoryOverhead=<%= @reduceAgentMemoryOverhead %>
 
 #######################
 # Agent I/O Socket Metrics
@@ -374,11 +375,11 @@ introscope.agent.sockets.reportRateMetrics=<%= @sockets_resportRateMetrics %>
 # changed value is used.
 #
 # Restrict socket client connections instrumented to those with specified remote hosts
-introscope.agent.io.socket.client.hosts=
+introscope.agent.io.socket.client.hosts=<%= @io_socket_client_hosts %>
 # Restrict socket client connections instrumented to those with specified remote ports
-introscope.agent.io.socket.client.ports=
+introscope.agent.io.socket.client.ports=<%= @io_socket_client_ports %>
 # Restrict socket client connections instrumented to those using specified local ports.
-introscope.agent.io.socket.server.ports=
+introscope.agent.io.socket.server.ports=<%= @io_socket_server_ports %>
 
 
 #######################
@@ -391,17 +392,17 @@ introscope.agent.io.socket.server.ports=
 # changed value is used.
 #
 # Restrict datagram client connections instrumented to those with specified remote hosts
-introscope.agent.nio.datagram.client.hosts=
+introscope.agent.nio.datagram.client.hosts=<%= @nio_datagram_client_hosts %>
 # Restrict datagram client connections instrumented to those with specified remote ports
-introscope.agent.nio.datagram.client.ports=
+introscope.agent.nio.datagram.client.ports=<%= @nio_datagram_client_ports %>
 # Restrict datagram client connections instrumented to those using specified local ports.
-introscope.agent.nio.datagram.server.ports=
+introscope.agent.nio.datagram.server.ports=<%= @nio_datagram_server_ports %>
 # Restrict socket client connections instrumented to those with specified remote hosts
-introscope.agent.nio.socket.client.hosts=
+introscope.agent.nio.socket.client.hosts=<%= @nio_socket_client_hosts %>
 # Restrict socket client connections instrumented to those with specified remote ports
-introscope.agent.nio.socket.client.ports=
+introscope.agent.nio.socket.client.ports=<%= @nio_socket_client_ports %>
 # Restrict socket client connections instrumented to those using specified local ports.
-introscope.agent.nio.socket.server.ports=
+introscope.agent.nio.socket.server.ports=<%= @nio_socket_server_ports %>
 
 
 #######################
@@ -413,7 +414,7 @@ introscope.agent.nio.socket.server.ports=
 # to the location of this properties file.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.extensions.directory=../ext
+introscope.agent.extensions.directory=<% @agent_extensions_directory %>
 
 # Some extensions require classes to be pre-loaded at startup in order to avoid deadlocks
 # during instrumentation. This property controls the behavior of eager class loading of
@@ -423,7 +424,7 @@ introscope.agent.extensions.directory=../ext
 # Default value is enabled.
 # You must restart the managed application before changes to this property take effect.
 
-#introscope.agent.extensions.eagerloader=cached
+#introscope.agent.extensions.eagerloader=<%= @extensions_eagerLoader %>
 
 #######################
 # Agent Common Directory
@@ -434,7 +435,7 @@ introscope.agent.extensions.directory=../ext
 # to the location of this properties file.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.common.directory=../../common
+introscope.agent.common.directory=<% @agent_common_directory %>
 
 
 #######################
@@ -445,7 +446,7 @@ introscope.agent.common.directory=../../common
 # from 1 (low) to 10 (high). Default value if unspecified is Thread.NORM_PRIORITY (5)
 # You must restart the managed application before changes to this property take effect.
 
-#introscope.agent.thread.all.priority=5
+#introscope.agent.thread.all.priority=<% @agent_thread_all_priority %>
 
 
 #######################
@@ -455,7 +456,7 @@ introscope.agent.common.directory=../../common
 # Set to true when running identical copies of an application on the same machine.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.clonedAgent=false
+introscope.agent.clonedAgent=<% @agent_clonedAgent %>
 
 
 #######################
@@ -495,24 +496,24 @@ introscope.agent.jmx.enable=<%= @jmx_enable %>
 # JMX metrics polling interval;
 # Set to true to change the polling interval to 15 seconds; default is false (7.5 seconds)
 
-#introscope.agent.jmx.maxpollingduration.enable=true
+#introscope.agent.jmx.maxpollingduration.enable=<%= @jmx_maxpollingduration_enable %>
 
 # Controls collection of rate counter metrics for JMX MBeans data;
 # Set to true to gather JMX rate counter metrics in the Introscope Agent; default is false.
 # You must restart the managed application before changes to this property take effect.
 
-#introscope.agent.jmx.ratecounter.enable=true
+#introscope.agent.jmx.ratecounter.enable=<%= @jmx_ratecounter_enable %>
 
 # Used to account for a counter reset for JMX rate counter metrics.  
 # Will report the old counter rate if the rate is negative; default is false.
 
-#introscope.agent.jmx.ratecounter.reset.enable=true
+#introscope.agent.jmx.ratecounter.reset.enable=<%= @jmx_ratecounter_reset_enable %>
 
 # Controls collection of data (CompositeData type) from JMX MBeans;
 # Set to true to gather JMX data in the Introscope Agent; default is false.
 # You must restart the managed application before changes to this property take effect.
 
-#introscope.agent.jmx.compositedata.enable=true
+#introscope.agent.jmx.compositedata.enable=<%= @jmx_compositedata_enable %>
 
 # Configure primary name keys to use for conversion of  
 # MBean names into Introscope metric names; 
@@ -520,7 +521,7 @@ introscope.agent.jmx.enable=<%= @jmx_enable %>
 # should uniquely identify a particular MBean. 
   
 # You must restart the managed application before changes to this property take effect.
-#introscope.agent.jmx.name.primarykeys= 
+#introscope.agent.jmx.name.primarykeys=<%= @jmx_name_primarykeys_tomcat %>
   
 # Controls which JMX data is gathered - a comma-separated 
 # list of desired keywords  If the Introscope metric name contains  
@@ -529,7 +530,7 @@ introscope.agent.jmx.enable=<%= @jmx_enable %>
 # * and ? wildcard characters are supported and can be escaped with \\. 
 # You must restart the managed application before changes to this property take effect.
   
-introscope.agent.jmx.name.filter=<%= @jmx_name_filter %>
+introscope.agent.jmx.name.filter=<%= @jmx_name_filter_tomcat %>
   
 # Controls which (if any) JMX MBean attributes are to be ignored. 
 # A comma-separated list of desired keywords. If an MBean attribute 
@@ -537,14 +538,14 @@ introscope.agent.jmx.name.filter=<%= @jmx_name_filter %>
 # Leave empty to include all MBean attributes. 
 # You must restart the managed application before changes to this property take effect.
   
-#introscope.agent.jmx.ignore.attributes=server 
+#introscope.agent.jmx.ignore.attributes=<%= @jmx_ignore_attributes %>
   
 # Controls whether or not to include string-valued metrics. 
 # Excluding string-valued metrics reduces the overall metric 
 # count, improving agent and EM performance.  To enable 
 # string-valued metrics, set this property value to false. 
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.jmx.excludeStringMetrics=<%= @jmx_excludeStringMetrics %>
+introscope.agent.jmx.excludeStringMetrics=<%= @jmx_exclude_string_metrics %>
 
 
 
@@ -573,7 +574,7 @@ introscope.agent.leakhunter.logfile.location=<%= @logs_dir %>/LeakHunter.log
 # Set the value to true to append to the log file.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.leakhunter.logfile.append=false
+introscope.agent.leakhunter.logfile.append=<% @leakhunter_logfile_append %>
 
 # Controls the sensitivity of the leak detection algorithm.
 # The value should be an integer from 1-10.  A higher
@@ -591,7 +592,7 @@ introscope.agent.leakhunter.leakSensitivity=<%= @leakhunter_leakSensitivity %>
 # LeakHunter to always look for new potential leaks.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.leakhunter.timeoutInMinutes=<%= @leakhunter_timeoutInMinutes %>
+introscope.agent.leakhunter.timeoutInMinutes=<%= @leakhunter_timeout %>
 
 # Controls whether LeakHunter generates allocation stack traces for
 # potential leaks.  Turning this on gives you more precise data about
@@ -601,17 +602,18 @@ introscope.agent.leakhunter.timeoutInMinutes=<%= @leakhunter_timeoutInMinutes %>
 introscope.agent.leakhunter.collectAllocationStackTraces=<%= @leakhunter_collectAllocationStackTraces %>
 
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.leakhunter.ignore.0=<%= @leakhunter_ignore_0 %>
-introscope.agent.leakhunter.ignore.1=<%= @leakhunter_ignore_1 %>
-introscope.agent.leakhunter.ignore.2=<%= @leakhunter_ignore_2 %>
-introscope.agent.leakhunter.ignore.3=<%= @leakhunter_ignore_3 %>
-introscope.agent.leakhunter.ignore.4=<%= @leakhunter_ignore_4 %>
-introscope.agent.leakhunter.ignore.5=<%= @leakhunter_ignore_5 %>
-introscope.agent.leakhunter.ignore.6=<%= @leakhunter_ignore_6 %>
-introscope.agent.leakhunter.ignore.7=<%= @leakhunter_ignore_7 %>
-introscope.agent.leakhunter.ignore.8=<%= @leakhunter_ignore_8 %>
-
-
+#introscope.agent.leakhunter.ignore.0=org.apache.taglibs.standard.lang.jstl.*
+#introscope.agent.leakhunter.ignore.1=net.sf.hibernate.collection.*
+#introscope.agent.leakhunter.ignore.2=org.jnp.interfaces.FastNamingProperties
+#introscope.agent.leakhunter.ignore.3=java.util.SubList
+#introscope.agent.leakhunter.ignore.4=com.sun.faces.context.BaseContextMap$EntrySet
+#introscope.agent.leakhunter.ignore.5=com.sun.faces.context.BaseContextMap$KeySet
+#introscope.agent.leakhunter.ignore.6=com.sun.faces.context.SessionMap
+#introscope.agent.leakhunter.ignore.7=java.util.Collections$UnmodifiableMap
+#introscope.agent.leakhunter.ignore.8=org.hibernate.collection.PersistentSet
+<% @leakhunter_ignore_on_tomcat.to_enum.each_with_index do |val, idx| -%>
+introscope.agent.leakhunter.ignore.<%= idx %>=<%= val %>
+<% end -%>
 
 #######################
 # SQL Agent Configuration
@@ -673,7 +675,7 @@ introscope.agent.sqlagent.normalizer.extension=<%= @sqlagent_normalizer_extensio
 # Changes to this property take effect immediately and do not require 
 # the managed application to be restarted.
 # Default value is 'false'
-introscope.agent.sqlagent.normalizer.regex.matchFallThrough=<%= @sqlagent_normalizer_matchFallThrough %>
+introscope.agent.sqlagent.normalizer.regex.matchFallThrough=<%= @sqlagent_normalizer_regex_matchFallThrough %>
 
 # This property specifies the regex group keys. They are evaluated in order
 # Changes to this property take effect immediately and do not 
@@ -722,7 +724,7 @@ introscope.agent.sqlagent.normalizer.regex.key1.caseSensitive=<%= @sqlagent_norm
 # The value must be equal to or larger than 1000 to take effect. Lower value will be rejected.
 # The default value is 50000. 
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.metricClamp=<%= @metricClamp %>
+introscope.agent.metricClamp=<%= @agent_metricClamp %>
 
 
 #######################
@@ -741,14 +743,14 @@ introscope.agent.metricClamp=<%= @metricClamp %>
 # Uncomment the following property if the user ID is accessed through HttpServletRequest.getRemoteUser.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.transactiontracer.userid.method=<%= @transactiontracer_userid_method %>
+#introscope.agent.transactiontracer.userid.method=<%= @transactiontracer_userid_method %>
 
 # Uncomment the following properties if the user ID is accessed through HttpServletRequest.getHeader.
 # Make sure to set the key that is used by your application.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.transactiontracer.userid.method=<%= @transactiontracer_userid_method%>
-introscope.agent.transactiontracer.userid.key=<%= @transactiontracer_userid_key %>
+#introscope.agent.transactiontracer.userid.method=<%= @transactiontracer_userid_method%>
+#introscope.agent.transactiontracer.userid.key=<%= @transactiontracer_userid_key %>
 
 # Uncomment the following properties if the user ID is accessed through HttpSession.getValue.
 # Make sure to set the key that is used by your application.
@@ -761,17 +763,17 @@ introscope.agent.transactiontracer.userid.key=<%= @transactiontracer_userid_key 
 #  attributes in the Transaction Tracer data.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.transactiontracer.parameter.httprequest.headers=<%= @transactiontracer_parameter_httprequest_headers%>
+introscope.agent.transactiontracer.parameter.httprequest.headers=<%= @tt_httprequest_headers %>
 #Uncomment to enable the x-apm-bt request header as an option for transaction trace session criteria.  
 #See “How to Monitor End User Endpoints�? in the APM documentation for use
-#introscope.agent.transactiontracer.parameter.httprequest.headers=x-apm-bt
-introscope.agent.transactiontracer.parameter.httprequest.parameters=<%= @transactiontracer_parameter_httprequest_parameters %>
-introscope.agent.transactiontracer.parameter.httpsession.attributes=<%= @transactiontracer_parameter_httprequest_attributes %>
+#introscope.agent.transactiontracer.parameter.httprequest.headers=<%= @tt_httprequest_headers %>
+introscope.agent.transactiontracer.parameter.httprequest.parameters=<%= @tt_httprequest_parameters %>
+introscope.agent.transactiontracer.parameter.httpsession.attributes=<%= @tt_httpsession_attributes %>
 
 # Uncomment the following property to disable sessionid capture in TransactionTracer data.
 # By default, it is enabled and recorded in the TT Data.
 
-introscope.agent.transactiontracer.parameter.capture.sessionid=<%= @transactiontracer_parameter_capture_sessionid %>
+introscope.agent.transactiontracer.parameter.capture.sessionid=<%= @tt_capture_sessionid %>
 
 # Uncomment the following property to specify the maximum number of components allowed in a Transaction 
 # Trace.  By default, the clamp is set at 5000.   
@@ -781,7 +783,7 @@ introscope.agent.transactiontracer.parameter.capture.sessionid=<%= @transactiont
 # as such, the max heap size for the JVM may need to be adjusted accordingly, or else the 
 # managed application may run out of memory.
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.transactiontrace.componentCountClamp=<%= @transactiontrace_componentCountClamp %>
+introscope.agent.transactiontrace.componentCountClamp=<%= @tt_component_count_clamp %>
 
 # Uncomment the following property to specify the maximum depth of components allowed in
 # head filtering, which is the process of examining the start of a transaction for
@@ -797,7 +799,7 @@ introscope.agent.transactiontrace.componentCountClamp=<%= @transactiontrace_comp
 # as such, garbage collection behavior may be affected, which will have an application-wide
 # performance impact.
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.transactiontrace.headFilterClamp=<%= @transactiontrace_headFilterClamp %>
+introscope.agent.transactiontrace.headFilterClamp=<%= @tt_head_filter_clamp%>
 
 #
 # Use compression to reduce the size of cross process tracing data. This option will increase agent CPU overhead, 
@@ -812,17 +814,17 @@ introscope.agent.crossprocess.compression.minlimit=<%= @crossprocess_compression
 # If total size of cross process parameter even after applying compression (if allowed) is more than this limit,
 # some data will be dropped and some cross process correlation functionality will not work properly.
 # However, this settings will protect user transactions from failing in network transmission due to too large header size.
-introscope.agent.crossprocess.correlationid.maxlimit=<%= @crossprocess_compression_maxlimit %>
+introscope.agent.crossprocess.correlationid.maxlimit=<%= @crossprocess_correlationid_maxlimit %>
 # Changes to above 3 properties take effect immediately and do not require the managed application to be restarted
 
 # Uncomment the following property to disable Transaction Tracer Sampling
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.transactiontracer.sampling.enabled=<%= @transactioner_sampling_enabled %>
+introscope.agent.transactiontracer.sampling.enabled=<%= @tt_sampling_enabled %>
 
 # The following property limits the number of transactions that are reported by the agent 
 # per reporting cycle. The default value if the property is not set is 200.
 # You must restart the managed application before changes to this property take effect.
-introscope.agent.ttClamp=<%= @ttClamp %>
+introscope.agent.ttClamp=<%= @tt_clamp %>
 
 
 #################################
@@ -839,7 +841,7 @@ introscope.agent.ttClamp=<%= @ttClamp %>
 # traces due to tail filter.
 # You must restart the managed application before changes to this property take effect.
 
-introscope.agent.transactiontracer.tailfilterPropagate.enable=<%= @transactiontracer_tailfilterPropagate %>
+introscope.agent.transactiontracer.tailfilterPropagate.enable=<%= @tt_tail_filter_propagate_enable %>
 
 
 #######################
@@ -857,8 +859,9 @@ introscope.agent.urlgroup.keys=<%= @urlgroup_keys %>
 introscope.agent.urlgroup.group.default.pathprefix=<%= @urlgroup_default_pathprefix %>
 introscope.agent.urlgroup.group.default.format=<%= @urlgroup_default_format %>
 
-<%= @introscope_agent_urlgroup_key_pathprefix %>=<%= @urlgroup_default_pathprefix %>
-<%= @introscope_agent_urlgroup_key_format %>=<%= @urlgroup_default_format %>
+# chuahm - group specific; comment out for now
+#<%= @introscope_agent_urlgroup_key_pathprefix %>=<%= @urlgroup_default_pathprefix %>
+#<%= @introscope_agent_urlgroup_key_format %>=<%= @urlgroup_default_format %>
 
 #######################
 # Synthetic Transaction Configuration
@@ -881,7 +884,7 @@ introscope.agent.urlgroup.group.default.format=<%= @urlgroup_default_format %>
 # not defined in x-wtg-info header have default values supplied as follows: group=unknownGroup, name=unknownScript,
 # ipaddress=0.0.0.0 and request_id=Action.  Final node name is modified if required to ensure it is valid.
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-#introscope.agent.synthetic.header.names=Synthetic_Transaction,x-wtg-info,lisaframeid
+#introscope.agent.synthetic.header.names=<%= @synthetic_header_names %>
 
 # The following configuration parameters with names starting 'introscope.agent.synthetic.' are ignored if
 # parameter introscope.agent.synthetic.header.names is undefined. 
@@ -889,16 +892,16 @@ introscope.agent.urlgroup.group.default.format=<%= @urlgroup_default_format %>
 # synthetic user.  If undefined, nodes for each unique synthetic user will not be created.  Synthetic user
 # names will be modified if required to ensure they are valid node names.
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.synthetic.user.name=Synthetic_Trace_By_Vuser
+introscope.agent.synthetic.user.name=<%= @synthetic_user_name %>
 # Node under which transactions recognised as synthetic are reported.  This node will be located under
 # Frontends|Apps|<WebAppName> where <WebAppName> is web application name.  Defaults to 'Synthetic Users'
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.synthetic.node.name=Synthetic Users
+introscope.agent.synthetic.node.name=<%= @synthetic_node_name %>
 # Node under which transactions not recognised as synthetic are reported..  This node will be located under
 # Frontends|Apps|<WebAppName> where <WebAppName> is web application name.  If not defined, no additional node
 # under <WebAppName> is created.
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
-introscope.agent.non.synthetic.node.name=Real Users
+introscope.agent.non.synthetic.node.name=<%= @non_synthetic_node_name %>
 
 #######################
 # Error Detector Configuration
@@ -926,6 +929,10 @@ introscope.agent.errorsnapshots.throttle=<%= @errorsnapshots_throttle %>
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
 #introscope.agent.errorsnapshots.ignore.0=*com.company.HarmlessException*
 #introscope.agent.errorsnapshots.ignore.1=*HTTP Error Code: 404*
+
+<% @errorsnapshots_ignore.to_enum.each_with_index do |val, idx| -%>
+introscope.agent.errorsnapshots.ignore.<%= idx %>=<%= val %>
+<% end -%>
 
 # Minimum threshold for stall event duration
 # Changes to this property take effect immediately and do not require the managed application to be restarted.
