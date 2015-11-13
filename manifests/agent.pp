@@ -474,6 +474,51 @@ class caapm::agent (
   $assigned_collector_group = 'group2',
   $notify_enabled  = false,
 
+  ################################################################
+  # EPAgent Specific
+  ################################################################
+
+  # Logging Configuration
+  $logConfig_EPAgent    = 'INFO, logfile',
+
+  $additivity_EPAgent   = false,
+
+  # EPAgent Configuration
+  $epagent_config_networkDataPort                         = '8000',
+  $epagent_config_httpServerPort                          = '8080',
+  $epagent_config_stalledStatelessPluginTimeoutInSeconds  = '60',
+
+  # Plugin Configuration
+  $epagent_stateful_myplugin_class                        = 'my.package.path.Class arg1 arg2 arg3',
+
+  $epagent_metricscasesensitive = true,   # true/false/default
+
+  # Agent Properties
+  $epagent_customProcessName    = 'EPAgentProcess',
+  $epagent_defaultProcessName   = 'UnknownProcess',
+  $epagent_agentName            = 'EPAgent',
+
+  # Agent Extensions Directory
+  $epagent_extensions_directory = 'ext',
+
+  $epagent_remoteagentconfiguration_enabled = false,
+
+  # Agent Metric Aging
+  $epagent_metricAging_turnOn             = true,
+  $epagent_metricAging_heartbeatInterval  = '86400',
+  $epagent_metricAging_dataChunk          = '500',
+  $epagent_metricAging_numberTimeslices   = '180000',
+  $metricAging_exclude_for_epagent        = ['Threads*'],
+
+  # ChangeDetector configuration properties
+  $epagent_changeDetector_enable                        = false,
+  $epagent_changeDetector_rootDir                       = undef,
+  $epagent_changeDetector_isengardStartupWaitTimeInSec  = '15',
+  $epagent_changeDetector_waitTimeBetweenReconnectInSec = '10',
+  $epagent_changeDetector_enableEPA                     = true,
+  $epagent_changeDetector_agentID                       = 'SampleApplicationName',
+  $epagent_changeDetector_profile                       = 'ChangeDetector-config.xml',
+  $epagent_changeDetector_profileDir                    = 'changeDetector_profiles',
 
 
   $puppet_src = "puppet:///modules/${module_name}",
