@@ -33,6 +33,7 @@ class caapm::em::config inherits caapm {
       owner   => $owner,
       group   => $group,
       mode    => $mode,
+      notify  => Service[$em_service_name],
     }
 
 # may need to manage an interim file.  copy over if there are major changes beyond plaintextpassword=true
