@@ -501,6 +501,14 @@ class caapm::agent (
   # Agent Extensions Directory
   $epagent_extensions_directory = 'ext',
 
+  # Stateful Plugins
+  $stateful_plugin_names        = undef,
+  $stateful_plugins             = undef,
+
+  # Stateless Plugins
+  $stateless_plugin_names       = undef,
+  $stateless_plugins            = undef,
+
   $epagent_remoteagentconfiguration_enabled = false,
 
   # Agent Metric Aging
