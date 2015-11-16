@@ -41,6 +41,15 @@ class caapm::agent::config inherits caapm::agent {
       #notify  => Service['epagent']
     }
 
+
+##Dev of ppwebserver##
+#    exec { 'update_ppwebserver_properties':
+#      cwd       => "${agents_dir}/ppwebserver/config",
+#      command   => '/bin/cp -p WebServerAgent.ppmanaged WebServerAgent.profile',
+#      notify    => Exec['logs_folder']????
+#    }
+
+
 #    ->
 #    profile { $profiles: }
 
