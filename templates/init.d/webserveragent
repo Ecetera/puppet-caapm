@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# CA APM Web Server Agent
+#
+# chkconfig:   5 85 20
+# description: "Starts and stops the CA APM Web Server Agent"
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+#export WILYHOME=<%= @user_install_dir_em %>
+#export WILYPARENT=${WILYHOME}
+
+##cd ${WILYHOME}/bin
+
+su -c "cd /app/caapm/ppwebserver;./WebServerMonitor.sh $*" -m <%= @owner %>
