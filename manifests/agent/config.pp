@@ -30,6 +30,21 @@ class caapm::agent::config inherits caapm::agent {
       notify    => Exec['logs_folder']
     }
 
+##Dev of ppwebserver##
+#    file { "${agents_dir}/epagent/config/IntroscopeEPAgent.ppmanaged":
+#      ensure  => present,
+#      content => template("${module_name}/${version}/agent/IntroscopeEPAgent.properties"),
+#      owner   => $owner,
+#      group   => $group,
+#      mode    => $mode,
+#      notify  => Exec['update_epagent_properties'],
+#    }
+#    exec { 'update_ppwebserver_properties':
+#      cwd       => "${agents_dir}/ppwebserver/config",
+#      command   => '/bin/cp -p WebServerAgent.ppmanaged WebServerAgent.profile',
+#      notify    => Exec['logs_folder']????
+#    }
+
     # ensure /var/caapm/logs exist; /app/caapm/epagent/logs links there
     exec { 'logs_folder':
       cwd     => "${agents_dir}",
@@ -42,12 +57,9 @@ class caapm::agent::config inherits caapm::agent {
     }
 
 
-##Dev of ppwebserver##
-#    exec { 'update_ppwebserver_properties':
-#      cwd       => "${agents_dir}/ppwebserver/config",
-#      command   => '/bin/cp -p WebServerAgent.ppmanaged WebServerAgent.profile',
-#      notify    => Exec['logs_folder']????
-#    }
+
+
+
 
 
 #    ->
