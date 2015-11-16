@@ -521,6 +521,45 @@ class caapm::agent (
   $epagent_changeDetector_profileDir                    = 'changeDetector_profiles',
 
 
+#  ################################################################
+#  # Web Server Agent Specific
+#  ################################################################
+#
+#  # Logging Configuration
+#  $logConfig_IntroscopeAgent     = 'INFO, logfile',
+#  $logConfig_WebServerMonitor    = 'INFO, logfile',
+#  $logConfig_AutoDiscoveryEngine = 'INFO, logfile',
+#  $logConfig_AgentConfig         = 'INFO, logfile',
+#  $logConfig_UpdateMonitorConfig = 'INFO, logfile',
+#
+#  $additivity_IntroscopeAgent                = false,
+#  $additivity_WebServerMonitor               = false,
+#  $additivity_AutoDiscoveryEngine            = false,
+#  $additivity_AgentConfig                    = false,
+#  $additivity_UpdateMonitorConfig            = false,
+#  $appender_console                          = 'com.wily.org.apache.log4j.ConsoleAppender',
+#  $appender_console_layout                   = 'com.wily.org.apache.log4j.PatternLayout',
+#  $appender_console_layout_ConversionPattern = '%d{M/dd/yy hh:mm:ss a z} [%-3p] [%c] %m%n',
+#  $appender_console_target                   = 'System.err'
+#  $appender_logfile                          = 'com.wily.introscope.agent.AutoNamingRollingFileAppender',
+#  $appender_logfile_layout                   = 'com.wily.org.apache.log4j.PatternLayout',
+#  $appender_logfile_layout_conversionPattern = '%d{M/dd/yy hh:mm:ss a z} [%-3p] [%c] %m%n',
+#  $appender_logfile_maxBackupIndex           = '4',
+#  $appender_logfile_maxFileSize              = '20MB',
+#
+#  # Web Server Agent Name Properties
+#  $ppwebserver_customProcessName = 'WebServer',
+#  $ppwebserver_agentName         = 'WSAgent',
+#
+#  # Web Server Agent Extensions
+#  $ppwebserver_extensions_directory = '../lib/ext',
+#
+#  # Web Server Agent Metric Aging
+#  $ppwebserver_metricAging_turnOn  = true,
+#  $ppwebserver_metricAging_heartbeatInterval = '86400',
+#  $ppwebserver_metricAging_dataChunk= '500',
+#  $ppwebserver_metricAging_numberTimeslices= '180000,
+
   $puppet_src = "puppet:///modules/${module_name}",
 
 )
